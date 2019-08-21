@@ -3,7 +3,7 @@
 import ob
 
 from ob.clock import Repeater
-from ob.event import Event
+from ob.handler import Event
 
 from ob.kernel import k
 

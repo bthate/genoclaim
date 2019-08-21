@@ -6,8 +6,8 @@
 
 import ob
 
-from ob.event import Event
 from ob.clock import Repeater
+from ob.handler import Event
 from ob.utils import kill
 
 from ob.kernel import k

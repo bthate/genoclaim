@@ -4,7 +4,7 @@ import time
 
 from ob import Object
 from ob.clock import Repeater
-from ob.event import Event
+from ob.handler import Event
 from ob.kernel import k
 from ob.times import elapsed, today, to_day
 
