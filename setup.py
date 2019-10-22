@@ -28,7 +28,7 @@ with open('README') as file:
 
 setup(
     name='genoclaim',
-    version='12',
+    version='13',
     url='https://bitbucket.org/bthate/genoclaim',
     author='Bart Thate',
     author_email='bthate@dds.nl',
