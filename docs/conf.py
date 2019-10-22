@@ -12,7 +12,7 @@ curdir = os.getcwd()
 sys.path.insert(0, curdir + os.sep)
 sys.path.insert(0, curdir + os.sep + '..' + os.sep)
 
-from genoclaim import __version__, __txt__
+from genoclaim import __version__
 
 needs_sphinx='1.1'
 nitpick_ignore=[
