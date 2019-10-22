@@ -11,6 +11,7 @@ def main():
     parse_cli("genoclaim", __version__)
     k.walk("obot.cmd")
     k.walk("mods")
+    k.cfg.modules += ",mods.stats"
     if k.cfg.daemon:
         daemon()
     k.start(True, not k.cfg.noshell, False)
