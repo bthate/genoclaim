@@ -10,8 +10,9 @@ from ob import k
 def main():
     parse_cli("genoclaim", __version__)
     k.walk("obot.cmd")
-    k.walk("mods")
-    k.cfg.modules += ",mods.stats"
+    k.walk("genoclaim")
+    k.cfg.modules += ",genoclaim.stats"
+    k.cfg.name = "genoclaim"
     if k.cfg.daemon:
         daemon()
     k.start(True, not k.cfg.noshell, False)
