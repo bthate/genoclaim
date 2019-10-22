@@ -1,67 +1,84 @@
+""" show statistics on suicide. """
+
+__version__ = 1
+
 import ob
 import random
 import time
 
-from ob import Object
-from ob.clock import Repeater
-from ob.handler import Event
-from ob.kernel import k
-from ob.times import elapsed, today, to_day
+from ob import Object, k
+from ob.clk import Repeater
+from ob.evt import Event
+from ob.tms import elapsed, today, to_day
+
+from obot.rss import Fetcher, to_time
+
+run = Object()
+
+## init
 
 def init():
-    for name in wanted:
-        if k.cfg.options and (name not in k.cfg.options and "all" not in k.cfg.options):
-            continue
-        obj = getattr(wanted, name, None)
+    for name in ob.keys(wanted):
+        obj = ob.get(wanted, name, None)
         if obj:
-            for key in obj:
-                e = Event()
-                e.txt = ""
-                val = getattr(obj, key, None)
+            e = Event()
+            e.txt = ""
+            for key in ob.keys(obj):
+                if k.cfg.options and key not in k.cfg.options:
+                    continue
+                val = ob.get(obj, key, None)
                 if val:
-                    e.name="stats.%s" % key
                     sec = seconds(val)
                     repeater = Repeater(sec, stat, e, name="stats.%s" % key)
-                    ob.launch(repeater.start)
+                    repeater.start()
+
+## defines
 
 startdate = "2018-10-05 00:00:00"
+#startdate = "2012-09-13 00:00:00"
 starttime = to_day(startdate)
-source = "https://bitbucket.org/bthate/genoclaim"
+source = "https://bitbucket.org/bthate/obot"
+
+## exceptions
 
 class ENOSTATS(Exception):
 
     pass
 
+## functions
+
 def seconds(nr, period="jaar"):
     if not nr:
         return nr
-    return getattr(nrsec, period) / float(nr)
+    return ob.get(nrsec, period) / float(nr)
 
 def nr(name):
-    for key in wanted:
-        obj = getattr(wanted, key, None)
-        for n in obj:
+    for key in ob.keys(wanted):
+        obj = ob.get(wanted, key, None)
+        for n in ob.keys(obj):
             if n == name:
-                return obj[n]
+                return ob.get(obj, n)
     raise ENOSTATS(name)
 
-def stats(event):
+## COMMANDS
+
+def stats(event, **kwargs):
     args = event.args
     txt = "Sinds %s\n" % time.ctime(starttime)
     delta = time.time() - starttime
-    for name in wanted:
-        obj = wanted[name]
-        for key in obj:
-            val = obj[key]
+    for name, obj in ob.items(wanted):
+        for key, val in ob.items(obj):
             needed = seconds(nr(key))
             if not needed:
                 continue
             nrtimes = int(delta/needed)
-            txt += "\n%s #%s %s %s in %s" % (key.upper(), nrtimes, getattr(tags, key, ""), getattr(zorg, random.choice(list(zorg)), ""), random.choice(gemeenten))
+            txt += "\n%s #%s %s %s" % (key.upper(), nrtimes, ob.get(tags, key, ""), ob.get(zorg, random.choice(list(ob.keys(zorg))), ""))
     event.reply(txt.strip())
 
 def stat(event, **kwargs):
-    name = event.rest or event.name or "suicide" 
+    e = Event()
+    ob.update(e, kwargs)
+    name = event.rest or e.name or "suicide" 
     if "." in name:
         name = name.split(".")[-1]
     name = name.lower()
@@ -75,20 +92,25 @@ def stat(event, **kwargs):
         nrtimes = int(delta/needed)
         txt = "%s #%s" % (name.upper(), nrtimes)
         if name in omschrijving:
-            txt += " (%s)" % getattr(omschrijving, name)
+            txt += " (%s)" % ob.get(omschrijving, name)
         txt += " elke %s" % elapsed(seconds(nr(name)))
         if name in soort:
-            txt += " door een %s" % getattr(soort, name)
+            txt += " door een %s" % ob.get(soort, name)
         else:
-            txt += " door een %s" % random.choice(list([soort[x] for x in soort]))
-        txt += " bijv. in %s" % random.choice(gemeenten)
+            txt += " door een %s" % random.choice(list(ob.values(soort)))
         if name in tags:
-            txt += " %s" % getattr(tags, name)
+            txt += " %s" % ob.get(tags, name)
         else:
-            txt += " %s" % random.choice(list([tags[x] for x in tags]))
+            txt += " %s" % random.choice(list(ob.values(tags)))
         if name in urls:
-            txt += " - %s" % getattr(urls, name)
+            txt += " - %s" % ob.get(urls, name)
         k.fleet.announce(txt)
+
+## DATA
+
+oorzaak = Object()
+oorzaak.suicide = 1800
+oorzaak.psychosestoornis = 12000
 
 nrsec = Object()
 nrsec.dag = 24 * 60 * 60.0
@@ -109,42 +131,17 @@ rechter.vwm = 6516
 rechter.mvv = 4034
 rechter.vm = 5566
 rechter.mev = 45
-rechter.om = 0
+#rechter.om = 0
 rechter.zm= 6
 
-e33 = Object()
-e33.y2013 = 53000
-e33.y2016 = 75000
-e33.y2018 = 83500
-
 drugs = Object()
-drugs.alcohol = 477000
-drugs.tabak = 539000
-drugs.cannabis = 70000
-drugs.cocaïne = 26857
-drugs.heroïne = 14000
-drugs.speed  = 6700
-drugs.xtc = 420
-drugs.ghb = 3160
-drugs.benzo = 600000
-drugs.gamen = 16000
-drugs.overig = 1121
-drugs.totaal = 1785758
+drugs.speed = 20000
+drugs.cocaine = 50000
+drugs.alcohol = 400000
+drugs.wiet = 500000
 
-behandeling = Object()
-behandeling.alcohol = 29374
-behandeling.tabak = 809
-behandeling.cannabis = 10816
-behandeling.cocaïne = 3866
-behandeling.heroïne = 9093
-behandeling.gokken = 2186
-behandeling.speed = 1794
-behandeling.xtc	= 122
-behandeling.ghb	= 837
-behandeling.benzo = 839
-behandeling.gamen = 537
-behandeling.overig = 1119
-behandeling.totaal = 64821
+e33 = Object()
+e33.melding = 61000
 
 recepten = Object()
 recepten.antipsychotica = 150000
@@ -167,7 +164,7 @@ cijfers.opnames = 24338
 cijfers.crisis = 150000
 cijfers.oordeel = 150000
 cijfers.pogingen = 94000
-cijfers.e33 = e33.y2018
+cijfers.incidenten = 66000
 cijfers.poh = 1300000
 cijfers.vergiftigingen = 25262
 cijfers.overlast = 18000
@@ -257,7 +254,6 @@ suicidejaar.y2014 = 1839
 suicidejaar.y2015 = 1871 
 suicidejaar.y2016 = 1894
 suicidejaar.y2017 = 1917
-suicidejaar.y2018 = 1829
 
 ziekenhuis = Object()
 ziekenhuis.y2010 = 7800
@@ -283,16 +279,13 @@ poging = Object()
 poging.ziekenhuis = ziekenhuis.y2014
 poging.seh = seh.y2014
 
-incidenten = Object()
-incidenten.e33 = e33.y2018
-
 show = Object()
 show.opnames = 24338
 show.crisis = 150000
 show.oordeel = 150000
 show.pogingen = 94000
 show.incidenten = 66000
-show.vergiftigingen = 47779
+show.vergiftigingen = 25262
 show.overlast = 18000
 show.insluiting = 24000
 show.aangiftes = 134000
@@ -308,10 +301,9 @@ show.bewindvoering = 295000
 show.pogingen = cijfers.pogingen
 
 wanted = Object()
-wanted.suicide = suicide
-wanted.rechter = rechter
 wanted.oordeel = oordeel
-wanted.alarm = alarm
+wanted.oorzaak = oorzaak
+wanted.rechter = rechter
 
 omdat = Object()
 omdat.blokkeren = "met antipsychotica de werking van receptoren BLOKKEREN en dat dat benadeling van de gezondheid is."
@@ -461,7 +453,7 @@ periode.opname = 'voor 6 maanden'
 periode.suicide = "heel erg lang"
 periode.pogingen = "elke dag"
 periode.weekend = "in het weekend"
-periode.e33 = "elke dag"
+periode.incidenten = "elke dag"
 periode.acuut = "elke dag"
 periode.zorgmijder = "elke dag"
 periode.inwoners = ""
@@ -488,17 +480,17 @@ urls.incident = "https://www.wodc.nl/onderzoeksdatabase/2337-de-effectiviteit-va
 urls.zorgmijder = "http://www.gezondheidsraad.nl/sites/default/files/samenvatting_noodgedwongen_0.pdf"
 urls.acuut = "http://www.gezondheidsraad.nl/sites/default/files/samenvatting_noodgedwongen_0.pdf"
 urls.wvggz = "https://www.dwangindezorg.nl/de-toekomst/wetsvoorstellen/wet-verplichte-geestelijke-gezondheidszorg"
-urls.politie = "https://www.sirm.nl/docs/Publicaties/acute-geestelijke-gezondheidszorg-knelpunten-en-verbetervoorstellen-in-de-keten-1.pdf"
-urls.hap = "https://www.sirm.nl/docs/Publicaties/acute-geestelijke-gezondheidszorg-knelpunten-en-verbetervoorstellen-in-de-keten-1.pdf"
-urls.keten = "https://www.sirm.nl/docs/Publicaties/acute-geestelijke-gezondheidszorg-knelpunten-en-verbetervoorstellen-in-de-keten-1.pdf"
-urls.verwijs = "https://www.sirm.nl/docs/Publicaties/acute-geestelijke-gezondheidszorg-knelpunten-en-verbetervoorstellen-in-de-keten-1.pdf"
-urls.uitstroom = "https://www.sirm.nl/docs/Publicaties/acute-geestelijke-gezondheidszorg-knelpunten-en-verbetervoorstellen-in-de-keten-1.pdf"
-urls.opnames = "https://www.sirm.nl/docs/Publicaties/acute-geestelijke-gezondheidszorg-knelpunten-en-verbetervoorstellen-in-de-keten-1.pdf"
-urls.vergifitigingen = "https://www.umcutrecht.nl/getmedia/9830c539-8243-4ab7-a582-3c4bd8b53186/NVIC-jaaroverzicht-2017.pdf.aspx?ext=.pdf"
-urls.neurotoxisch = "https://www.umcutrecht.nl/getmedia/9830c539-8243-4ab7-a582-3c4bd8b53186/NVIC-jaaroverzicht-2017.pdf.aspx?ext=.pdf"
-urls.e33 = "https://vng.nl/files/vng/publicaties/2018/20180411-pmvg-analyse-e33-e14-meldingen-rivm-v5.pdf"
+urls.politie = "http://www.rijksoverheid.nl/documenten-en-publicaties/rapporten/2015/02/11/acute-geestelijke-gezondheidszorg-knelpunten-en-verbetervoorstellen-in-de-keten.html"
+urls.hap = "http://www.rijksoverheid.nl/documenten-en-publicaties/rapporten/2015/02/11/acute-geestelijke-gezondheidszorg-knelpunten-en-verbetervoorstellen-in-de-keten.html"
+urls.keten = "http://www.rijksoverheid.nl/documenten-en-publicaties/rapporten/2015/02/11/acute-geestelijke-gezondheidszorg-knelpunten-en-verbetervoorstellen-in-de-keten.html"
+urls.verwijs = "http://www.rijksoverheid.nl/documenten-en-publicaties/rapporten/2015/02/11/acute-geestelijke-gezondheidszorg-knelpunten-en-verbetervoorstellen-in-de-keten.html"
+urls.uitstroom = "http://www.rijksoverheid.nl/documenten-en-publicaties/rapporten/2015/02/11/acute-geestelijke-gezondheidszorg-knelpunten-en-verbetervoorstellen-in-de-keten.html" 
+urls.opnames = "http://www.rijksoverheid.nl/documenten-en-publicaties/rapporten/2015/02/11/acute-geestelijke-gezondheidszorg-knelpunten-en-verbetervoorstellen-in-de-keten.html"
+urls.vergifitigingen = "http://www.umcutrecht.nl/getmedia/f9f152e2-8638-4ffc-a05f-fce72f5f416a/NVIC-Jaaroverzicht-2014.pdf.aspx?ext=.pdf"
+urls.neurotoxisch = "http://www.umcutrecht.nl/getmedia/f9f152e2-8638-4ffc-a05f-fce72f5f416a/NVIC-Jaaroverzicht-2014.pdf.aspx?ext=.pdf"
+urls.incidenten = "http://www.dsp-groep.nl/userfiles/file/Politie%20en%20verwarde%20personen%20_DSP-groep.pdf"
 urls.ambulant = "https://www.zorgprismapubliek.nl/informatie-over/geestelijke-gezondheidszorg/"
-urls.verslaving = "https://www.jellinek.nl/vraag-antwoord/hoeveel-mensen-zijn-verslaafd-en-hoeveel-zijn-er-in-behandeling/"
+urls.verslaving = "https://www.zorgprismapubliek.nl/informatie-over/geestelijke-gezondheidszorg/"
 urls.poh = "https://www.zorgprismapubliek.nl/informatie-over/geestelijke-gezondheidszorg/"
 urls.meds = "https://www.zorgprismapubliek.nl/informatie-over/geestelijke-gezondheidszorg/"
 urls.depressie = "https://www.zorgprismapubliek.nl/informatie-over/geestelijke-gezondheidszorg/"
@@ -520,8 +512,6 @@ urls.suicidegedachte="http://www.nfzp.nl/wp/wp-content/uploads/2010/09/Einddocum
 urls.ziekenhuisopnames = "https://www.tweedekamer.nl/kamerstukken/detail?id=2016D13371&did=2016D13371"
 urls.seh = "https://www.tweedekamer.nl/kamerstukken/detail?id=2016D13371&did=2016D13371"
 urls.epa = "https://www.zorgprismapubliek.nl/informatie-over/geestelijke-gezondheidszorg/ernstige-psychiatrische-aandoeningen/"
-urls.drugs = "https://www.jellinek.nl/vraag-antwoord/hoeveel-mensen-zijn-verslaafd-en-hoeveel-zijn-er-in-behandeling/"
-urls.behandeling = "https://www.jellinek.nl/vraag-antwoord/hoeveel-mensen-zijn-verslaafd-en-hoeveel-zijn-er-in-behandeling/"
 
 soort = Object()
 soort.alarm = "patient"
@@ -564,7 +554,7 @@ soort.ambulant = "casemanager"
 soort.verslaafden = "gebruiker"
 soort.slaapmiddel = "insomnia patient"
 
-_gemeenten = """Amsterdam
+gemeenten = """Amsterdam
 Aa en Hunze
 Aalburg
 Aalsmeer
@@ -958,5 +948,3 @@ Zutphen
 Zwartewaterland
 Zwijndrecht
 Zwolle""".split("\n")
-
-gemeenten = [x.strip() for x in _gemeenten]
