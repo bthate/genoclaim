@@ -28,11 +28,11 @@ with open('README') as file:
 
 setup(
     name='genoclaim',
-    version='12',
+    version='13',
     url='https://bitbucket.org/bthate/genoclaim',
     author='Bart Thate',
     author_email='bthate@dds.nl',
-    description=" EM_T04_OTP-CR-117_19 - genocide claim to the King of the Netherlands. - een wettelijk voorschrift voor het toedienen van medicatie waarvan men weet dat het gif betreft.",
+    description="genocide crimes in the netherlands (impotent making, torture with poison, killing) -> OTP-CR-117_19 + medicinelist -> email to otp.informationdesk@icc-cpi.int",
     long_description=long_description,
     license='MIT',
     include_package_data=True,
