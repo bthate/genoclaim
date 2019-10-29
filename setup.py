@@ -32,7 +32,7 @@ setup(
     url='https://bitbucket.org/bthate/genoclaim',
     author='Bart Thate',
     author_email='bthate@dds.nl',
-    description="genocide crimes in the netherlands (impotent making, torture with poison, killing) -> OTP-CR-117_19 + medicinelist -> email to otp.informationdesk@icc-cpi.int",
+    description="""genocide crime: "omdat de koning weet dat het gif is." - medicijnlijst, vermeld 117_19 en email naar otp.informationdesk@icc-cpi.int - http://genoclaim.rtfd.io""",
     long_description=long_description,
     license='MIT',
     include_package_data=True,
