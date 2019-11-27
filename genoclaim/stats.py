@@ -11,8 +11,6 @@ from ob.clk import Repeater
 from ob.evt import Event
 from ob.tms import elapsed, today, to_day
 
-from obot.rss import Fetcher, to_time
-
 run = Object()
 
 ## init
