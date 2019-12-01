@@ -2,6 +2,7 @@
 
 import json
 import ob
+import ob.evt
 import obot
 import os
 import time
@@ -15,6 +16,16 @@ from ob.tms import elapsed
 from ob.utl import get_name
 
 from rssbot import __version__
+
+ob.evt.aliases = {
+           "c": "cmds",
+           "cfg": "show cfg",
+           "f": "find",
+           "l": "log",
+           "ps": "show tasks",
+           "t": "todo",
+           "u": "show uptime",
+           "v": "show version"
 
 opts = [
     ('-d', '', 'string', "", 'workdir', 'set working directory.'),
