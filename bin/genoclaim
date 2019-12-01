@@ -26,6 +26,7 @@ ob.evt.aliases = {
            "t": "todo",
            "u": "show uptime",
            "v": "show version"
+}
 
 opts = [
     ('-d', '', 'string', "", 'workdir', 'set working directory.'),
