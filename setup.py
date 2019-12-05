@@ -5,7 +5,7 @@ from setuptools import setup
 
 setup(
     name='genoclaim',
-    version='13',
+    version='14',
     url='https://bitbucket.org/bthate/genoclaim',
     author='Bart Thate',
     author_email='bthate@dds.nl',

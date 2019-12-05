@@ -9,6 +9,7 @@ import time
 import threading
 
 from ob import Object, k
+from ob.csl import Console
 from ob.dpt import dispatch
 from ob.pst import Persist
 from ob.shl import execute, hd, parse_cli, set_completer
@@ -43,10 +44,14 @@ def cmds(event):
 
 def main():
     parse_cli("genoclaim", __version__, opts, hd(".genoclaim"), "genoclaim <server> <channel> <nick>")
+    if not k.init("obot.irc"):
+        return
     k.cmds.register("cmds", cmds)
     k.init("genoclaim")
-    k.init("obot.irc")
     k.init("obot.show")
+    c = Console()
+    c.start()
+    k.add(c)
     k.start()
     k.wait()
 
