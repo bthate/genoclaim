@@ -1,0 +1,5 @@
+cp init.d/genoclaim.service /etc/systemd/system
+systemctl enable genoclaim
+systemctl daemon-reload
+service genoclaim start
+systemctl status genoclaim
