@@ -123,14 +123,13 @@ times.dag = 24 * 60 * 60.0
 times.jaar = 365 * 24 * 60 * 60.0
 
 rechter = Object()
-rechter.ibs = 8171
-rechter.rm = 16171
-rechter.vwm = 6516
-rechter.mvv = 4034
-rechter.vm = 5566
-rechter.mev = 45
-#rechter.om = 0
-rechter.zm= 6
+rechter.ibs = 8861
+rechter.rm = 17746
+rechter.vwm = 6657
+rechter.mvv = 4431
+rechter.vm = 6690
+rechter.mev = 65
+rechter.zm= 3
 
 drugs = Object()
 drugs.speed = 20000
@@ -299,9 +298,7 @@ show.bewindvoering = 295000
 show.pogingen = cijfers.pogingen
 
 wanted = Object()
-wanted.oordeel = oordeel
 wanted.oorzaak = oorzaak
-wanted.rechter = rechter
 
 omdat = Object()
 omdat.blokkeren = "met antipsychotica de werking van receptoren BLOKKEREN en dat dat benadeling van de gezondheid is."
@@ -510,6 +507,7 @@ urls.suicidegedachte="http://www.nfzp.nl/wp/wp-content/uploads/2010/09/Einddocum
 urls.ziekenhuisopnames = "https://www.tweedekamer.nl/kamerstukken/detail?id=2016D13371&did=2016D13371"
 urls.seh = "https://www.tweedekamer.nl/kamerstukken/detail?id=2016D13371&did=2016D13371"
 urls.epa = "https://www.zorgprismapubliek.nl/informatie-over/geestelijke-gezondheidszorg/ernstige-psychiatrische-aandoeningen/"
+urls.rechter = "https://www.ggdghorkennisnet.nl/?file=43865&m=1541606110&action=file.download"
 
 soort = Object()
 soort.alarm = "patient"
