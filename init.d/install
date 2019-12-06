@@ -1,3 +1,5 @@
+[ ! -d "/var/log/genoclaim" ] && mkdir /var/log/genoclaim
+[ ! -d "/var/lib/genoclaim" ] && mkdir /var/lib/genoclaim
 cp init.d/genoclaim.service /etc/systemd/system
 systemctl enable genoclaim
 systemctl daemon-reload

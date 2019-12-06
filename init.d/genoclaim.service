@@ -1,8 +1,8 @@
 [Unit]
-Description=obot
+Description=genoclaim
 
 [Service]
-ExecStart=/usr/local/bin/obot -k -d /var/lib/obot --logdir /var/log/obot -z -p
+ExecStart=/usr/local/bin/genoclaim -k -d /var/lib/genoclaim --logdir /var/log/genoclaim -p
 
 [Install]
 WantedBy=multi-user.target
