@@ -3,5 +3,5 @@
 toxic subtance
 ==============
 
-.. image:: jpg/toxic.jpg
+.. image:: ../jpg/toxic.jpg
 
