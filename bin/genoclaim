@@ -39,27 +39,29 @@ opts = [
     ('-r', '', 'store_true', False, 'resume', 'resume the bot.'),
     ('-s', '', 'store_true', False, 'dosave', 'save configuration files.'),
     ('-v', '', 'store_true', False, 'verbose', 'enable verbose mode.'),
-    ('-z', '', 'store_true', False, 'shell', 'disenable shell.'),
+    ('-x', '', 'store_true', False, 'exec', 'execute command.'),
+    ('-z', '', 'store_false', True, 'shell', 'disable shell.'),
     ('', '--logdir', "string", "", 'logdir', "directory to find the logfiles."),
 ]
 
 def main():
     parse_cli("genoclaim", __version__, opts, hd(".genoclaim"), "genoclaim <server> <channel> <nick>")
-    k.cfg.prompting = not k.cfg.shell and k.cfg.prompting
-    if not k.init("obot.irc"):
-        return
     k.init("genoclaim")
     k.init("obot.cmds")
     k.init("obot.show")
     k.init(k.cfg.modules)
-    if k.cfg.shell:
+    if k.cfg.exec:
+        k.cmd(k.cfg.txt)
+        return
+    if not k.init("obot.irc"):
+        return
+    if k.cfg.shell or k.cfg.prompting:
         c = Console()
         c.start()
         k.add(c)
+    if k.cfg.shell or k.cfg.kernel:
         k.start()
         k.wait()
-    else:
-        k.cmd(k.cfg.txt)
  
 execute(main)
 os._exit(0)
