@@ -5,12 +5,15 @@ from setuptools import setup
 
 setup(
     name='genoclaim',
-    version='14',
+    version='15',
     url='https://bitbucket.org/bthate/genoclaim',
     author='Bart Thate',
     author_email='bthate@dds.nl',
-    description=""" "omdat de koning weet dat het gif is." - medicijnlijst, vermeld 117_19 en email naar otp.informationdesk@icc-cpi.int - http://genoclaim.rtfd.io""",
+    description=""" "koning bekent schuldig te zijn aan genocide -  http://genoclaim.rtfd.io""",
     long_description="""
+
+koning bekend schuldig te zijn aan genocide - https://koning.readthedocs.io/en/latest/
+
 ICC-CPI
 =======
 

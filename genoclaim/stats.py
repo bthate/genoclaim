@@ -2,29 +2,31 @@
 
 __version__ = 1
 
-import ob
 import random
 import time
 
-from ob import Object, k
-from ob.clk import Repeater
-from ob.evt import Event
-from ob.tms import elapsed, today, to_day
+from botd.obj import Object
+from botd.krn import kernels
+from botd.clk import Repeater
+from botd.evt import Event
+from botd.tms import elapsed, today, to_day
 
 run = Object()
+
+k = kernels.get_first()
 
 ## init
 
 def init():
-    for name in ob.keys(wanted):
-        obj = ob.get(wanted, name, None)
+    for name in wanted.keys():
+        obj = wanted.get(name, None)
         if obj:
             e = Event()
             e.txt = ""
-            for key in ob.keys(obj):
+            for key in obj.keys():
                 if k.cfg.options and key not in k.cfg.options:
                     continue
-                val = ob.get(obj, key, None)
+                val =obj.get(key, None)
                 if val:
                     sec = seconds(val)
                     repeater = Repeater(sec, stat, e, name="stats.%s" % key)
@@ -51,11 +53,11 @@ def seconds(nr, period="jaar"):
     return ob.get(nrsec, period) / float(nr)
 
 def nr(name):
-    for key in ob.keys(wanted):
-        obj = ob.get(wanted, key, None)
-        for n in ob.keys(obj):
+    for key in wanted.keys():
+        obj = wanted.get(key, None)
+        for n in obj.keys():
             if n == name:
-                return ob.get(obj, n)
+                return obj.get(n)
     raise ENOSTATS(name)
 
 ## COMMANDS
@@ -64,18 +66,18 @@ def stats(event, **kwargs):
     args = event.args
     txt = "Sinds %s\n" % time.ctime(starttime)
     delta = time.time() - starttime
-    for name, obj in ob.items(wanted):
-        for key, val in ob.items(obj):
+    for name, obj in wanted.items():
+        for key, val in obj.items():
             needed = seconds(nr(key))
             if not needed:
                 continue
             nrtimes = int(delta/needed)
-            txt += "\n%s #%s %s %s" % (key.upper(), nrtimes, ob.get(tags, key, ""), ob.get(zorg, random.choice(list(ob.keys(zorg))), ""))
+            txt += "\n%s #%s %s %s" % (key.upper(), nrtimes, tags.get(key, ""), ob.get(zorg, random.choice(list(zorg.keys()), "")))
     event.reply(txt.strip())
 
 def stat(event, **kwargs):
     e = Event()
-    ob.update(e, kwargs)
+    e.update(kwargs)
     name = event.rest or e.name or "suicide" 
     if "." in name:
         name = name.split(".")[-1]
@@ -93,15 +95,15 @@ def stat(event, **kwargs):
             txt += " (%s)" % ob.get(omschrijving, name)
         txt += " elke %s" % elapsed(seconds(nr(name)))
         if name in soort:
-            txt += " door een %s" % ob.get(soort, name)
+            txt += " door een %s" % soort.get(name)
         else:
-            txt += " door een %s" % random.choice(list(ob.values(soort)))
+            txt += " door een %s" % random.choice(list(soort.values()))
         if name in tags:
-            txt += " %s" % ob.get(tags, name)
+            txt += " %s" % tags.get(name)
         else:
-            txt += " %s" % random.choice(list(ob.values(tags)))
+            txt += " %s" % random.choice(list(tags.values()))
         if name in urls:
-            txt += " - %s" % ob.get(urls, name)
+            txt += " - %s" % urls.get(name)
         k.fleet.announce(txt)
 
 ## DATA

@@ -1,84 +1,59 @@
 #!/usr/bin/python3 -u
+# GENOCLAIM - koning bekent genocide
+#
+# bin/genoclaim
 
-import json
-import ob
-import ob.evt
+__version__ = 1
+
+import os, sys ; sys.path.insert(0, os.getcwd())
+
+import logging
 import os
-import time
-import threading
-
-from ob import k, __version__
-from ob.csl import Console
-from ob.shl import enable_history, execute, hd, parse_cli, set_completer, writepid
-from ob.tms import elapsed
-from ob.trm import reset
-from ob.utl import get_name
-
-ob.evt.aliases = {
-           "c": "cmds",
-           "cfg": "show cfg",
-           "f": "find",
-           "l": "log",
-           "ps": "show tasks",
-           "t": "todo",
-           "u": "show uptime",
-           "v": "show version"
-           }
+ 
+from botd.err import EINIT
+from botd.krn import Kernel
+from botd.csl import Console
+from botd.shl import parse_cli
+from botd.trm import termreset, termsave
+from botd.trc import get_exception
+from botd.utl import hd
 
 opts = [
-    ('-b', '', 'store_true', False, 'daemon', 'background mode.'),
-    ('-d', '', 'string', "", 'workdir', 'set working directory.'),
-    ('-m', '', 'string', '', 'modules', 'modules to load.'),
-    ('-x', '', 'store_true', False, 'exec', 'execute command.'),
-    ('-o', '', "string", "", 'options', "options to use."),
-    ('-k', '', "store_true", False, "kernel", "read from previous kernel config."),
-    ('-p', '', "store_false", True, "prompting", "prompt for initial values."),
-    ('-s', '', 'store_true', False, 'dosave', 'save configuration files.'),
-    ('-z', '', 'store_false', True, 'shell', 'disable shell.'),
-    ('-l', '', 'string', '', 'level', 'loglevel.'),
-    ('', '--logdir', "string", "", 'logdir', "directory to find the logfiles."),
+    ('-d', '--datadir', 'store', str, hd(".botd"), 'set working directory.', 'workdir'),
+    ('-m', '--modules', 'store', str, "", 'modules to load.', 'modules'),
+    ('-o', '--owner', 'store', str, "", "userhost of the bot's owner", 'owner'),
+    ('-l', '--loglevel', 'store', str, "", 'set loglevel.', 'level'),
+    ('-p', '--prompting', 'store_true', False, "", "query for initial values."),
+    ('-a', '--logdir', "store", str, "", "directory to find the logfiles.", 'logdir'),
+    ('-n', '--ondemand', 'store_false', True, "", 'enable on demand loading', 'ondemand'),
+    ('-w', '--walk', 'store', str, "", 'walk packages', 'walk'),
 ]
 
-def boot():
-    k.init(k.cfg.modules)
-    if k.cfg.exec:
-        k.cmd(k.cfg.txt)
-        return
-    if k.cfg.kernel:
-        p = ob.last(k.cfg)
-    elif k.cfg.dosave:
-        k.cfg.save()
-    set_completer(k.cmds)
-    enable_history()
-    writepid()
-    k.start()
-    if k.cfg.kernel or k.cfg.shell:
-        c = Console()
-        k.add(c)
-        c.start()
-        k.wait()
-
-def daemon():
-    pid = os.fork()
-    if pid != 0:
-        reset()
-        os._exit(0)
-    os.setsid()
-    os.umask(0)
-    si = open("/dev/null", 'r')
-    so = open("/dev/null", 'a+')
-    se = open("/dev/null", 'a+')
-    os.dup2(si.fileno(), sys.stdin.fileno())
-    os.dup2(so.fileno(), sys.stdout.fileno())
-    os.dup2(se.fileno(), sys.stderr.fileno())
+def execute(main):
+    termsave()
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("")
+    except EINIT:
+        pass
+    except PermissionError:
+        print("you need root permissions.")
+    except Exception:
+        logging.error(get_exception())
+    finally:
+        termreset()
 
 def main():
-    parse_cli("genoclaim", __version__, opts, hd(".genoclaim"), """genoclaim [-b] [-k] [-p] [-z] [-x cmd] [options]""")
-    if k.cfg.daemon:
-        daemon()
+    cfg = parse_cli("genoclaim", __version__, opts)
+    k = Kernel()
     k.walk("genoclaim")
-    k.init("cmds,entry,show")
-    boot()
+    k.walk("botd")
+    k.walk(cfg.modules, True)
+    c = Console()
+    c.start()
+    k.start()
+    k.wait()
 
 execute(main)
 os._exit(0)
