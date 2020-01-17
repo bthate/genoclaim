@@ -61,7 +61,7 @@ html_theme = "haiku"
 #}
 html_theme_path = []
 html_short_title = "GENOCLAIM %s" % __version__
-html_favicon = "jpg/aes.ico"
+html_favicon = "jpg/smile9.png"
 html_static_path = []
 html_extra_path = []
 html_last_updated_fmt = '%Y-%b-%d'
