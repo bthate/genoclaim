@@ -77,7 +77,7 @@ Bart Thate - bthate@dds.nl/thatebart@gmail.com
 """,
     license='Public Domain',
     zip_safe=True,
-    install_requires=["rssbot"],
+    install_requires=["botd"],
     scripts=["bin/genoclaim"],
     packages=["genoclaim"],
     classifiers=['Development Status :: 3 - Alpha',
