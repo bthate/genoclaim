@@ -18,7 +18,7 @@ setup(
     license='Public Domain',
     zip_safe=True,
     install_requires=["okbot", "feedparser"],
-    scripts=["bin/genoclaim", "bin/genoclaimd", "bin/genoclaimctl", "bin/genoclaimudp", "bin/genoclaimirc", "bin/genoclaiminstall"],
+    scripts=["bin/genoclaim", "bin/genoclaimd", "bin/genoclaimcmd"],
     packages=["genoclaim"],
     classifiers=['Development Status :: 3 - Alpha',
                  'License :: Public Domain',
