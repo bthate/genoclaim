@@ -70,8 +70,7 @@ defined in the Rome Statute (Articles 6 to 8), when committed on or after 1 July
 the Court may only exercise jurisdiction over such crimes committed on the territory of a State that has accepted
 the jurisdiction of the Court or by a national of such a State (Article 12), or where the Security Council refers the
 situation to the Court (Article 13). In the light of these requirements, your communication still appears, after
-careful re-examination, to relate to matters outside the jurisdiction of the
-Court."
+careful re-examination, to relate to matters outside the jurisdiction of the Court."
 
 These requirements are:
 
