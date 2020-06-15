@@ -1,7 +1,7 @@
 G E N O C L A I M
 #################
 
-NOT accepted the jurisdiction of the Court - https://genoclaim.rtfd.io - OTP-CR-117/19/001 - otp.informationdesk@icc-cpi.int
+https://genoclaim.rtfd.io - OTP-CR-117/19/001 - otp.informationdesk@icc-cpi.int
 
 ICC
 ===
@@ -62,23 +62,8 @@ I hope you can stop the above mentioned crimes the king of the netherlands and h
 
 Bart Thate - bthate@dds.nl/thatebart@gmail.com
 
-letter
-======
-
-.. image:: jpg/informed.jpg
-    :width: 100%
-
-confirmed
-=========
-
-.. image:: jpg/opdehoogte.jpg
-    :width: 100%
-
-
 state of affairs
 ================
-
-.. image:: jpg/icc.png
 
 "Under the Rome Statute, the Court may only exercise jurisdiction over genocide, crimes against humanity and war crimes, as
 defined in the Rome Statute (Articles 6 to 8), when committed on or after 1 July 2002 (Article 11). In addition,
@@ -109,6 +94,20 @@ My interpretation:
 "By adding Article 11 to the requirements, the prosecutor is actualy calling
 it a genocide and is missing the cooperation of the netherlands to arrest
 it's own king and thus stop the kings genocide."
+
+letter
+======
+
+.. image:: jpg/informed.jpg
+    :width: 100%
+
+confirmed
+=========
+
+.. image:: jpg/opdehoogte.jpg
+    :width: 100%
+
+
 
 
 .. toctree::

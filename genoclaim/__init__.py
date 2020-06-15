@@ -2,4 +2,4 @@
 #
 # genoclaim/__init__.py (genoclaim package)
 
-__version__ = 23
+__version__ = 24
