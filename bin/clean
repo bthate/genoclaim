@@ -2,4 +2,4 @@
 #
 # cleanup all non distro files
 
-rm -fR envs rungenoclaim docs/*~ _build tests/*~ tests/__pycache__ docs/hmtl docs/obj  env env.tar.gz lo/*~ lo/__pycache__ bot/*~ bot/__pycache__ *~ runclaim runclaim.tar.gz logs DEADJOE __pycache__ testdata build dist genoclaim.egg-info *~  bin/*~  genoclaim/*~ genoclaim/__pycache__
+rm -fR envs run run.tar.gz genoclaim/*~ docs/*~ _build tests/*~ tests/__pycache__ docs/html docs/obj  env env.tar.gz lo/*~ lo/__pycache__ bot/*~ bot/__pycache__ *~ runclaim runclaim.tar.gz logs DEADJOE __pycache__ testdata build dist genoclaim.egg-info *~  bin/*~  genoclaim/__pycache__
