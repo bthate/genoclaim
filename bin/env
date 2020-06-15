@@ -1,0 +1,8 @@
+#!/bin/bash
+# GENOCLAIM - https://genoclaim.rtfd.io - OTP-CR-117_19 - otp.informationdesk@icc-cpi.int
+bin/clean
+python3 -mvirtualenv -p python3 --extra-search-dir dist
+python3 -mvirtualenv -p python3 --relocatable env
+source env/bin/activate
+env/bin/python3 env/bin/pip3 install genoclaim -f -u
+tar zcvf env.tar.gz env
