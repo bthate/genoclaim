@@ -1,15 +1,13 @@
-# GENOCLAIM - https://genoclaim.rtfd.io - OTP-CR-117_19 - otp.informationdesk@icc-cpi.int
+# GENOCLAIM - https://genoclaim.rtfd.io - OTP-CR-117/9/001 - otp.informationdesk@icc-cpi.int
 #
 # genoclaim email related commands.
 
-import bot
-import lo
-import mailbox
-import os
-import random
-import time
+import mailbox, os, random, time
 
-k = bot.get_kernel()
+from ok.obj import Object 
+from ok.krn import get_kernel
+
+k = get_kernel()
 
 bdmonths = ['Bo', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug',
             'Sep', 'Oct', 'Nov', 'Dec']
@@ -28,7 +26,7 @@ monthint = {
     'Dec': 12
 }
 
-class Email(lo.Object):
+class Email(Object):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -73,7 +71,7 @@ def cor(event):
     if not event.args:
         event.reply("cor <email>")
         return
-    s = lo.Object()
+    s = Object()
     s["From"]= event.args[0]
     nr = 0
     for email in k.db.all("genoclaim.mbox.Email", s):
@@ -92,7 +90,7 @@ def email(event):
         match = event.args[0]
         args = []
     nr = -1
-    db = lo.Db()
+    db = Db()
     for o in db.find_value("genoclaim.mbox.Email", match):
         nr += 1
         if nr != event.index:

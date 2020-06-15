@@ -1,6 +1,6 @@
 # GENOCLAIM - https://genoclaim.rtfd.io - OTP-CR-117_19 - otp.informationdesk@icc-cpi.int
 #
-# genoclaim/wisdom (ten years torture trip wisdom)
+#
 
 """ wijsheid, wijs ! """
 
@@ -189,4 +189,3 @@ No Voice, No Description:
  * duiding
  * coding
 """
-

@@ -1,22 +1,19 @@
 # GENOCLAIM - https://genoclaim.rtfd.io - OTP-CR-117_19 - otp.informationdesk@icc-cpi.int
 #
-# genoclaim/stats.py (suicide stats)
+#
 
-import bot
-import datetime
-import lo
-import lo.clk
-import lo.tms
-import random
-import time
+import datetime, random, time
 
-k = bot.get_kernel()
+from ok.krn import get_kernel
+from ok.hdl import Event
+
+k = get_kernel()
 
 def init(kernel):
     for name in wanted.keys():
         obj = wanted.get(name, None)
         if obj:
-            e = lo.hdl.Event()
+            e = Event()
             e.txt = ""
             e.rest = name
             for key in obj.keys():
@@ -87,7 +84,7 @@ def to_day(daystring):
 startdate = "2018-10-05 00:00:00"
 #startdate = "2012-09-13 00:00:00"
 starttime = to_day(startdate)
-source = "https://bitbucket.org/botd/botlib"
+source = "https://bitbucket.org/bthate/genoclaim"
 
 def seconds(nr, period="jaar"):
     if not nr:

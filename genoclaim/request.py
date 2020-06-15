@@ -1,6 +1,6 @@
-# GENOCLAIM - https://genoclaim.rtfd.io - OTP-CR-117_19 - otp.informationdesk@icc-cpi.int
+# GENOCLAIM - https://genoclaim.rtfd.io - OTP-CR-117/19/001 - otp.informationdesk@icc-cpi.int
 #
-# genoclaim/request.py - dump of the request to the prosecutor.
+#
 
 txt = """
 Information and Evidence Unit
