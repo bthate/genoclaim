@@ -76,15 +76,11 @@ html_show_copyright = False
 html_copy_source = True
 html_use_opensearch = 'http://genoclaim.rtfd.io/'
 html_file_suffix = '.html'
-rst_prolog = """G E N O C L A I M
-#################
+rst_prolog = """.. image:: jpg/bewijsgif4.jpg
 
-.. image:: jpg/bewijsgif4.jpg
-
-.. title:: https://genoclaim.rtfd.io - OTP-CR-117/19/001 - otp.informationdesk@icc-cpi.int ! ;]
+.. title:: OTP-CR-117/19/001 - otp.informationdesk@icc-cpi.int
 
 """
-rst_epilog= """https://genoclaim.rtfd.io - OTP-CR-117/19/001 - otp.informationdesk@icc-cpi.int ! ;]
 htmlhelp_basename = 'pydoc'
 intersphinx_mapping = {
                        'python': ('https://docs.python.org/3', 'objects.inv'),
