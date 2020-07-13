@@ -4,8 +4,7 @@
 
 import mailbox, os, random, time
 
-from bot.obj import Object 
-from bot.krn import k
+from bot.spc import Dict, Object, k
 
 bdmonths = ['Bo', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug',
             'Sep', 'Oct', 'Nov', 'Dec']
@@ -24,7 +23,7 @@ monthint = {
     'Dec': 12
 }
 
-class Email(Object):
+class Email(Dict):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -93,7 +92,7 @@ def email(event):
         nr += 1
         if nr != event.index:
             continue            
-        event.display(o, str(nr), args, "t")
+        event.reply("%s %s" % (str(nr), o.format(event.args)))
 
 def mbox(event):
     if not event.args:
