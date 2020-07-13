@@ -4,10 +4,11 @@
 
 import datetime, random, time
 
-from ok.krn import get_kernel
-from ok.hdl import Event
-
-k = get_kernel()
+from bot.clk import Repeater
+from bot.krn import k
+from bot.obj import Object
+from bot.hdl import Event
+from bot.tms import elapsed
 
 def init(kernel):
     for name in wanted.keys():
@@ -17,12 +18,12 @@ def init(kernel):
             e.txt = ""
             e.rest = name
             for key in obj.keys():
-                if lo.cfg.options and key not in lo.cfg.options:
+                if k.cfg.options and key not in k.cfg.options:
                     continue
                 val = obj.get(key, None)
                 if val:
                     sec = seconds(val)
-                    repeater = lo.clk.Repeater(sec, stat, e, name="stats.%s" % key)
+                    repeater = Repeater(sec, stat, e, name="stats.%s" % key)
                     repeater.start()
 
 year_formats = [
@@ -114,7 +115,7 @@ def stats(event, **kwargs):
             txt = "%s #%s" % (name.upper(), nrtimes)
             if name in omschrijving:
                 txt += " (%s)" % omschrijving.get(name)
-            txt += " elke %s" % lo.tms.elapsed(seconds(nr(name)))
+            txt += " elke %s" % elapsed(seconds(nr(name)))
             if name in urls:
                 txt += " - %s" % urls.get(name)
             if name in tags:
@@ -148,17 +149,17 @@ def stat(event, **kwargs):
             txt += " %s" % random.choice(list(tags.values()))
         k.fleet.announce(txt)
 
-oorzaak = lo.Object()
+oorzaak = Object()
 oorzaak.suicide = 1800
 oorzaak.psychosestoornis = 12000
 
-nrsec = lo.Object()
+nrsec = Object()
 nrsec.dag = 24 * 60 * 60.0
 nrsec.jaar = 365 * nrsec.dag
 nrsec.weekend = 2 / 7 * (24 * 60 * 60.0 * 365) / 52
 nrsec.avond = 16 / 24 * (24 * 60 * 60.0)
 
-times = lo.Object()
+times = Object()
 times.weekend = 2 / 7 * (24 * 60 * 60.0 * 365) / 52
 times.avond = 16 / 24 * (24 * 60 * 60.0)
 times.dag = 24 * 60 * 60.0
@@ -166,7 +167,7 @@ times.jaar = 365 * 24 * 60 * 60.0
 
 # PER JAAR
 
-rechter = lo.Object()
+rechter = Object()
 rechter.ibs = 8861
 rechter.rm = 17746
 rechter.vwm = 6657
@@ -175,7 +176,7 @@ rechter.vm = 6690
 rechter.mev = 65
 rechter.zm= 3
 
-suicidejaar = lo.Object()
+suicidejaar = Object()
 suicidejaar.y2008 = 1435
 suicidejaar.y2009 = 1525
 suicidejaar.y2010 = 1600
@@ -187,24 +188,24 @@ suicidejaar.y2015 = 1871
 suicidejaar.y2016 = 1894
 suicidejaar.y2017 = 1917
 
-ziekenhuis = lo.Object()
+ziekenhuis = Object()
 ziekenhuis.y2010 = 7800
 ziekenhuis.y2011 = 9600
 ziekenhuis.y2012 = 9200
 ziekenhuis.y2013 = 8300
 ziekenhuis.y2014 = 8500
 
-seh = lo.Object()
+seh = Object()
 seh.y2010 = 13700
 seh.y2011 = 16000
 seh.y2012 = 15800
 seh.y2013 = 13300
 seh.y2014 = 14000
 
-e33 = lo.Object()
+e33 = Object()
 e33.melding = 61000
 
-cijfers = lo.Object()
+cijfers = Object()
 cijfers.melding = 61000
 cijfers.opnames = 24338
 cijfers.crisis = 150000
@@ -230,35 +231,35 @@ cijfers.suicidegedachtes = 410000
 cijfers.psychosestoornis = 13076
 cijfers.oorzaak = cijfers.psychosestoornis + cijfers.suicide
 
-oordeel = lo.Object()
+oordeel = Object()
 oordeel.verwijs = cijfers.crisis * 0.85 
 oordeel.uitstroom = cijfers.crisis * 0.05
 oordeel.opname = cijfers.crisis * 0.10
 
-alarm = lo.Object()
+alarm = Object()
 alarm.politie = 0.30 * cijfers.crisis
 alarm.hap = 0.40 * cijfers.crisis
 alarm.keten = 0.30 * cijfers.crisis
 
-suicide = lo.Object()
+suicide = Object()
 suicide.suicide = suicidejaar.y2017
 
-pogingen = lo.Object()
+pogingen = Object()
 pogingen.pogingen = cijfers.pogingen
 
-poging = lo.Object()
+poging = Object()
 poging.ziekenhuis = ziekenhuis.y2014
 poging.seh = seh.y2014
 
 # PER BEVOLKING
 
-drugs = lo.Object()
+drugs = Object()
 drugs.speed = 20000
 drugs.cocaine = 50000
 drugs.alcohol = 400000
 drugs.wiet = 500000
 
-medicijnen = lo.Object()
+medicijnen = Object()
 medicijnen.amitriptyline = 189137
 medicijnen.paroxetine = 186028
 medicijnen.citalopram = 154620
@@ -270,7 +271,7 @@ medicijnen.diazepam = 72000
 medicijnen.sertraline = 68000
 medicijnen.haloperidol = 59825
 
-dbc = lo.Object()
+dbc = Object()
 dbc.middelgebondenstoornissen = 33060
 dbc.somatoformestoornissen = 21841
 dbc.cognitievestoornissen = 25717
@@ -292,7 +293,7 @@ dbc.autismespectrum = 9436
 
 # PER DAG
 
-halfwaarde = lo.Object()
+halfwaarde = Object()
 halfwaarde.zyprexa = 30
 halfwaarde.abilify = 75
 halfwaarde.haldol = 30
@@ -307,13 +308,13 @@ halfwaarde.quetiapine = 6
 halfwaarde.diazepam = 100
 halfwaarde.wiet = 7
 
-perdag = lo.Object()
+perdag = Object()
 perdag.medicijnen = medicijnen
 perdag.drugs = drugs
 
 # DISPLAY
 
-tags = lo.Object()
+tags = Object()
 tags.keten = "#burgemeester"
 tags.politie = "#broodjepindakaas"
 tags.hap = "#triagetrien"
@@ -345,7 +346,7 @@ tags.mev = "#kieserzelfvoor"
 tags.om = "#ffkijken#"
 tags.zm = "#zelfwat?"
 
-omschrijving = lo.Object()
+omschrijving = Object()
 omschrijving.ibs = "inbewaringstelling"
 omschrijving.rm = "rechterlijke machtiging"
 omschrijving.vm = "voorlopige rechterlijke machtiging"
@@ -422,7 +423,7 @@ omschrijving.seh = "spoedeisende hulp"
 omschrijving.psychosestoornis = "een door de psychose zelf overleden persoon"
 omschrijving.oorzaak = "oorzaak van overlijden"
 
-urls = lo.Object()
+urls = Object()
 urls.ibs = "http://www.tijdschriftvoorpsychiatrie.nl/assets/articles/57-2015-4-artikel-broer.pdf"
 urls.rm = "http://www.tijdschriftvoorpsychiatrie.nl/assets/articles/57-2015-4-artikel-broer.pdf"
 urls.vm = "http://www.tijdschriftvoorpsychiatrie.nl/assets/articles/57-2015-4-artikel-broer.pdf"
@@ -476,7 +477,7 @@ urls.epa = "https://www.zorgprismapubliek.nl/informatie-over/geestelijke-gezondh
 urls.rechter = "https://www.ggdghorkennisnet.nl/?file=43865&m=1541606110&action=file.download"
 urls.psychosestoornis = "https://www.volksgezondheidenzorg.info/echi-indicators/mortality#node-disease-specific-mortality"
 
-soort = lo.Object()
+soort = Object()
 soort.alarm = "patient"
 soort.oordeel = "arts"
 soort.neurotoxisch = "patient"
@@ -519,11 +520,11 @@ soort.slaapmiddel = "insomnia patient"
 
 # WANTED
 
-wanted = lo.Object()
+wanted = Object()
 wanted.oorzaak = oorzaak
 wanted.pogingen = pogingen
 
-demo = lo.Object()
+demo = Object()
 demo.dbc = dbc
 demo.medicijnen = medicijnen
 demo.drugs = drugs

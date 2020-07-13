@@ -1,18 +1,24 @@
 #!/usr/bin/python3 -u
-# GENOCLAIM - does not accept jurisdiction !
+# GENOCLAIM - king pleads quilty to genocide
 #
-# 
+#
 
-import ok.obj, os
+import sys, os ; sys.path.insert(0, os.getcwd())
 
-from bot.spc import check, execute, get_kernel
+from bot.csl import execute
+from bot.krn import k
+from bot.prs import parse_cli
 
 def main():
-    check("genoclaim")
-    k = get_kernel()
-    k.scan("bot")
-    k.start()
-    k.init("bot.irc,ok.csl")
-    k.wait()
-       
+    c = parse_cli("genoclaim")
+    k.cfg.update(c)
+    k.walk("bot")
+    k.walk("genoclaim")
+    if c.txt:
+        return k.cmd(c.origtxt)
+    if c.mods:
+        k.start()
+        k.init(c.mods)
+        k.wait()
+
 execute(main)

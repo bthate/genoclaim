@@ -4,10 +4,8 @@
 
 import mailbox, os, random, time
 
-from ok.obj import Object 
-from ok.krn import get_kernel
-
-k = get_kernel()
+from bot.obj import Object 
+from bot.krn import k
 
 bdmonths = ['Bo', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug',
             'Sep', 'Oct', 'Nov', 'Dec']
