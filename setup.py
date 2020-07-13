@@ -20,7 +20,7 @@ setup(
     install_requires=["botlib"],
     scripts=["bin/genoclaim"],
     packages=["genoclaim"],
-    classifiers=['Development Status :: 3 - Alpha',
+    classifiers=['Development Status :: 4 - Beta',
                  'License :: Public Domain',
                  'Operating System :: Unix',
                  'Programming Language :: Python',

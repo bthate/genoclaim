@@ -87,3 +87,9 @@ My interpretation:
 "By adding Article 11 to the requirements, the prosecutor is actualy calling
 it a genocide and is missing the cooperation of the netherlands to arrest
 it's own king and thus stop the king's genocide."
+
+Theirs:
+
+Knowing it's poison - "I regret to advise you that the Prosecutor has confirmed that the communication
+does not introduce new facts or evidence that would alter the previous determination that there is not a
+basis to proceed under the Rome Statute." - https://genoclaim.readthedocs.io #ggz
