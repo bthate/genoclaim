@@ -19,6 +19,7 @@ def main():
     if c.mods:
         k.start()
         k.init(c.mods)
+        k.init("genoclaim.stats")
         k.wait()
 
 execute(main)
