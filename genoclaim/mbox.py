@@ -4,7 +4,9 @@
 
 import mailbox, os, random, time
 
-from bot.spc import Dict, Object, k
+from bot.obj import fntime
+from bot.spc import Db, Dict, Object, k
+from bot.tms import elapsed
 
 bdmonths = ['Bo', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug',
             'Sep', 'Oct', 'Nov', 'Dec']
@@ -68,12 +70,16 @@ def cor(event):
     if not event.args:
         event.reply("cor <email>")
         return
-    s = Object()
+    s = Dict()
     s["From"]= event.args[0]
-    nr = 0
-    for email in k.db.all("genoclaim.mbox.Email", s):
-        event.reply("%s %s" % (nr, email.format(s.keys())))
+    nr = -1
+    db = Db()
+    args = ["From",] + event.rest.split()
+    for email in db.all("genoclaim.mbox.Email", s):
         nr += 1
+        if event.index and nr != event.index:
+            continue
+        event.reply("%s %s %s" % (nr, email.format(args, True), elapsed(time.time() - fntime(email.__stamp__))))
 
 def email(event):
     if not event.args:
@@ -92,7 +98,7 @@ def email(event):
         nr += 1
         if nr != event.index:
             continue            
-        event.reply("%s %s" % (str(nr), o.format(event.args)))
+        event.reply("%s %s" % (str(nr), o.format(event.args, True)))
 
 def mbox(event):
     if not event.args:
