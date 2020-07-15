@@ -5,21 +5,21 @@
 import datetime, random, time
 
 from bot.clk import Repeater
-from bot.cls import Dict
+from bot.dct import Dict
 from bot.krn import k
 from bot.hdl import Event
 from bot.tms import day, elapsed, get_time, today, to_day
 
 def init(kernel):
     for name, obj in wanted.items():
-        e = Event()
-        e.txt = ""
-        e.rest = name
         for key in obj.keys():
             val = obj.get(key, None)
             if val:
+                e = Event()
+                e.txt = ""
+                e.rest = key
                 sec = seconds(val)
-                repeater = Repeater(sec, stat, e, name="stats.%s" % key)
+                repeater = Repeater(sec, stat, e, name=key)
                 repeater.start()
 
 year_formats = [
@@ -44,7 +44,6 @@ year_formats = [
     "%H:%M"
 ]
 
-
 class ENOSTATS(Exception):
 
     pass
@@ -58,12 +57,8 @@ def seconds(nr, period="jaar"):
         return nr
     return nrsec.get(period) / float(nr)
 
-def nr(name):
-    for key in wanted.keys():
-        obj = wanted.get(key, None)
-        for n in obj.keys():
-            if n == name:
-                return obj.get(n)
+def nr(key):
+    return cijfers.get(key, None)
 
 def stats(event, **kwargs):
     args = event.args

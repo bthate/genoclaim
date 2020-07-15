@@ -1,9 +1,10 @@
 #!/bin/bash
 bin/clean
 python3 setup.py sdist
-#python3 -mvirtualenv -p python3 --no-site-packages envs/latest
-python3 -mvirtualenv -p python3 envs/latest
-source envs/latest/bin/activate
-envs/latest/bin/python3 envs/latest/bin/pip3 install -U -f dist -r requirements.txt
-envs/latest/bin/python3 envs/latest/bin/sphinx-build -a -E docs _build/html
-envs/latest/bin/python3 envs/latest/bin/sphinx-build -a -E docs _build/localmedia
+python3 -mvirtualenv -p python3 --extra-search-dir dist --copies env  
+#python3 -mvirtualenv -p python3 --no-cache-dir --no-site-packages env
+source env/bin/activate
+env/bin/python3 env/bin/pip3 install -U -r docs/requirements.txt
+env/bin/python3 env/bin/pip3 install -U -f dist botlib
+env/bin/python3 env/bin/sphinx-build -a -E docs html
+#env/bin/python3 env/bin/sphinx-build -a -E docs localmedia
