@@ -18,7 +18,7 @@ setup(
     license='Public Domain',
     zip_safe=True,
     install_requires=["botlib"],
-    scripts=["bin/genoclaim"],
+    scripts=["bin/gc"],
     packages=["genoclaim"],
     classifiers=['Development Status :: 4 - Beta',
                  'License :: Public Domain',

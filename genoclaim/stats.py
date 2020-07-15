@@ -103,8 +103,8 @@ def stat(event, **kwargs):
         if name in omschrijving:
             txt += " (%s)" % omschrijving.get(name)
         txt += " elke %s" % elapsed(seconds(nr(name)))
-        if name in urls:
-            txt += " - %s" % urls.get(name)
+        #if name in urls:
+        #    txt += " - %s" % urls.get(name)
         if name in tags:
             txt += " %s" % tags.get(name)
         else:
