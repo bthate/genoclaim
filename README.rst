@@ -93,3 +93,7 @@ Theirs:
 Knowing it's poison - "I regret to advise you that the Prosecutor has confirmed that the communication
 does not introduce new facts or evidence that would alter the previous determination that there is not a
 basis to proceed under the Rome Statute." - https://genoclaim.readthedocs.io #ggz
+
+End of story:
+
+The king commits guilty to genocide ..

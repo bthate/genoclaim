@@ -8,11 +8,11 @@ def read():
 
 setup(
     name='genoclaim',
-    version='25',
+    version='26',
     url='https://bitbucket.org/bthate/genoclaim',
     author='Bart Thate',
     author_email='bthate@dds.nl',
-    description="""https://genoclaim.rtfd.io - OTP-CR-117/19/001 - otp.informationdesk@icc-cpi.int""",
+    description=""" The king admits guilty to genocide - https://genoclaim.rtfd.io - OTP-CR-117/19/001 - otp.informationdesk@icc-cpi.int""",
     long_description=read(),
     long_description_content_type="text/x-rst",
     license='Public Domain',
