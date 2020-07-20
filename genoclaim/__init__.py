@@ -1,5 +1,5 @@
-# GENOCLAIM - https://genoclaim.rtfd.io - OTP-CR-117_19 - otp.informationdesk@icc-cpi.int
+# GENOCLAIM - the king pleads quilty to genoncide - https://genoclaim.rtfd.io - OTP-CR-117_19 - otp.informationdesk@icc-cpi.int
 #
-# genoclaim/__init__.py (genoclaim package)
+#
 
-__version__ = 25
+__version__ = 26
