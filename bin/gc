@@ -5,11 +5,11 @@
 
 import sys, os ; sys.path.insert(0, os.getcwd())
 
-from bot.spc import execute, k, parse_cli
+from bot.spc import execute, k, parse_cli, update
 
 def main():
     c = parse_cli("genoclaim")
-    k.cfg.update(c)
+    update(k.cfg, c)
     k.walk("bot")
     k.walk("genoclaim")
     if c.txt:
