@@ -15,7 +15,7 @@ def main():
     if c.txt:
         return k.cmd(c.origtxt)
     if "s" in c.opts:
-        c.mods += ",csl,cmd,opr,ent"
+        c.mods += "irc,csl,cmd,opr,ent"
     if c.mods:
         k.start()
         k.init(c.mods)

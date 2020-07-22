@@ -6,14 +6,14 @@ import datetime, random, time
 
 from bot.clk import Repeater
 from bot.krn import k
-from bot.obj import Object
+from bot.obj import Object, get, items, keys, values
 from bot.hdl import Event
 from bot.tms import day, elapsed, get_time, today, to_day
 
 def init(kernel):
-    for name, obj in wanted.items():
-        for key in obj.keys():
-            val = obj.get(key, None)
+    for name, obj in items(wanted):
+        for key in keys(obj):
+            val = get(obj, key, None)
             if val:
                 e = Event()
                 e.txt = ""
@@ -55,17 +55,17 @@ source = "https://bitbucket.org/bthate/genoclaim"
 def seconds(nr, period="jaar"):
     if not nr:
         return nr
-    return nrsec.get(period) / float(nr)
+    return get(nrsec, period) / float(nr)
 
 def nr(key):
-    return cijfers.get(key, None)
+    return get(cijfers, key, None)
 
 def stats(event, **kwargs):
     args = event.args
     txt = "Sinds %s\n" % time.ctime(starttime)
     delta = time.time() - starttime
-    for name, obj in wanted.items():
-        for key, val in obj.items():
+    for name, obj in items(wanted):
+        for key, val in items(obj):
             needed = seconds(nr(key))
             if needed == None:
                 return
@@ -73,14 +73,14 @@ def stats(event, **kwargs):
             nrtimes = int(delta/needed)
             txt = "%s #%s" % (name.upper(), nrtimes)
             if name in omschrijving:
-                txt += " (%s)" % omschrijving.get(name)
+                txt += " (%s)" % get(omschrijving, name)
             txt += " elke %s" % elapsed(seconds(nr(name)))
             #if name in urls:
             #    txt += " - %s" % urls.get(name)
             if name in tags:
-                txt += " %s" % tags.get(name)
+                txt += " %s" % get(tags, name)
             else:
-                 txt += " %s" % random.choice(list(tags.values()))
+                 txt += " %s" % random.choice(list(values(tags)))
             #k.fleet.announce(txt)
             event.reply(txt)
 
@@ -96,14 +96,14 @@ def stat(event, **kwargs):
         nrtimes = int(delta/needed)
         txt = "%s #%s" % (name.upper(), nrtimes)
         if name in omschrijving:
-            txt += " (%s)" % omschrijving.get(name)
+            txt += " (%s)" % get(omschrijving, name)
         txt += " elke %s" % elapsed(seconds(nr(name)))
         #if name in urls:
         #    txt += " - %s" % urls.get(name)
         if name in tags:
-            txt += " %s" % tags.get(name)
+            txt += " %s" % get(tags, name)
         else:
-            txt += " %s" % random.choice(list(tags.values()))
+            txt += " %s" % random.choice(list(values(tags)))
         k.fleet.announce(txt)
 
 oorzaak = Object()
