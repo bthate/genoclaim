@@ -1,6 +1,8 @@
 ICC
 ===
 
+"Using the law to administer poison, the king commits genocide" - otp.informationdesk@icc-cpi.int - https://genoclaim.readthedocs.io
+
 | Information and Evidence Unit
 | Office of the Prosecutor
 | Post Office Box 19519
