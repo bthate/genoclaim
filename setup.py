@@ -12,7 +12,7 @@ setup(
     url='https://bitbucket.org/bthate/genoclaim',
     author='Bart Thate',
     author_email='bthate@dds.nl',
-    description=""" the king pleads guilty to genocide - https://genoclaim.rtfd.io - OTP-CR-117/19/001 - otp.informationdesk@icc-cpi.int""",
+    description="""Using the law to administer poison, the king commits genocide - otp.informationdesk@icc-cpi.int - https://genoclaim.readthedocs.io""",
     long_description=read(),
     long_description_content_type="text/x-rst",
     license='Public Domain',
