@@ -1,5 +1,7 @@
 .. image:: cloza2.png
 
+
+
 ICC
 ===
 
@@ -97,6 +99,9 @@ knowing it's poison - "I regret to advise you that the Prosecutor has confirmed 
 does not introduce new facts or evidence that would alter the previous determination that there is not a
 basis to proceed under the Rome Statute." - https://genoclaim.readthedocs.io #ggz
 
+end of story:
+
+using the law to administer poison, the king commits genocide 
 
 letter
 ======
