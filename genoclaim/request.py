@@ -50,5 +50,5 @@ I hope you can stop the above mentioned crimes the king of the netherlands and h
 
 """
 
-def request(event):
+def req(event):
     event.reply(txt)

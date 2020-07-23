@@ -39,5 +39,5 @@ see https://www.law.cornell.edu/cfr/text/22/95.1
 
 """
 
-def torture(event):
+def trt(event):
     event.reply(txt)

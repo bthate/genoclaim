@@ -60,9 +60,9 @@ def seconds(nr, period="jaar"):
 def nr(key):
     return get(cijfers, key, None)
 
-def stats(event, **kwargs):
+def sts(event, **kwargs):
     args = event.args
-    txt = "Sinds %s\n" % time.ctime(starttime)
+    txt = "sinds %s\n" % time.ctime(starttime)
     delta = time.time() - starttime
     for name, obj in items(wanted):
         for key, val in items(obj):
@@ -84,8 +84,8 @@ def stats(event, **kwargs):
             #k.fleet.announce(txt)
             event.reply(txt)
 
-def stat(event, **kwargs):
-    name = event.rest or "suicide" 
+def stat(e, **kwargs):
+    name = e.rest or "suicide" 
     if "." in name:
         name = name.split(".")[-1]
     name = name.lower()

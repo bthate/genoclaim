@@ -6,7 +6,7 @@
 
 import random
 
-def wisdom(event):
+def wsd(event):
     event.reply(random.choice(txt.split("\n")))
 
 txt="""
