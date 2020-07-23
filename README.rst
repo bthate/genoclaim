@@ -1,6 +1,8 @@
 ICC-CPI
 =======
 
+"Using the law to administer poison, the king commits genocide" - otp.informationdesk@icc-cpi.int - https://genoclaim.readthedocs.io
+
 | Information and Evidence Unit
 | Office of the Prosecutor
 | Post Office Box 19519
@@ -55,45 +57,3 @@ I hope you can stop the above mentioned crimes the king of the netherlands and h
 
 Bart Thate - bthate@dds.nl/thatebart@gmail.com
 
-state of affairs
-================
-
-"Under the Rome Statute, the Court may only exercise jurisdiction over genocide, crimes against humanity and war crimes, as
-defined in the Rome Statute (Articles 6 to 8), when committed on or after 1 July 2002 (Article 11). In addition,
-the Court may only exercise jurisdiction over such crimes committed on the territory of a State that has accepted
-the jurisdiction of the Court or by a national of such a State (Article 12), or where the Security Council refers the
-situation to the Court (Article 13). In the light of these requirements, your communication still appears, after
-careful re-examination, to relate to matters outside the jurisdiction of the
-Court."
-
-These requirements are:
-
-1) exercise jurisdiction over genocide if it is after 2002
-
-and
-
-2) the netherlands accepts jurisdiction y the Court over genocide.
-
-or
-
-3) a genocide crime is committed by a national of the jurisdiction accepted state.
-
-or
-
-4) the security counsil refers the genocide to the prosecutor.
-
-My interpretation:
-
-"By adding Article 11 to the requirements, the prosecutor is actualy calling
-it a genocide and is missing the cooperation of the netherlands to arrest
-it's own king and thus stop the king's genocide."
-
-Theirs:
-
-Knowing it's poison - "I regret to advise you that the Prosecutor has confirmed that the communication
-does not introduce new facts or evidence that would alter the previous determination that there is not a
-basis to proceed under the Rome Statute." - https://genoclaim.readthedocs.io #ggz
-
-End of story:
-
-The king commits guilty to genocide ..
