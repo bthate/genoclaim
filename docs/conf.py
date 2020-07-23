@@ -41,7 +41,7 @@ templates_path=['_templates',]
 source_suffix = '.rst'
 source_encoding = 'utf-8-sig'
 master_doc = 'index'
-project = "GENOCLAIM"
+project = "G E N O C L A I M"
 version = '%s' % __version__
 release = '%s' % __version__
 language = ''
@@ -62,7 +62,7 @@ html_theme = "haiku"
 html_theme_path = []
 #html_short_title = "GENOCLAIM %s" % __version__
 html_short_title = ""
-html_favicon = "jpg/smile9.png"
+html_favicon = "smile3.png"
 html_static_path = []
 html_extra_path = []
 html_last_updated_fmt = '%Y-%b-%d'
@@ -76,7 +76,7 @@ html_show_copyright = False
 html_copy_source = True
 html_use_opensearch = 'http://genoclaim.rtfd.io/'
 html_file_suffix = '.html'
-rst_prolog = """.. image:: jpg/bewijsgif4.jpg
+rst_prolog = """.. image:: cloza2.png
 
 .. title:: OTP-CR-117/19/001 - otp.informationdesk@icc-cpi.int
 
