@@ -1,3 +1,5 @@
+.. image:: cloza2.png
+
 ICC
 ===
 

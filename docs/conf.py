@@ -76,7 +76,7 @@ html_show_copyright = False
 html_copy_source = True
 html_use_opensearch = 'http://genoclaim.rtfd.io/'
 html_file_suffix = '.html'
-rst_prolog = """.. image:: cloza2.png
+rst_prolog = """.. image:: gcline.png
 
 .. title:: OTP-CR-117/19/001 - otp.informationdesk@icc-cpi.int
 
