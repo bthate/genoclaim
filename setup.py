@@ -12,7 +12,7 @@ setup(
     url='https://bitbucket.org/bthate/genoclaim',
     author='Bart Thate',
     author_email='bthate@dds.nl',
-    description="""Using the law to administer poison, the king commits genocide - otp.informationdesk@icc-cpi.int - https://genoclaim.readthedocs.io""",
+    description="""using the law to administer poison, the king commits genocide - otp.informationdesk@icc-cpi.int - https://genoclaim.readthedocs.io""",
     long_description=read(),
     long_description_content_type="text/x-rst",
     license='Public Domain',

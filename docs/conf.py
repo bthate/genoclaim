@@ -60,8 +60,8 @@ html_theme = "haiku"
 #     "nosidebar": True,
 #}
 html_theme_path = []
-#html_short_title = "GENOCLAIM %s" % __version__
-html_short_title = ""
+html_short_title = "G E N O C L A I M   %s" % __version__
+#html_short_title = ""
 html_favicon = "smile3.png"
 html_static_path = []
 html_extra_path = []
@@ -76,11 +76,7 @@ html_show_copyright = False
 html_copy_source = True
 html_use_opensearch = 'http://genoclaim.rtfd.io/'
 html_file_suffix = '.html'
-rst_prolog = """.. image:: cloza2.png
-
-.. title:: otp.informationdesk@icc-cpi.int
-
-"""
+rst_prolog = """.. image:: cloza2.png"""
 htmlhelp_basename = 'pydoc'
 intersphinx_mapping = {
                        'python': ('https://docs.python.org/3', 'objects.inv'),
