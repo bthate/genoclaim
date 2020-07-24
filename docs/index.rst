@@ -1,3 +1,8 @@
+EVIDENCE
+========
+
+.. image:: cloza.png
+
 ICC
 ===
 
@@ -72,6 +77,13 @@ OTP2
 ====
 
 .. image:: OTP2.png
+
+CONTACT
+=======
+
+i am reachable by email:
+
+Bart Thate (bthate@dds.nl)
 
 .. toctree::
     :glob:

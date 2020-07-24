@@ -76,7 +76,7 @@ html_show_copyright = False
 html_copy_source = True
 html_use_opensearch = 'http://genoclaim.rtfd.io/'
 html_file_suffix = '.html'
-rst_prolog = """.. image:: cloza2.png
+rst_prolog = """.. image:: gcline.png
 
 .. title:: G E N O C L A I M %s
 """ % __version__
