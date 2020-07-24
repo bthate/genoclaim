@@ -63,6 +63,16 @@ confirmed
 .. image:: jpg/opdehoogte.jpg
     :width: 100%
 
+OTP1
+====
+
+.. image:: OTP1.png
+
+OTP2
+====
+
+.. image:: OTP2.png
+
 .. toctree::
     :glob:
     :hidden:
