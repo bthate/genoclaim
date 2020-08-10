@@ -1,9 +1,13 @@
+# GENOCLAIM - https://genoclaim.rtfd.io - OTP-CR-117_19 - otp.informationdesk@icc-cpi.int
+#
+#
+
 txt = """
 § 95.1 Definitions.
 
-(a)Convention means the United NationsConvention Against Torture and Other Forms of Cruel, Inhuman or Degrading Treatment or Punishment, done at New York on December 10, 1984, entered into force for the United States on November 10, 1994. Definitions provided below in paragraphs (b) and (c) of this section reflect the language of the Convention and understandings set forth in the United States instrument of ratification to the Convention.
+(a) Convention means the United NationsConvention Against Torture and Other Forms of Cruel, Inhuman or Degrading Treatment or Punishment, done at New York on December 10, 1984, entered into force for the United States on November 10, 1994. Definitions provided below in paragraphs (b) and (c) of this section reflect the language of the Convention and understandings set forth in the United States instrument of ratification to the Convention.
 
-(b)Torture means:
+(b) Torture means:
 
 (1) Any act by which severe pain or suffering, whether physical or mental, is intentionally inflicted on a person for such purposes as obtaining from him or a third person information or a confession, punishing him for an act he or a third person has committed or is suspected of having committed, or intimidating or coercing him or a third person, or for any reason based on discrimination of any kind, when such pain or suffering is inflicted by or at the instigation of or with the consent or acquiescence of a public official or other person acting in an official capacity. It does not include pain or suffering arising only from, inherent in or incidental to lawful sanctions.
 
@@ -25,15 +29,15 @@ txt = """
 
 (6) The term “lawful sanctions” as used in this definition includes judicially imposed sanctions and other enforcement actions authorized by law, provided that such sanctions or actions were not adopted in order to defeat the object and purpose of the Convention to prohibit torture.
 
-(7)Torture is an extreme form of cruel and inhuman treatment and does not include lesser forms of cruel, inhuman or degrading treatment or punishment.
+(7) Torture is an extreme form of cruel and inhuman treatment and does not include lesser forms of cruel, inhuman or degrading treatment or punishment.
 
-(c)Where there are substantial grounds for believing that [a fugitive] would be in danger of being subjected to torture means if it is more likely than not that the fugitive would be tortured.
+(c) Where there are substantial grounds for believing that [a fugitive] would be in danger of being subjected to torture means if it is more likely than not that the fugitive would be tortured.
 
-(d)Secretary means Secretary of State and includes, for purposes of this rule, the Deputy Secretary of State, by delegation.
+(d) Secretary means Secretary of State and includes, for purposes of this rule, the Deputy Secretary of State, by delegation.
 
 see https://www.law.cornell.edu/cfr/text/22/95.1
 
 """
 
-def torture(event):
+def trt(event):
     event.reply(txt)

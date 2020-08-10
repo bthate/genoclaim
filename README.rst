@@ -1,12 +1,7 @@
-"hetgeen u hebt geschreven"
+"Using the law to administer poison, the king commits genocide" - OTP-CR-117/19 - otp.informationdesk@icc-cpi.int
 
-EVIDENCE
-========
-
-.. image:: cloza.png
-
-ICC
-===
+ICC-CPI
+=======
 
 | Information and Evidence Unit
 | Office of the Prosecutor
@@ -24,10 +19,13 @@ The kingdom of the netherlands uses law to provide "care" with entails adminster
 
 There is proof the medication used in forced treatements in the netherlands are poison.
 
-1) haloperiodol (haldol) - https://echa.europa.eu/substance-information/-/substanceinfo/100.000.142
-2) clozapine (leponex) - https://echa.europa.eu/substance-information/-/substanceinfo/100.024.831
-3) olanzapine (zyprexa) - https://echa.europa.eu/substance-information/-/substanceinfo/100.125.320
-4) aripriprazole (abilify) https://echa.europa.eu/substance-information/-/substanceinfo/100.112.532
+1) clozapine (leponex) - https://echa.europa.eu/substance-information/-/substanceinfo/100.024.831
+2) olanzapine (zyprexa) - https://echa.europa.eu/substance-information/-/substanceinfo/100.125.320
+3) aripriprazole (abilify) https://echa.europa.eu/substance-information/-/substanceinfo/100.112.532
+
+edited on 06-02-2019:
+
+4) haloperiodol (haldol) - https://echa.europa.eu/substance-information/-/substanceinfo/100.000.142
 
 The dutch government has introduced three new forced care laws, the Wfz (wet forensische zorg) for criminals, the WvGGZ (Wet verplichte GGZ) for the disturbed and addicted and the Wzd (Wet zorg en dwang) for the handicapped.
 
@@ -56,39 +54,6 @@ the king and members of the chamber for three genocide crimes mentioned in artic
 
 I hope you can stop the above mentioned crimes the king of the netherlands and his government are doing.
 
+
 Bart Thate - bthate@dds.nl/thatebart@gmail.com
 
-letter
-======
-
-.. image:: jpg/informed.jpg
-    :width: 100%
-
-confirmed
-=========
-
-.. image:: jpg/opdehoogte.jpg
-    :width: 100%
-
-OTP1
-====
-
-.. image:: OTP1.png
-
-OTP2
-====
-
-.. image:: OTP2.png
-
-CONTACT
-=======
-
-i am reachable by email:
-
-Bart Thate (bthate@dds.nl)
-
-.. toctree::
-    :glob:
-    :hidden:
-
-    *

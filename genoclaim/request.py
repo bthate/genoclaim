@@ -1,3 +1,7 @@
+# GENOCLAIM - https://genoclaim.rtfd.io - OTP-CR-117/19/001 - otp.informationdesk@icc-cpi.int
+#
+#
+
 txt = """
 Information and Evidence Unit
 Office of the Prosecutor
@@ -46,5 +50,5 @@ I hope you can stop the above mentioned crimes the king of the netherlands and h
 
 """
 
-def request(event):
+def req(event):
     event.reply(txt)

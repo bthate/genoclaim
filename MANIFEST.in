@@ -1,7 +1,7 @@
-include LICENSE
-include README
+include README.rst
 include docs/index.rst
 include docs/conf.py
+recursive-include docs/ *.png
 recursive-include docs/jpg *.jpg
 recursive-include docs/pdf *.pdf
 recursive-include docs/_templates *

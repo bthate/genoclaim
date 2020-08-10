@@ -1,51 +1,56 @@
-""" show statistics on suicide. """
+# GENOCLAIM - https://genoclaim.rtfd.io - OTP-CR-117_19 - otp.informationdesk@icc-cpi.int
+#
+#
 
-__version__ = 1
+import datetime, random, time
 
-import random
-import time
+from bot.clk import Repeater
+from bot.krn import k
+from bot.obj import Object, get, items, keys, values
+from bot.hdl import Event
+from bot.tms import day, elapsed, get_time, today, to_day
 
-from botd.obj import Object
-from botd.krn import kernels
-from botd.clk import Repeater
-from botd.evt import Event
-from botd.tms import elapsed, today, to_day
+def init(kernel):
+    for name, obj in items(wanted):
+        for key in keys(obj):
+            val = get(obj, key, None)
+            if val:
+                e = Event()
+                e.txt = ""
+                e.rest = key
+                sec = seconds(val)
+                repeater = Repeater(sec, stat, e, name=key)
+                repeater.start()
 
-run = Object()
-
-k = kernels.get_first()
-
-## init
-
-def init():
-    for name in wanted.keys():
-        obj = wanted.get(name, None)
-        if obj:
-            e = Event()
-            e.txt = ""
-            for key in obj.keys():
-                if k.cfg.options and key not in k.cfg.options:
-                    continue
-                val =obj.get(key, None)
-                if val:
-                    sec = seconds(val)
-                    repeater = Repeater(sec, stat, e, name="stats.%s" % key)
-                    repeater.start()
-
-## defines
-
-startdate = "2018-10-05 00:00:00"
-#startdate = "2012-09-13 00:00:00"
-starttime = to_day(startdate)
-source = "https://bitbucket.org/bthate/obot"
-
-## exceptions
+year_formats = [
+    "%b %H:%M",
+    "%b %H:%M:%S",
+    "%a %H:%M %Y",
+    "%a %H:%M",
+    "%a %H:%M:%S",
+    "%Y-%m-%d",
+    "%d-%m-%Y",
+    "%d-%m",
+    "%m-%d",
+    "%Y-%m-%d %H:%M:%S",
+    "%d-%m-%Y %H:%M:%S",
+    "%d-%m %H:%M:%S",
+    "%m-%d %H:%M:%S",
+    "%Y-%m-%d %H:%M",
+    "%d-%m-%Y %H:%M",
+    "%d-%m %H:%M",
+    "%m-%d %H:%M",
+    "%H:%M:%S",
+    "%H:%M"
+]
 
 class ENOSTATS(Exception):
 
     pass
 
-## functions
+startdate = "2018-10-05 00:00:00"
+starttime = to_day(startdate)
+source = "https://bitbucket.org/bthate/genoclaim"
 
 def seconds(nr, period="jaar"):
     if not nr:
@@ -79,6 +84,37 @@ def stat(event, **kwargs):
     e = Event()
     e.update(kwargs)
     name = event.rest or e.name or "suicide" 
+    return get(nrsec, period) / float(nr)
+
+def nr(key):
+    return get(cijfers, key, None)
+
+def sts(event, **kwargs):
+    args = event.args
+    txt = "sinds %s\n" % time.ctime(starttime)
+    delta = time.time() - starttime
+    for name, obj in items(wanted):
+        for key, val in items(obj):
+            needed = seconds(nr(key))
+            if needed == None:
+                return
+            name = key
+            nrtimes = int(delta/needed)
+            txt = "%s #%s" % (name.upper(), nrtimes)
+            if name in omschrijving:
+                txt += " (%s)" % get(omschrijving, name)
+            txt += " elke %s" % elapsed(seconds(nr(name)))
+            #if name in urls:
+            #    txt += " - %s" % urls.get(name)
+            if name in tags:
+                txt += " %s" % get(tags, name)
+            else:
+                 txt += " %s" % random.choice(list(values(tags)))
+            #k.fleet.announce(txt)
+            event.reply(txt)
+
+def stat(e, **kwargs):
+    name = e.rest or "suicide" 
     if "." in name:
         name = name.split(".")[-1]
     name = name.lower()
@@ -88,25 +124,20 @@ def stat(event, **kwargs):
         needed = seconds(nr(name))
     except ENOSTATS:
         return
+    needed = seconds(nr(name))
     if needed:
         nrtimes = int(delta/needed)
         txt = "%s #%s" % (name.upper(), nrtimes)
         if name in omschrijving:
-            txt += " (%s)" % ob.get(omschrijving, name)
+            txt += " (%s)" % get(omschrijving, name)
         txt += " elke %s" % elapsed(seconds(nr(name)))
-        if name in soort:
-            txt += " door een %s" % soort.get(name)
-        else:
-            txt += " door een %s" % random.choice(list(soort.values()))
+        #if name in urls:
+        #    txt += " - %s" % urls.get(name)
         if name in tags:
-            txt += " %s" % tags.get(name)
+            txt += " %s" % get(tags, name)
         else:
-            txt += " %s" % random.choice(list(tags.values()))
-        if name in urls:
-            txt += " - %s" % urls.get(name)
+            txt += " %s" % random.choice(list(values(tags)))
         k.fleet.announce(txt)
-
-## DATA
 
 oorzaak = Object()
 oorzaak.suicide = 1800
@@ -124,6 +155,8 @@ times.avond = 16 / 24 * (24 * 60 * 60.0)
 times.dag = 24 * 60 * 60.0
 times.jaar = 365 * 24 * 60 * 60.0
 
+# PER JAAR
+
 rechter = Object()
 rechter.ibs = 8861
 rechter.rm = 17746
@@ -138,6 +171,32 @@ drugs.speed = 20000
 drugs.cocaine = 50000
 drugs.alcohol = 400000
 drugs.wiet = 500000
+
+suicidejaar = Object()
+suicidejaar.y2008 = 1435
+suicidejaar.y2009 = 1525
+suicidejaar.y2010 = 1600
+suicidejaar.y2011 = 1647
+suicidejaar.y2012 = 1753
+suicidejaar.y2013 = 1857
+suicidejaar.y2014 = 1839
+suicidejaar.y2015 = 1871 
+suicidejaar.y2016 = 1894
+suicidejaar.y2017 = 1917
+
+ziekenhuis = Object()
+ziekenhuis.y2010 = 7800
+ziekenhuis.y2011 = 9600
+ziekenhuis.y2012 = 9200
+ziekenhuis.y2013 = 8300
+ziekenhuis.y2014 = 8500
+
+seh = Object()
+seh.y2010 = 13700
+seh.y2011 = 16000
+seh.y2012 = 15800
+seh.y2013 = 13300
+seh.y2014 = 14000
 
 e33 = Object()
 e33.melding = 61000
@@ -180,6 +239,36 @@ cijfers.spoedeisendpoging = 14000
 cijfers.weguitkliniek = 2539
 cijfers.bewindvoering = 295000
 cijfers.suicidegedachtes = 410000
+cijfers.psychosestoornis = 13076
+cijfers.oorzaak = cijfers.psychosestoornis + cijfers.suicide
+
+oordeel = Object()
+oordeel.verwijs = cijfers.crisis * 0.85 
+oordeel.uitstroom = cijfers.crisis * 0.05
+oordeel.opname = cijfers.crisis * 0.10
+
+alarm = Object()
+alarm.politie = 0.30 * cijfers.crisis
+alarm.hap = 0.40 * cijfers.crisis
+alarm.keten = 0.30 * cijfers.crisis
+
+suicide = Object()
+suicide.suicide = suicidejaar.y2017
+
+pogingen = Object()
+pogingen.pogingen = cijfers.pogingen
+
+poging = Object()
+poging.ziekenhuis = ziekenhuis.y2014
+poging.seh = seh.y2014
+
+# PER BEVOLKING
+
+drugs = Object()
+drugs.speed = 20000
+drugs.cocaine = 50000
+drugs.alcohol = 400000
+drugs.wiet = 500000
 
 medicijnen = Object()
 medicijnen.amitriptyline = 189137
@@ -222,6 +311,8 @@ dbc.adhd = 25951
 dbc.gedrag = 1176
 dbc.kindertijdoverig = 1035
 dbc.autismespectrum = 9436
+
+# PER DAG
 
 halfwaarde = Object()
 halfwaarde.zyprexa = 30
@@ -324,6 +415,8 @@ zorg.onderzoek = "onderzoek aan kleding of lichaam"
 zorg.controle = "controle op de aanwezigheid van gedrag beïnvloedende middelen"
 zorg.beperkingen = "beperkingen in de vrijheid het eigen leven in te richten, die tot gevolg hebben dat betrokkene iets moet doen of nalaten."
 
+# DISPLAY
+
 tags = Object()
 tags.keten = "#burgemeester"
 tags.politie = "#broodjepindakaas"
@@ -354,7 +447,7 @@ tags.vm = "#nogeven"
 tags.mvv = "#direct!!"
 tags.mev = "#kieserzelfvoor"
 tags.om = "#ffkijken#"
-tags.zm = "????"
+tags.zm = "#zelfwat?"
 
 omschrijving = Object()
 omschrijving.ibs = "inbewaringstelling"
@@ -469,6 +562,21 @@ urls.VW = "http://www.tijdschriftvoorpsychiatrie.nl/assets/articles/57-2015-4-ar
 urls.MEV = "http://www.tijdschriftvoorpsychiatrie.nl/assets/articles/57-2015-4-artikel-broer.pdf"
 urls.ZB = "http://www.tijdschriftvoorpsychiatrie.nl/assets/articles/57-2015-4-artikel-broer.pdf"
 urls.OB = "http://www.tijdschriftvoorpsychiatrie.nl/assets/articles/57-2015-4-artikel-broer.pdf"
+
+omschrijving.psychosestoornis = "een door de psychose zelf overleden persoon"
+omschrijving.oorzaak = "oorzaak van overlijden"
+
+urls = Object()
+urls.ibs = "http://www.tijdschriftvoorpsychiatrie.nl/assets/articles/57-2015-4-artikel-broer.pdf"
+urls.rm = "http://www.tijdschriftvoorpsychiatrie.nl/assets/articles/57-2015-4-artikel-broer.pdf"
+urls.vm = "http://www.tijdschriftvoorpsychiatrie.nl/assets/articles/57-2015-4-artikel-broer.pdf"
+urls.mvv = "http://www.tijdschriftvoorpsychiatrie.nl/assets/articles/57-2015-4-artikel-broer.pdf"
+urls.vw = "http://www.tijdschriftvoorpsychiatrie.nl/assets/articles/57-2015-4-artikel-broer.pdf"
+urls.mev = "http://www.tijdschriftvoorpsychiatrie.nl/assets/articles/57-2015-4-artikel-broer.pdf"
+urls.zb = "http://www.tijdschriftvoorpsychiatrie.nl/assets/articles/57-2015-4-artikel-broer.pdf"
+urls.ob = "http://www.tijdschriftvoorpsychiatrie.nl/assets/articles/57-2015-4-artikel-broer.pdf"
+urls.zm = "http://www.tijdschriftvoorpsychiatrie.nl/assets/articles/57-2015-4-artikel-broer.pdf"
+urls.iatrogeen = "https://www.nrc.nl/nieuws/2011/04/22/eenvijfde-van-de-opnames-te-wijten-aan-medicijnen-12012115-a426225"
 urls.opname = "http://www.tijdschriftvoorpsychiatrie.nl/issues/434/articles/8318"
 urls.crisis = "http://www.rijksoverheid.nl/documenten-en-publicaties/rapporten/2015/02/11/acute-geestelijke-gezondheidszorg-knelpunten-en-verbetervoorstellen-in-de-keten.html"
 urls.tuchtrecht = "http://tuchtrecht.overheid.nl/zoeken/resultaat/uitspraak/2014/ECLI_NL_TGZRAMS_2014_94?zaaknummer=2013%2F221&Pagina=1&ItemIndex=1"
@@ -510,6 +618,7 @@ urls.ziekenhuisopnames = "https://www.tweedekamer.nl/kamerstukken/detail?id=2016
 urls.seh = "https://www.tweedekamer.nl/kamerstukken/detail?id=2016D13371&did=2016D13371"
 urls.epa = "https://www.zorgprismapubliek.nl/informatie-over/geestelijke-gezondheidszorg/ernstige-psychiatrische-aandoeningen/"
 urls.rechter = "https://www.ggdghorkennisnet.nl/?file=43865&m=1541606110&action=file.download"
+urls.psychosestoornis = "https://www.volksgezondheidenzorg.info/echi-indicators/mortality#node-disease-specific-mortality"
 
 soort = Object()
 soort.alarm = "patient"
@@ -946,3 +1055,12 @@ Zutphen
 Zwartewaterland
 Zwijndrecht
 Zwolle""".split("\n")
+
+wanted = Object()
+wanted.oorzaak = oorzaak
+wanted.pogingen = pogingen
+
+demo = Object()
+demo.dbc = dbc
+demo.medicijnen = medicijnen
+demo.drugs = drugs

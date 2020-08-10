@@ -1,0 +1,5 @@
+# GENOCLAIM - https://genoclaim.rtfd.io - OTP-CR-117_19 - otp.informationdesk@icc-cpi.int
+#
+# cleanup all non distro files
+
+rm -fR .readthedocs.yml envs run run.tar.gz genoclaim/*~ docs/*~ _build tests/*~ tests/__pycache__ docs/html docs/obj  env env.tar.gz lo/*~ lo/__pycache__ bot/*~ bot/__pycache__ *~ runclaim runclaim.tar.gz logs DEADJOE __pycache__ testdata build genoclaim.egg-info *~  bin/*~  genoclaim/__pycache__
