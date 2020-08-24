@@ -1,4 +1,4 @@
-from genoclaim import __version__
+__version__ = 29
 
 def ver(event):
     event.reply("GENOCLAIM %s" % __version__)

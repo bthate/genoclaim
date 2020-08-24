@@ -4,11 +4,13 @@
 
 import datetime, random, time
 
-from bot.clk import Repeater
-from bot.krn import k
-from bot.obj import Object, get, items, keys, values
-from bot.hdl import Event
-from bot.tms import day, elapsed, get_time, today, to_day
+from olib import Object, get, items, keys, values
+from ok.clk import Repeater
+from ok.hdl import Event
+from ok.krn import bus, get_kernel
+from ok.prs import elapsed, to_day
+
+k = get_kernel()
 
 def init(kernel):
     for name, obj in items(wanted):
@@ -55,7 +57,7 @@ source = "https://bitbucket.org/bthate/genoclaim"
 def seconds(nr, period="jaar"):
     if not nr:
         return nr
-    return ob.get(nrsec, period) / float(nr)
+    return get(nrsec, period) / float(nr)
 
 def nr(name):
     for key in wanted.keys():
@@ -137,7 +139,7 @@ def stat(e, **kwargs):
             txt += " %s" % get(tags, name)
         else:
             txt += " %s" % random.choice(list(values(tags)))
-        k.fleet.announce(txt)
+        bus.announce(txt)
 
 oorzaak = Object()
 oorzaak.suicide = 1800

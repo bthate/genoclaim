@@ -5,17 +5,21 @@
 
 import sys, os ; sys.path.insert(0, os.getcwd())
 
-from bot.spc import execute, k, parse_cli, update
+from olib import update
+from ok.csl import Console, execute, parse_cli
+from ok.krn import Kernel
 
 def main():
+    k = Kernel()
     c = parse_cli("genoclaim")
     update(k.cfg, c)
-    k.walk("bot")
     k.walk("genoclaim")
     if c.txt:
         return k.cmd(c.origtxt)
     if "s" in c.opts:
-        c.mods += "irc,csl,cmd,opr,ent"
+        c.mods += "irc,cmd,log,tdo,fnd"
+        cons = Console()
+        cons.start()
     if c.mods:
         k.start()
         k.init(c.mods)

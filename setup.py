@@ -8,7 +8,7 @@ def read():
 
 setup(
     name='genoclaim',
-    version='28',
+    version='29',
     url='https://bitbucket.org/bthate/genoclaim',
     author='B.H.J Thate',
     author_email='bthate@dds.nl',
@@ -16,10 +16,11 @@ setup(
     long_description=read(),
     long_description_content_type="text/x-rst",
     license='Public Domain',
-    zip_safe=True,
-    install_requires=["botlib"],
+    zip_safe=False,
+    install_requires=["okbot", "oklib", "olib"],
     scripts=["bin/gc"],
     packages=["genoclaim"],
+    namespace_packages=["genoclaim"],
     classifiers=['Development Status :: 4 - Beta',
                  'License :: Public Domain',
                  'Operating System :: Unix',
