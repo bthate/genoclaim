@@ -17,7 +17,7 @@ setup(
     long_description_content_type="text/x-rst",
     license='Public Domain',
     zip_safe=False,
-    install_requires=["okbot", "oklib", "olib"],
+    install_requires=["madbot"],
     scripts=["bin/gc"],
     packages=["genoclaim"],
     namespace_packages=["genoclaim"],

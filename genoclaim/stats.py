@@ -4,11 +4,9 @@
 
 import datetime, random, time
 
-from olib import Object, get, items, keys, values
-from ok.clk import Repeater
-from ok.hdl import Event
-from ok.krn import bus, get_kernel
-from ok.prs import elapsed, to_day
+from kern.obj import Object, get, items, keys, update, values
+from kern.hdl import Event, Repeater, bus, get_kernel
+from kern.csl import elapsed, today, to_day
 
 k = get_kernel()
 
@@ -61,7 +59,7 @@ def seconds(nr, period="jaar"):
 
 def nr(name):
     for key in wanted.keys():
-        obj = wanted.get(key, None)
+        obj = get(wanted, key, None)
         for n in obj.keys():
             if n == name:
                 return obj.get(n)
@@ -73,18 +71,18 @@ def stats(event, **kwargs):
     args = event.args
     txt = "Sinds %s\n" % time.ctime(starttime)
     delta = time.time() - starttime
-    for name, obj in wanted.items():
-        for key, val in obj.items():
+    for name, obj in items(wanted):
+        for key, val in items(obj):
             needed = seconds(nr(key))
             if not needed:
                 continue
             nrtimes = int(delta/needed)
-            txt += "\n%s #%s %s %s" % (key.upper(), nrtimes, tags.get(key, ""), ob.get(zorg, random.choice(list(zorg.keys()), "")))
+            txt += "\n%s #%s %s %s" % (key.upper(), nrtimes, get(tags, key, ""), get(zorg, random.choice(list(keys(zorg))), ""))
     event.reply(txt.strip())
 
 def stat(event, **kwargs):
     e = Event()
-    e.update(kwargs)
+    update(e, kwargs)
     name = event.rest or e.name or "suicide" 
     return get(nrsec, period) / float(nr)
 
