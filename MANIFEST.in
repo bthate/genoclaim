@@ -1,4 +1,4 @@
-include README.rst
+include README
 include docs/index.rst
 include docs/conf.py
 recursive-include kern/ *.py

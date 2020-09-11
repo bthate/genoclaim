@@ -4,23 +4,22 @@
 from setuptools import setup
 
 def read():
-    return open("README.rst", "r").read()
+    return open("README", "r").read()
 
 setup(
     name='genoclaim',
     version='30',
     url='https://bitbucket.org/bthate/genoclaim',
-    author='B.H.J Thate',
+    author='Bart Thate',
     author_email='bthate@dds.nl',
-    description="using the law to administer poison, the king commits genocide - OTP-CR-117/19 - otp.informationdesk@icc-cpi.int",
+    description="GENOCLAIM - using the law to administer poison, the king commits genocide - OTP-CR-117/19/001",
     long_description=read(),
     long_description_content_type="text/x-rst",
     license='Public Domain',
-    zip_safe=False,
+    zip_safe=True,
     install_requires=["madbot"],
     scripts=["bin/gc"],
     packages=["genoclaim"],
-    namespace_packages=["genoclaim"],
     classifiers=['Development Status :: 4 - Beta',
                  'License :: Public Domain',
                  'Operating System :: Unix',
