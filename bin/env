@@ -1,8 +1,43 @@
-#!/bin/bash
-# GENOCLAIM - https://genoclaim.rtfd.io - OTP-CR-117_19 - otp.informationdesk@icc-cpi.int
-bin/clean
-python3 -mvirtualenv -p python3 --extra-search-dir dist
-python3 -mvirtualenv -p python3 --relocatable env
-source env/bin/activate
-env/bin/python3 env/bin/pip3 install genoclaim -f -u
-tar zcvf env.tar.gz env
+#!/usr/bin/python3
+# MADBOT - 24/7 channel daemon.
+#
+#
+
+"build a madbot environment."
+
+import os
+
+old =  os.getcwd()
+
+def obopen(txt):
+    "use os.popen."
+    try:
+        for line in os.popen(txt).readlines():
+            print(line.rstrip())
+    except:
+        pass
+
+def main():
+    "main program."
+    obopen("bin/clean")
+    try:
+        shutil.rmtree("build")
+    except:
+        pass
+    try:
+        shutil.rmtree("dist")
+    except:
+        pass
+    try:
+        shutil.rmtree("%s.egg-info" % fn)
+    except:
+        pass
+    for line in os.popen("python3 setup.py sdist").readlines():
+        print(line.strip())
+    #obopen("rm -fR ~/.cache/pip/")
+    obopen("python3 -mvirtualenv -p python3 env")
+    obopen("env/bin/pip3 install madbot -f dist --upgrade --force-reinstall")
+
+if __name__ == "__main__":
+    main()
+    obopen("tar zcf env.tar.gz env")

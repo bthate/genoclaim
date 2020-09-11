@@ -1,5 +1,5 @@
-# GENOCLAIM - https://genoclaim.rtfd.io - OTP-CR-117_19 - otp.informationdesk@icc-cpi.int
+# MADBOT - 24/7 channel daemon.
 #
-# cleanup all non distro files
+#
 
-rm -fR .readthedocs.yml envs run run.tar.gz genoclaim/*~ docs/*~ _build tests/*~ tests/__pycache__ docs/html docs/obj  env env.tar.gz lo/*~ lo/__pycache__ bot/*~ bot/__pycache__ *~ runclaim runclaim.tar.gz logs DEADJOE __pycache__ testdata build genoclaim.egg-info *~  bin/*~  genoclaim/__pycache__
+rm -fR genoclaim/*~ genoclaim/__pycache__ env env.tar.gz html docs/*~ docs/kern* docs/madbot*.rst build dist *~ __pycache__ madbot/*~ madbot/__pycache__ tests/*~ tests/__pycache__ mods/*~ mods/__pycache__ bin/*~ bin/__pycache__ madbot.egg-info kern/*~ kern/__pycache__

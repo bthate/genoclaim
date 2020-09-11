@@ -1,5 +1,5 @@
 #!/usr/bin/python3 -u
-# GENOCLAIM - king pleads quilty to genocide
+# GENOCLAIM - Using the law to administer poison, the king commits genocide" - OTP-CR-117/19 - otp.informationdesk@icc-cpi.int
 #
 #
 
@@ -13,13 +13,13 @@ def main():
     if k.cfg.txt:
         return k.cmd(k.cfg.origtxt)
     if "s" in k.cfg.opts:
-        k.cfg.mods += "irc,cmd,log,tdo,fnd"
+        k.cfg.mods += "cmd,fnd"
         cons = Console()
         cons.start()
-    if k.cfg.mods:
-        k.start()
-        k.init(k.cfg.mods)
-        k.init("stats")
+    k.start()
+    k.init(k.cfg.mods)
+    k.init("stats")
+    if "s" in k.cfg.opts:
         k.wait()
 
 execute(main)

@@ -1,8 +1,0 @@
-[Unit]
-Description=genoclaim
-
-[Service]
-ExecStart=/usr/local/bin/genoclaim -k -d /var/lib/genoclaim --logdir /var/log/genoclaim -p -l debug
-
-[Install]
-WantedBy=multi-user.target

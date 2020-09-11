@@ -41,7 +41,7 @@ templates_path=['_templates',]
 source_suffix = '.rst'
 source_encoding = 'utf-8-sig'
 master_doc = 'index'
-project = "G E N O C L A I M"
+project = "GENOCLAIM"
 version = '%s' % __version__
 release = '%s' % __version__
 language = ''
@@ -60,7 +60,6 @@ html_theme = "haiku"
 #     "nosidebar": True,
 #}
 html_theme_path = []
-#html_short_title = "G E N O C L A I M   %s" % __version__
 html_short_title = ""
 html_favicon = "smile3.png"
 html_static_path = []
@@ -78,7 +77,7 @@ html_use_opensearch = 'http://genoclaim.rtfd.io/'
 html_file_suffix = '.html'
 rst_prolog = """.. image:: gcline.png
 
-.. title:: G E N O C L A I M %s
+.. title:: GENOCLAM %s
 """ % __version__
 htmlhelp_basename = 'pydoc'
 intersphinx_mapping = {
