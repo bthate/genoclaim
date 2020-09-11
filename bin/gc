@@ -1,5 +1,5 @@
 #!/usr/bin/python3 -u
-# GENOCLAIM - Using the law to administer poison, the king commits genocide" - OTP-CR-117/19 - otp.informationdesk@icc-cpi.int
+# GENOCLAIM - using the law to administer poison, the king commits genocide - OTP-CR-117/19/001
 #
 #
 
@@ -19,6 +19,7 @@ def main():
     k.start()
     k.init(k.cfg.mods)
     k.init("stats")
+    k.init("irc")
     if "s" in k.cfg.opts:
         k.wait()
 
