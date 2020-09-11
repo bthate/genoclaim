@@ -1,6 +1,6 @@
 .. _patchset:
 
-PATCHSET
+patchset
 ########
 
 

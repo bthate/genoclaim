@@ -1,11 +1,11 @@
-CAT
+cat
 ###
 
-Committee against Torture (CAT)
-Human Rights Treaties Division (HRTD)
-Office of the United Nations High Commissioner for Human Rights (OHCHR)
-Palais Wilson - 52, rue des Pâquis
-CH-1201 Geneva (Switzerland)
+| Committee against Torture (CAT)
+| Human Rights Treaties Division (HRTD)
+| Office of the United Nations High Commissioner for Human Rights (OHCHR)
+| Palais Wilson - 52, rue des Pâquis
+| CH-1201 Geneva (Switzerland)
 
 cat@ohchr.org
 

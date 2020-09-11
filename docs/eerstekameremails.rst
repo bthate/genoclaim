@@ -1,7 +1,7 @@
-.. _emails:
+.. _eerstekamer:
 
-EERSTE KAMER EMAILS
-###################
+eerstekamer
+###########
 
 | postbus@eerstekamer.nl 
 | marcus.aardema@eerstekamer.nl  

@@ -1,6 +1,6 @@
 .. _bewijsgif:
 
-BEWIJS
+bewijs
 ######
 
 .. image:: jpg/bewijsgif3.jpg

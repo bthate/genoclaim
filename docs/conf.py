@@ -48,7 +48,7 @@ release = '%s' % __version__
 language = ''
 today = ''
 today_fmt = '%B %d, %Y'
-exclude_patterns = ['_build', "_sources", "_templates"]
+exclude_patterns = ['txt', '_build', "_sources", "_templates"]
 default_role = ''
 add_function_parentheses = True
 add_module_names = False
@@ -78,8 +78,8 @@ html_use_opensearch = 'http://genoclaim.rtfd.io/'
 html_file_suffix = '.html'
 rst_prolog = """.. image:: gcline.png
 
-.. title:: GENOCLAM %s
-""" % __version__
+.. title:: using the law to administer poison, the king commits genocide
+""" 
 htmlhelp_basename = 'pydoc'
 intersphinx_mapping = {
                        'python': ('https://docs.python.org/3', 'objects.inv'),
