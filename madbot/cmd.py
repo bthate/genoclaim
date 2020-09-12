@@ -12,7 +12,7 @@ from kern.csl import elapsed, starttime
 from kern.hdl import get_kernel, find_modules
 
 def __dir__():
-    return ("cmd", "krn", "mods", "tsk", "ver", "wd")
+    return ("cmd", "krn", "mds", "tsk", "ver", "wd")
 
 k = get_kernel()
 
@@ -20,7 +20,7 @@ def cmd(event):
     "show list of commands."
     event.reply(",".join(sorted(k.cmds)))
 
-def mods(event):
+def mds(event):
     "show loadable modules."
     event.reply(",".join([m.__name__.split(".")[-1] for m in find_modules("madbot")]))
 

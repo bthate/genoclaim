@@ -50,7 +50,7 @@ class ENOSTATS(Exception):
 
 startdate = "2018-10-05 00:00:00"
 starttime = to_day(startdate)
-source = "https://bitbucket.org/bthate/genoclaim"
+source = "https://github.com/bthate/genoclaim"
 
 def seconds(nr, period="jaar"):
     if not nr:
@@ -67,7 +67,7 @@ def nr(name):
 
 ## COMMANDS
 
-def stats(event, **kwargs):
+def sts(event, **kwargs):
     args = event.args
     txt = "Sinds %s\n" % time.ctime(starttime)
     delta = time.time() - starttime
@@ -80,38 +80,8 @@ def stats(event, **kwargs):
             txt += "\n%s #%s %s %s" % (key.upper(), nrtimes, get(tags, key, ""), get(zorg, random.choice(list(keys(zorg))), ""))
     event.reply(txt.strip())
 
-def stat(event, **kwargs):
-    e = Event()
-    update(e, kwargs)
-    name = event.rest or e.name or "suicide" 
-    return get(nrsec, period) / float(nr)
-
 def nr(key):
     return get(cijfers, key, None)
-
-def sts(event, **kwargs):
-    args = event.args
-    txt = "sinds %s\n" % time.ctime(starttime)
-    delta = time.time() - starttime
-    for name, obj in items(wanted):
-        for key, val in items(obj):
-            needed = seconds(nr(key))
-            if needed == None:
-                return
-            name = key
-            nrtimes = int(delta/needed)
-            txt = "%s #%s" % (name.upper(), nrtimes)
-            if name in omschrijving:
-                txt += " (%s)" % get(omschrijving, name)
-            txt += " elke %s" % elapsed(seconds(nr(name)))
-            #if name in urls:
-            #    txt += " - %s" % urls.get(name)
-            if name in tags:
-                txt += " %s" % get(tags, name)
-            else:
-                 txt += " %s" % random.choice(list(values(tags)))
-            #k.fleet.announce(txt)
-            event.reply(txt)
 
 def stat(e, **kwargs):
     name = e.rest or "suicide" 

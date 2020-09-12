@@ -21,7 +21,7 @@ from kern.obj import Cfg as BaseCfg
 from kern.hdl import Repeater, bus, get_kernel, launch
 
 def __dir__():
-    return ("Cfg", "Feed", "Rss", "Seen", "Fetcher", "rm", "dpl", "fed", "ftc", "rss")
+    return ("Cfg", "Feed", "Rss", "Seen", "Fetcher", "rem", "dpl", "fed", "ftc", "rss")
 
 debug = False
 
@@ -265,8 +265,8 @@ def useragent():
     "return useragent string."
     return 'Mozilla/5.0 (X11; Linux x86_64) OQ +http://github.com/bthate/oq)'
 
-def rm(event):
-    "!rm <matchinurl> - remove feed url."
+def rem(event):
+    "remove feed url."
     if not event.args:
         return
     selector = {"rss": event.args[0]}
@@ -281,7 +281,7 @@ def rm(event):
     event.reply("ok")
 
 def dpl(event):
-    "!dpl <matchinurl> [key1,key2,key3] - set keys to display."
+    "set keys to display."
     if len(event.args) < 2:
         return
     setter = {"display_list": event.args[1]}
@@ -291,7 +291,7 @@ def dpl(event):
     event.reply("ok")
 
 def fed(event):
-    "!fed <matchindata> - search saved feeds."
+    "search saved feeds."
     if not event.args:
         return
     match = event.args[0]
@@ -321,7 +321,7 @@ def fed(event):
         event.reply("no results found")
 
 def ftc(event):
-    "!ftc - runs one fetch of rss feeds."
+    "runs one fetch of rss feeds."
     res = []
     thrs = []
     fetchr = Fetcher()
@@ -335,7 +335,7 @@ def ftc(event):
     event.reply("no feeds registered.")
 
 def rss(event):
-    "!rss <feedurl>"
+    "add feed url"
     if not event.args:
         return
     url = event.args[0]
