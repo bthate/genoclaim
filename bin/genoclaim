@@ -11,10 +11,12 @@ from genoclaim.irc import IRC
 def main():
     k = ol.krn.boot("genoclaim")
     k.walk("omod")
+    k.walk("genoclaim")
     k.scandir(k.cfg.md or os.getcwd())
     if k.cfg.txt:
         return k.cmd(k.cfg.origtxt)
     k.start()
+    k.init("stats")
     if k.cfg.mods:
         k.init(k.cfg.mods)
     i = IRC()
