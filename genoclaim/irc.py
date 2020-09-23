@@ -519,7 +519,6 @@ def cfg(event):
     ol.dbs.last(c)
     o = ol.Default()
     ol.prs.parse(o, event.origtxt)
-    print(o, event)
     if o.sets:
         ol.update(c, o.sets)
         ol.save(c)
