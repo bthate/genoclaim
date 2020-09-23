@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# GENOCLAIM - using the law to administer poison, the king commits genocide - OTP-CR-117/19/001
+# GENOCLAIM - using the law to administer poison, the king commits genocide
 # -*- coding: utf-8 -*-
 #
 
@@ -76,7 +76,7 @@ html_show_copyright = False
 html_copy_source = True
 html_use_opensearch = 'http://genoclaim.rtfd.io/'
 html_file_suffix = '.html'
-rst_prolog = """.. image:: gcline.png
+rst_prolog = """.. image:: genoclaimline2.png
 
 .. title:: using the law to administer poison, the king commits genocide
 """ 
