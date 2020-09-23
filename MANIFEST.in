@@ -1,8 +1,10 @@
 include README
-include docs/index.rst
 include docs/conf.py
-recursive-include kern/ *.py
-recursive-include madbot/ *.py
+include docs/index.rst
+include docs/requirements.txt
+include docs/source.rst
+recursive-include ol/ *.py
+recursive-include omod/ *.py
 recursive-include docs/ *.png
 recursive-include docs/jpg *.jpg
 recursive-include docs/pdf *.pdf

@@ -329,7 +329,6 @@ class IRC(ol.hdl.Handler):
         assert self.cfg.channel
         assert self.cfg.server
         self.channels.append(self.cfg.channel)
-        print(ol.format(self.cfg))
         ol.tsk.launch(self.doconnect)
 
     def stop(self):

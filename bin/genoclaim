@@ -3,8 +3,8 @@
 #
 #
 
+import os, sys ; sys.path.insert(0, os.getcwd())
 import ol
-import os
 
 from genoclaim.irc import IRC
 
