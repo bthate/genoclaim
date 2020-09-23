@@ -1,4 +1,4 @@
-# GENOCLAIM - using the law to administer poison, the king commits genocide - OTP-CR-117/19/001
+# GENOCLAIM - using the law to administer poison, the king commits genocide
 #
 #
 
@@ -70,7 +70,7 @@ def sts(event, **kwargs):
     args = event.args
     txt = "Sinds %s\n" % time.ctime(starttime)
     delta = time.time() - starttime
-    for name, obj in items(wanted):
+    for name, obj in ol.items(wanted):
         for key, val in ol.items(obj):
             needed = seconds(nr(key))
             if not needed:
@@ -88,7 +88,7 @@ def stat(e, **kwargs):
         name = name.split(".")[-1]
     name = name.lower()
     delta = time.time() - starttime
-    awake = time.time() - today()
+    awake = time.time() - ol.tms.today()
     try:
         needed = seconds(nr(name))
     except ENOSTATS:
