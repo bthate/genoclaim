@@ -1,26 +1,24 @@
 #!/usr/bin/python3
-# GENOCLAIM - using the law to administer poison, the king commits genocide - OTP-CR-117/19/001
+# OLIB - object library
 #
 #
 
+import os, sys ; sys.path.insert(0, os.getcwd())
+
+import ol
+import omod.rss
 import os
 import sys
 import time
 import unittest
 
-sys.path.insert(0, os.getcwd())
-
-from kern.obj import Object, cdir
-from kern.csl import boot, execute, parse
-
-import madbot.rss
-
 def main():
-    madbot.rss.debug = True
+    omod.rss.debug = True
     for line in os.popen("rm -fR ~/.test").readlines():
         print(line)
-    k = boot("test", os.path.expanduser("~/.test"))
-    k.walk("madbot,mods")
+    k = ol.krn.boot("test", os.path.expanduser("~/.test"))
+    ol.update(k.cfg, ol.prs.parse_cli())
+    k.walk("ol,omod")
     k.start()
     test_path = os.getcwd() + os.sep + "tests"
     if k.cfg.txt:
@@ -31,5 +29,5 @@ def main():
     unittest.TextTestRunner(verbosity=3).run(suite)
     #k.wait()
    
-execute(main)
+ol.trm.execute(main)
 os._exit(0)
