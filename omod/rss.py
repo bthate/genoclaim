@@ -1,11 +1,10 @@
-# MADBOT - 24/7 channel daemon.
+# OLIB - object library
 #
 #
-
-"display rss feed in your IRC channel."
 
 import datetime
 import html.parser
+import ol
 import os
 import random
 import re
@@ -15,13 +14,6 @@ import urllib
 from urllib.error import HTTPError, URLError
 from urllib.parse import quote_plus, urlencode
 from urllib.request import Request, urlopen
-
-from kern.obj import Default, Object, all, edit, find, get, last, save, update
-from kern.obj import Cfg as BaseCfg
-from kern.hdl import Repeater, bus, get_kernel, launch
-
-def __dir__():
-    return ("Cfg", "Feed", "Rss", "Seen", "Fetcher", "rem", "dpl", "fed", "ftc", "rss")
 
 debug = False
 
@@ -53,42 +45,35 @@ timestrings = [
 
 
 def init(krn):
-    "krn is kernel the init takes place on. return the fetcher started."
     f = Fetcher()
     f.start()
     return f
 
-class Cfg(BaseCfg):
-
-    "rss configuration."
+class Cfg(ol.Cfg):
 
     def __init__(self):
         super().__init__()
         self.dosave = True
 
-class Feed(Default):
+class Feed(ol.Default):
 
-    "data received."
+    pass
 
-class Rss(Object):
-
-    "rss url."
+class Rss(ol.Object):
 
     def __init__(self):
         super().__init__()
         self.rss = ""
 
-class Seen(Object):
-    "all the urls seen."
+class Seen(ol.Object):
+
     def __init__(self):
         super().__init__()
         self.urls = []
 
-class Fetcher(Object):
+class Fetcher(ol.Object):
 
-    "fetch the rss feeds."
-
-    cfg = Cfg()
+    cfg = ol.Cfg()
     seen = Seen()
 
     def __init__(self):
@@ -96,7 +81,6 @@ class Fetcher(Object):
         self._thrs = []
 
     def display(self, o):
-        "o is the object to display"
         result = ""
         dl = []
         try:
@@ -110,7 +94,7 @@ class Fetcher(Object):
         for key in dl:
             if not key:
                 continue
-            data = get(o, key, None)
+            data = ol.get(o, key, None)
             if key == "link" and self.cfg.tinyurl:
                 datatmp = get_tinyurl(data)
                 if datatmp:
@@ -124,7 +108,6 @@ class Fetcher(Object):
         return result[:-2].rstrip()
 
     def fetch(self, rssobj):
-        "obj is the rss object to fetch"
         counter = 0
         objs = []
         if not rssobj.rss:
@@ -133,8 +116,8 @@ class Fetcher(Object):
             if not o:
                 continue
             f = Feed()
-            update(f, rssobj)
-            update(f, o)
+            ol.update(f, rssobj)
+            ol.update(f, o)
             u = urllib.parse.urlparse(f.link)
             if u.path and not u.path == "/":
                 url = "%s://%s/%s" % (u.scheme, u.netloc, u.path)
@@ -146,44 +129,40 @@ class Fetcher(Object):
             counter += 1
             objs.append(f)
             if self.cfg.dosave:
-                save(f)
+                ol.save(f)
         if objs:
-            save(Fetcher.seen)
+            ol.save(Fetcher.seen)
         for o in objs:
             txt = self.display(o)
-            for bot in bus:
+            for bot in ol.bus.bus:
                 bot.announce(txt)
         return counter
 
     def run(self):
-        "does one run of fetching."
         thrs = []
-        for o in all("madbot.rss.Rss"):
-            thrs.append(launch(self.fetch, o))
+        for o in ol.dbs.all("omod.rss.Rss"):
+            thrs.append(ol.tsk.launch(self.fetch, o))
         return thrs
 
     def start(self, repeat=True):
-        "repeat is boolean whether to start or not start the Repeater."
-        last(Fetcher.cfg)
-        last(Fetcher.seen)
+        ol.dbs.last(Fetcher.cfg)
+        ol.dbs.last(Fetcher.seen)
         if repeat:
-            repeater = Repeater(300.0, self.run)
+            repeater = ol.tms.Repeater(300.0, self.run)
             repeater.start()
 
     def stop(self):
-        "save seen."
-        save(self.seen)
+        ol.save(self.seen)
 
 fetcher = Fetcher()
 
 def get_feed(url):
-    "fetch a feed."
     if debug:
-        return [Object(), Object()]
+        return [ol.Object(), ol.Object()]
     try:
         result = get_url(url)
     except (HTTPError, URLError):
-        return [Object(), Object()]
+        return [ol.Object(), ol.Object()]
     if gotparser:
         result = feedparser.parse(result.data)
         if "entries" in result:
@@ -191,15 +170,13 @@ def get_feed(url):
                 yield entry
     else:
         print("feedparser is missing")
-        return [Object(), Object()]
+        return [ol.Object(), ol.Object()]
 
 def file_time(timestamp):
-    "timestamp is the unix timestamp to derive a filename from."
     s = str(datetime.datetime.fromtimestamp(timestamp))
     return s.replace(" ", os.sep) + "." + str(random.randint(111111, 999999))
 
 def get_tinyurl(url):
-    "query tinyurl"
     postarray = [
         ('submit', 'submit'),
         ('url', url),
@@ -215,7 +192,6 @@ def get_tinyurl(url):
     return []
 
 def get_url(url):
-    "url is used to fetch a webpage."
     url = urllib.parse.urlunparse(urllib.parse.urlparse(url))
     req = urllib.request.Request(url)
     req.add_header('User-agent', useragent())
@@ -224,12 +200,10 @@ def get_url(url):
     return response
 
 def strip_html(text):
-    "text is string to strip."
     clean = re.compile('<.*?>')
     return re.sub(clean, '', text)
 
 def to_time(daystr):
-    "convert a string into a timestamp."
     daystr = daystr.strip()
     if "," in daystr:
         daystr = " ".join(daystr.split(None)[1:7])
@@ -257,22 +231,19 @@ def to_time(daystr):
     return res
 
 def unescape(text):
-    "text is a tring to unescape."
     txt = re.sub(r"\s+", " ", text)
     return html.parser.HTMLParser().unescape(txt)
 
 def useragent():
-    "return useragent string."
-    return 'Mozilla/5.0 (X11; Linux x86_64) OQ +http://github.com/bthate/oq)'
+    return 'Mozilla/5.0 (X11; Linux x86_64) OLIB +http://github.com/bthate/olib)'
 
-def rem(event):
-    "remove feed url."
+def rm(event):
     if not event.args:
         return
     selector = {"rss": event.args[0]}
     nr = 0
     got = []
-    for o in find("madbot.rss.Rss", selector):
+    for o in find("omod.rss.Rss", selector):
         nr += 1
         o._deleted = True
         got.append(o)
@@ -281,47 +252,41 @@ def rem(event):
     event.reply("ok")
 
 def dpl(event):
-    "set keys to display."
     if len(event.args) < 2:
         return
     setter = {"display_list": event.args[1]}
-    for o in find("madbot.rss.Rss", {"rss": event.args[0]}):
-        edit(o, setter)
-        save(o)
+    for o in ol.dbs.find("omod.rss.Rss", {"rss": event.args[0]}):
+        ol.edit(o, setter)
+        ol.save(o)
     event.reply("ok")
 
 def fed(event):
-    "search saved feeds."
     if not event.args:
         return
     match = event.args[0]
     nr = 0
-    res = list(find("madbot.rss.Feed", {"link": match}))
+    res = list(find("omod.rss.Feed", {"link": match}))
     for o in res:
         if match:
-            event.reply("%s %s - %s - %s - %s" % (nr,
+            event.reply("%s %s - %s - %s" % (nr,
                                                   o.title,
                                                   o.summary,
-                                                  o.updated or o.published or "nodate",
                                                   o.link))
         nr += 1
     if nr:
         return
-    res = list(db.find("madbot.rss.Feed", {"title": match}))
+    res = list(ol.dbs.find("omod.rss.Feed", {"title": match}))
     for o in res:
         if match:
             event.reply("%s %s - %s - %s" % (nr, o.title, o.summary, o.link))
         nr += 1
-    res = list(db.find("madbot.rss.Feed", {"summary": match}))
+    res = list(ol.dbs.find("omod.rss.Feed", {"summary": match}))
     for o in res:
         if match:
             event.reply("%s %s - %s - %s" % (nr, o.title, o.summary, o.link))
         nr += 1
-    if not nr:
-        event.reply("no results found")
 
 def ftc(event):
-    "runs one fetch of rss feeds."
     res = []
     thrs = []
     fetchr = Fetcher()
@@ -332,18 +297,15 @@ def ftc(event):
     if res:
         event.reply("fetched %s" % ",".join([str(x) for x in res]))
         return
-    event.reply("no feeds registered.")
 
 def rss(event):
-    "add feed url"
     if not event.args:
         return
     url = event.args[0]
-    res = list(find("madbot.rss.Rss", {"rss": url}))
+    res = list(ol.dbs.find("omod.rss.Rss", {"rss": url}))
     if res:
-        event.reply("feed is already known.")
         return
     o = Rss()
     o.rss = event.args[0]
-    save(o)
+    ol.save(o)
     event.reply("ok")

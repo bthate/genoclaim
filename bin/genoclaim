@@ -1,0 +1,28 @@
+#!/usr/bin/python3
+# GENOCLAIM - using the law to administer poison, the king commits genocide
+#
+#
+
+import ol
+import os
+
+from genoclaim.irc import IRC
+
+def main():
+    k = ol.krn.boot("genoclaim")
+    k.walk("omod")
+    k.scandir(k.cfg.md or os.getcwd())
+    if k.cfg.txt:
+        return k.cmd(k.cfg.origtxt)
+    k.start()
+    if k.cfg.mods:
+        k.init(k.cfg.mods)
+    i = IRC()
+    i.start()
+    if not "n" in k.cfg.opts:
+        c = ol.csl.Console()
+        c.start()
+    k.wait()
+
+ol.trm.execute(main)
+os._exit(0)

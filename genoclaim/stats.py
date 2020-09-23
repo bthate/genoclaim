@@ -4,9 +4,9 @@
 
 import datetime, random, time
 
-from kern.obj import Object, get, items, keys, update, values
-from kern.hdl import Event, Repeater, bus, get_kernel
-from kern.csl import elapsed, today, to_day
+from ol import Object, get, items, keys, update, values
+from ol.hdl import Event, Repeater, bus, get_kernel
+from ol.csl import elapsed, today, to_day
 
 k = get_kernel()
 

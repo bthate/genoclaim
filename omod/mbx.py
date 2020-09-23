@@ -1,11 +1,11 @@
-# MADBOT - 24/7 channel daemon.
+# OLIB - object library
 #
 #
 
-import mailbox, os, time
-
-from kern.obj import Object, all, fntime, find_event, format, keys, save, update
-from kern.csl import parse, elapsed
+import mailbox
+import ol
+import os
+import time
 
 bdmonths = ['Bo', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug',
             'Sep', 'Oct', 'Nov', 'Dec']
@@ -25,7 +25,7 @@ monthint = {
     'Dec': 12
 }
 
-class Email(Object):
+class Email(ol.Object):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -72,21 +72,21 @@ def cor(event):
     parse(event, event.txt)
     event.gets["From"] = event.args[0]
     event.args = list(keys(event.gets)) + event.rest.split()
-    event.otype = "genoclaim.mbx.Email"
+    event.otype = "omod.mbx.Email"
     nr = -1
-    for email in find_event(event):
+    for email in ol.dbs.find_event(event):
         nr += 1
-        event.reply("%s %s %s" % (nr, format(email, event.args, True, event.skip), elapsed(time.time() - fntime(email.__stamp__))))
+        event.reply("%s %s %s" % (nr, ol.format(email, event.args, True, event.skip), ol.tms.elapsed(time.time() - ol.tms.fntime(email.__stamp__))))
 
 def eml(event):
     if not event.args:
         return
     parse(event, event.txt)
     nr = -1
-    for o in all("genoclaim.mbx.Email"):
+    for o in all("omod.mbx.Email"):
         if event.rest in o.text:
             nr += 1
-            event.reply("%s %s %s" % (nr, format(o, ["From", "Subject"], False, event.skip), elapsed(time.time() - fntime(o.__stamp__))))
+            event.reply("%s %s %s" % (nr, ol.format(o, ["From", "Subject"], False, event.skip), ol.tms.elapsed(time.time() - ol.tms.fntime(o.__stamp__))))
 
 def mbx(event):
     if not event.args:
@@ -108,7 +108,7 @@ def mbx(event):
         o = Email()
         update(o, m)
         try:
-            sdate = os.sep.join(to_date(o.Date).split())
+            sdate = os.sep.join(ol.tms.to_date(o.Date).split())
         except AttributeError:
             sdate = None
         o.text = ""
@@ -116,7 +116,7 @@ def mbx(event):
             if payload.get_content_type() == 'text/plain':
                 o.text += payload.get_payload()
         o.text = o.text.replace("\\n", "\n")
-        save(o, stime=sdate)
+        ol.save(o, stime=sdate)
         nr += 1
     if nr:
         event.reply("ok %s" % nr)

@@ -1,24 +1,16 @@
-# MADBOT - 24/7 channel daemon.
+# OLIB - object library
 #
 #
 
-"data entry."
+import ol
 
-import time
-
-from kern.obj import Object, find, fntime, save
-from kern.csl import elapsed
-
-def __init__():
-    return ("Log", "Todo", "dne", "log", "tdo")
-
-class Log(Object):
+class Log(ol.Object):
 
     def __init__(self):
         super().__init__()
         self.txt = ""
 
-class Todo(Object):
+class Todo(ol.Object):
 
     def __init__(self):
         super().__init__()
@@ -28,9 +20,9 @@ def dne(event):
     if not event.args:
         return
     selector = {"txt": event.args[0]}
-    for o in find("madbot.ent.Todo", selector):
+    for o in ol.dbs.find("omod.ent.Todo", selector):
         o._deleted = True
-        save(o)
+        ol.save(o)
         event.reply("ok")
         break
 
@@ -39,7 +31,7 @@ def log(event):
         return
     l = Log()
     l.txt = event.rest
-    save(l)
+    ol.save(l)
     event.reply("ok")
 
 def tdo(event):
@@ -47,5 +39,5 @@ def tdo(event):
         return
     o = Todo()
     o.txt = event.rest
-    save(o)
+    ol.save(o)
     event.reply("ok")

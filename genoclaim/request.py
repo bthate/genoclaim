@@ -1,4 +1,4 @@
-# GENOCLAIM - using the law to administer poison, the king commits genocide - OTP-CR-117/19/001
+# GENOCLAIM - using the law to administer poison, the king commits genocide 
 #
 #
 
