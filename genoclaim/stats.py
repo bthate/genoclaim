@@ -56,11 +56,11 @@ def seconds(nrs, period="jaar"):
     return ol.get(nrsec, period) / float(nrs)
 
 def nr(name):
-    for key in wanted.keys():
+    for key in ol.keys(wanted):
         obj = ol.get(wanted, key, None)
-        for n in obj.keys():
+        for n in ol.keys(obj):
             if n == name:
-                return obj.get(n)
+                return ol.get(obj, n)
     raise ENOSTATS(name)
 
 ## COMMANDS
