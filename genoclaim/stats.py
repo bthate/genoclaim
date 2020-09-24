@@ -2,15 +2,14 @@
 #
 #
 
-import datetime
-import ol
 import random
 import time
+import ol
 
 k = ol.krn.get_kernel()
 
 def init(kernel):
-    for name, obj in ol.items(wanted):
+    for _name, obj in ol.items(wanted):
         for key in ol.keys(obj):
             val = ol.get(obj, key, None)
             if val:
@@ -51,10 +50,10 @@ startdate = "2018-10-05 00:00:00"
 starttime = ol.tms.to_day(startdate)
 source = "https://github.com/bthate/genoclaim"
 
-def seconds(nr, period="jaar"):
-    if not nr:
-        return nr
-    return ol.get(nrsec, period) / float(nr)
+def seconds(nrs, period="jaar"):
+    if not nrs:
+        return nrs
+    return ol.get(nrsec, period) / float(nrs)
 
 def nr(name):
     for key in wanted.keys():
@@ -67,28 +66,23 @@ def nr(name):
 ## COMMANDS
 
 def sts(event, **kwargs):
-    args = event.args
     txt = "Sinds %s\n" % time.ctime(starttime)
     delta = time.time() - starttime
-    for name, obj in ol.items(wanted):
-        for key, val in ol.items(obj):
+    for _name, obj in ol.items(wanted):
+        for key, _val in ol.items(obj):
             needed = seconds(nr(key))
             if not needed:
                 continue
             nrtimes = int(delta/needed)
-            txt += "\n%s #%s %s %s" % (key.upper(), nrtimes, ol.get(tags, key, ""), ol.get(zorg, random.choice(list(keys(zorg))), ""))
+            txt += "\n%s #%s %s %s" % (key.upper(), nrtimes, ol.get(tags, key, ""), ol.get(zorg, random.choice(list(ol.keys(zorg))), ""))
     event.reply(txt.strip())
 
-def nr(key):
-    return get(cijfers, key, None)
-
 def stat(e, **kwargs):
-    name = e.rest or "suicide" 
+    name = e.rest or "suicide"
     if "." in name:
         name = name.split(".")[-1]
     name = name.lower()
     delta = time.time() - starttime
-    awake = time.time() - ol.tms.today()
     try:
         needed = seconds(nr(name))
     except ENOSTATS:
@@ -133,7 +127,7 @@ rechter.vwm = 6657
 rechter.mvv = 4431
 rechter.vm = 6690
 rechter.mev = 65
-rechter.zm= 3
+rechter.zm = 3
 
 drugs = ol.Object()
 drugs.speed = 20000
@@ -149,7 +143,7 @@ suicidejaar.y2011 = 1647
 suicidejaar.y2012 = 1753
 suicidejaar.y2013 = 1857
 suicidejaar.y2014 = 1839
-suicidejaar.y2015 = 1871 
+suicidejaar.y2015 = 1871
 suicidejaar.y2016 = 1894
 suicidejaar.y2017 = 1917
 
@@ -212,7 +206,7 @@ cijfers.psychosestoornis = 13076
 cijfers.oorzaak = cijfers.psychosestoornis + cijfers.suicide
 
 oordeel = ol.Object()
-oordeel.verwijs = cijfers.crisis * 0.85 
+oordeel.verwijs = cijfers.crisis * 0.85
 oordeel.uitstroom = cijfers.crisis * 0.05
 oordeel.opname = cijfers.crisis * 0.10
 
@@ -252,7 +246,7 @@ medicijnen.sertraline = 68000
 medicijnen.haloperidol = 59825
 
 oordeel = ol.Object()
-oordeel.verwijs = cijfers.crisis * 0.85 
+oordeel.verwijs = cijfers.crisis * 0.85
 oordeel.uitstroom = cijfers.crisis * 0.05
 oordeel.opname = cijfers.crisis * 0.10
 
@@ -291,7 +285,7 @@ halfwaarde.alprazolam = 11
 halfwaarde.orap = 55
 halfwaarde.paracetamol = 2.5
 halfwaarde.lorazepam = 12
-halfwaarde.paroxetine = 21 
+halfwaarde.paroxetine = 21
 halfwaarde.citalopram = 35
 halfwaarde.oxazepam = 8.2
 halfwaarde.quetiapine = 6
@@ -310,7 +304,7 @@ suicidejaar.y2011 = 1647
 suicidejaar.y2012 = 1753
 suicidejaar.y2013 = 1857
 suicidejaar.y2014 = 1839
-suicidejaar.y2015 = 1871 
+suicidejaar.y2015 = 1871
 suicidejaar.y2016 = 1894
 suicidejaar.y2017 = 1917
 
@@ -392,19 +386,19 @@ tags.politie = "#broodjepindakaas"
 tags.hap = "#triagetrien"
 tags.verwijs = "#maandagweer"
 tags.uitstroom = "#zorgwekkend"
-tags.opname = "#meermedicijn"  
+tags.opname = "#meermedicijn"
 tags.crisis = "#triade"
 tags.suicide = "#wetverplichteggz"
-tags.pogingen = "#prettigweekend" 
-tags.incidenten = "#jammerdan"    
-tags.acuut = "#geenbedvoorjou"    
-tags.zorgmijder = "#helaas"       
-tags.inwoners = "#gebodenvrucht"  
+tags.pogingen = "#prettigweekend"
+tags.incidenten = "#jammerdan"
+tags.acuut = "#geenbedvoorjou"
+tags.zorgmijder = "#helaas"
+tags.inwoners = "#gebodenvrucht"
 tags.crisis = "#medicijnen"
 tags.alarm = "#telaat"
 tags.oordeel = "#geencrisis"
 tags.vergiftigingen = "#overduur"
-tags.neurotoxisch = "#overdosis" 
+tags.neurotoxisch = "#overdosis"
 tags.schizofrenie = "#gifmedicijn"
 tags.angst = "#gifmedicijn"
 tags.depressie = "#gifmedicijn"
@@ -558,7 +552,7 @@ urls.politie = "http://www.rijksoverheid.nl/documenten-en-publicaties/rapporten/
 urls.hap = "http://www.rijksoverheid.nl/documenten-en-publicaties/rapporten/2015/02/11/acute-geestelijke-gezondheidszorg-knelpunten-en-verbetervoorstellen-in-de-keten.html"
 urls.keten = "http://www.rijksoverheid.nl/documenten-en-publicaties/rapporten/2015/02/11/acute-geestelijke-gezondheidszorg-knelpunten-en-verbetervoorstellen-in-de-keten.html"
 urls.verwijs = "http://www.rijksoverheid.nl/documenten-en-publicaties/rapporten/2015/02/11/acute-geestelijke-gezondheidszorg-knelpunten-en-verbetervoorstellen-in-de-keten.html"
-urls.uitstroom = "http://www.rijksoverheid.nl/documenten-en-publicaties/rapporten/2015/02/11/acute-geestelijke-gezondheidszorg-knelpunten-en-verbetervoorstellen-in-de-keten.html" 
+urls.uitstroom = "http://www.rijksoverheid.nl/documenten-en-publicaties/rapporten/2015/02/11/acute-geestelijke-gezondheidszorg-knelpunten-en-verbetervoorstellen-in-de-keten.html"
 urls.opnames = "http://www.rijksoverheid.nl/documenten-en-publicaties/rapporten/2015/02/11/acute-geestelijke-gezondheidszorg-knelpunten-en-verbetervoorstellen-in-de-keten.html"
 urls.vergifitigingen = "http://www.umcutrecht.nl/getmedia/f9f152e2-8638-4ffc-a05f-fce72f5f416a/NVIC-Jaaroverzicht-2014.pdf.aspx?ext=.pdf"
 urls.neurotoxisch = "http://www.umcutrecht.nl/getmedia/f9f152e2-8638-4ffc-a05f-fce72f5f416a/NVIC-Jaaroverzicht-2014.pdf.aspx?ext=.pdf"
@@ -580,9 +574,9 @@ urls.zyprexa = "http://www.ema.europa.eu/docs/nl_NL/document_library/EPAR_-_Prod
 urls.factor = "http://nos.nl/artikel/2090676-aantal-incidenten-met-verwarde-mensen-flink-onderschat.html"
 urls.dbc = "https://www.nza.nl/1048076/1048181/Marktscan_ggz_2014_deel_B_en_beleidsbrief.pdf"
 urls.dbs2015 = "https://www.rijksoverheid.nl/documenten/rapporten/2016/05/25/marktscan-ggz"
-urls.medicijnen="https://www.zorgprismapubliek.nl/informatie-over/geestelijke-gezondheidszorg/geestelijke-gezondheidszorg/row-5/welke-geneesmiddelen-worden-het-meest-voorgeschreven-in-de-ggz/"
-urls.pogingen="http://www.nfzp.nl/wp/wp-content/uploads/2010/09/Einddocument-AF0943-Kwaliteitsdcoument-Ketenzorg-bij-Suicidaliteit.pdf"
-urls.suicidegedachte="http://www.nfzp.nl/wp/wp-content/uploads/2010/09/Einddocument-AF0943-Kwaliteitsdcoument-Ketenzorg-bij-Suicidaliteit.pdf"
+urls.medicijnen = "https://www.zorgprismapubliek.nl/informatie-over/geestelijke-gezondheidszorg/geestelijke-gezondheidszorg/row-5/welke-geneesmiddelen-worden-het-meest-voorgeschreven-in-de-ggz/"
+urls.pogingen = "http://www.nfzp.nl/wp/wp-content/uploads/2010/09/Einddocument-AF0943-Kwaliteitsdcoument-Ketenzorg-bij-Suicidaliteit.pdf"
+urls.suicidegedachte = "http://www.nfzp.nl/wp/wp-content/uploads/2010/09/Einddocument-AF0943-Kwaliteitsdcoument-Ketenzorg-bij-Suicidaliteit.pdf"
 urls.ziekenhuisopnames = "https://www.tweedekamer.nl/kamerstukken/detail?id=2016D13371&did=2016D13371"
 urls.seh = "https://www.tweedekamer.nl/kamerstukken/detail?id=2016D13371&did=2016D13371"
 urls.epa = "https://www.zorgprismapubliek.nl/informatie-over/geestelijke-gezondheidszorg/ernstige-psychiatrische-aandoeningen/"
@@ -602,11 +596,11 @@ soort.vm = "civiele rechter"
 soort.mvv = "civiele rechter"
 soort.vwm = "civiele rechter"
 soort.ev = "civiele rechter"
-soort.om ="civiele rechter"
+soort.om = "civiele rechter"
 soort.zm = "civiele rechter"
 soort.politie = "agent"
 soort.hap = "huisarts"
-soort.keten  = "spv/psychiater"
+soort.keten = "spv/psychiater"
 soort.verwijs = "crisisdienst"
 soort.uitstroom = "eigen behandelaar"
 soort.suicide = "slachtoffer"
