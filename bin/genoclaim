@@ -16,7 +16,7 @@ def main():
     if k.cfg.txt:
         return k.cmd(k.cfg.origtxt)
     k.start()
-    k.init("stats")
+    k.init("stats,rss")
     if k.cfg.mods:
         k.init(k.cfg.mods)
     i = IRC()
