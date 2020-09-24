@@ -77,6 +77,7 @@ html_copy_source = True
 html_use_opensearch = 'http://genoclaim.rtfd.io/'
 html_file_suffix = '.html'
 rst_prolog = """.. image:: genoclaimline2.png
+    :width: 100%
 
 .. title:: using the law to administer poison, the king commits genocide
 """ 
