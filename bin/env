@@ -3,14 +3,11 @@
 #
 #
 
-"build a genoclaim environment."
-
 import os
 
 old =  os.getcwd()
 
 def obopen(txt):
-    "use os.popen."
     try:
         for line in os.popen(txt).readlines():
             print(line.rstrip())
@@ -18,7 +15,6 @@ def obopen(txt):
         pass
 
 def main():
-    "main program."
     obopen("bin/clean")
     try:
         shutil.rmtree("build")
@@ -29,14 +25,14 @@ def main():
     except:
         pass
     try:
-        shutil.rmtree("%s.egg-info" % fn)
+        shutil.rmtree("%s.egg-info" % genoclaim)
     except:
         pass
     for line in os.popen("python3 setup.py sdist").readlines():
         print(line.strip())
     #obopen("rm -fR ~/.cache/pip/")
     obopen("python3 -mvirtualenv -p python3 env")
-    obopen("env/bin/pip3 install madbot -f dist --upgrade --force-reinstall")
+    obopen("env/bin/pip3 install genoclaim -f dist --upgrade --force-reinstall")
 
 if __name__ == "__main__":
     main()

@@ -2,4 +2,4 @@
 #
 #
 
-rm -fR genoclaim.egg-info genoclaim/*~ genoclaim/__pycache__ env env.tar.gz html docs/*~ docs/kern* docs/madbot*.rst build dist *~ __pycache__ madbot/*~ madbot/__pycache__ tests/*~ tests/__pycache__ mods/*~ mods/__pycache__ bin/*~ bin/__pycache__ madbot.egg-info kern/*~ kern/__pycache__
+rm -fR genoclaim.egg-info genoclaim/*~ genoclaim/__pycache__ env env.tar.gz html docs/*~ docs/ol* docs/omod*.rst docs/genoclaim*.rst build dist *~ __pycache__ tests/*~ tests/__pycache__ bin/*~ bin/__pycache__ genoclaim.egg-info

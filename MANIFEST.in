@@ -2,7 +2,6 @@ include README
 include docs/conf.py
 include docs/index.rst
 include docs/requirements.txt
-include docs/source.rst
 recursive-include ol/ *.py
 recursive-include omod/ *.py
 recursive-include docs/ *.png

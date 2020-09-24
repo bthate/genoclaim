@@ -17,7 +17,7 @@ setup(
     long_description_content_type="text/x-rst",
     license='Public Domain',
     zip_safe=True,
-    install_requires=["olib", "omod"],
+    install_requires=["olib", "omod", "feedparser"],
     scripts=["bin/genoclaim"],
     packages=["genoclaim"],
     classifiers=['Development Status :: 4 - Beta',
