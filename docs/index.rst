@@ -1,6 +1,3 @@
-.. image:: jpg/bewijsgif4.jpg
-    :width: 100%
-
 "hetgeen u hebt geschreven" - :ref:`source <source>`
 
 EVIDENCE
