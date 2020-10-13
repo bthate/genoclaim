@@ -1,4 +1,4 @@
-# OLIB - object library
+# BOTLIB - framework to program bots
 #
 #
 
@@ -69,27 +69,28 @@ def to_date(date):
 def cor(event):
     if not event.args:
         return
-    parse(event, event.txt)
     event.gets["From"] = event.args[0]
-    event.args = list(keys(event.gets)) + event.rest.split()
-    event.otype = "omod.mbx.Email"
+    event.args = list(ol.keys(event.gets)) + event.rest.split()
+    event.otype = "bmod.mbx.Email"
     nr = -1
     for email in ol.dbs.find_event(event):
         nr += 1
-        event.reply("%s %s %s" % (nr, ol.format(email, event.args, True, event.skip), ol.tms.elapsed(time.time() - ol.tms.fntime(email.__stamp__))))
+        event.reply("%s %s %s" % (nr, ol.format(email, event.args, True, event.skip), ol.tms.elapsed(time.time() - ol.tms.fntime(email.__stp__))))
 
 def eml(event):
     if not event.args:
         return
-    parse(event, event.txt)
     nr = -1
-    for o in all("omod.mbx.Email"):
+    for o in ol.dbs.all("bmod.mbx.Email"):
         if event.rest in o.text:
             nr += 1
-            event.reply("%s %s %s" % (nr, ol.format(o, ["From", "Subject"], False, event.skip), ol.tms.elapsed(time.time() - ol.tms.fntime(o.__stamp__))))
+            event.reply("%s %s %s" % (nr, ol.format(o, ["From", "Subject"], False, event.skip), ol.tms.elapsed(time.time() - ol.tms.fntime(o.__stp__))))
 
 def mbx(event):
     if not event.args:
+        return
+    if os.path.exists(os.path.join(ol.wd, "store", "mymod.mbx.Email")):
+        event.reply("email is already scanned")
         return
     fn = os.path.expanduser(event.args[0])
     event.reply("reading from %s" % fn)
@@ -106,11 +107,12 @@ def mbx(event):
         pass
     for m in thing:
         o = Email()
-        update(o, m)
-        try:
-            sdate = os.sep.join(ol.tms.to_date(o.Date).split())
-        except AttributeError:
-            sdate = None
+        ol.update(o, m)
+        if "Date" in o:
+            sdate = os.sep.join(to_date(o.Date).split())
+        else:
+            print("no date %s" % o)
+            continue
         o.text = ""
         for payload in m.walk():
             if payload.get_content_type() == 'text/plain':

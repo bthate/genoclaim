@@ -1,5 +1,5 @@
-# GENOCLAIM - using the law to administer poison, the king commits genocide - OTP-CR-117/19/001
+# BOTLIB - the bot library !
 #
 #
 
-rm -fR genoclaim.egg-info genoclaim/*~ genoclaim/__pycache__ env env.tar.gz html docs/*~ docs/ol* docs/omod*.rst docs/genoclaim*.rst build dist *~ __pycache__ tests/*~ tests/__pycache__ bin/*~ bin/__pycache__ genoclaim.egg-info
+rm -fR mymod/*~ mymod/__pycache__ docs/bmod*.rst docs/bot*.rst  docs/ol*.rst run run.tar.gz html env env.tar.gz bmod/*~ bmod/__pycache__ ol/*~ ol/__pycache__ .data build dist MANIFEST botlib.egg-info bot/*~ bot/__pycache__ bin/*~ *~ tests/*~ tests/__pycache__

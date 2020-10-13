@@ -1,24 +1,26 @@
 #!/usr/bin/python3
-# OLIB - object library
+# BOTLIB - the bot library !
 #
 #
 
 import os, sys ; sys.path.insert(0, os.getcwd())
+sys.path.insert(0, sys.path.insert(0, os.path.join(os.getcwd(), "mymod")))
 
 import ol
-import omod.rss
 import os
 import sys
 import time
 import unittest
 
 def main():
-    omod.rss.debug = True
-    for line in os.popen("rm -fR ~/.test").readlines():
-        print(line)
+    try:
+        import mymod.rss
+        mymod.rss.debug = True
+    except: 
+        pass
     k = ol.krn.boot("test", os.path.expanduser("~/.test"))
     ol.update(k.cfg, ol.prs.parse_cli())
-    k.walk("ol,omod")
+    k.walk("mymod")
     k.start()
     test_path = os.getcwd() + os.sep + "tests"
     if k.cfg.txt:
@@ -27,7 +29,7 @@ def main():
         pat = "test*"
     suite = unittest.loader.TestLoader().discover(test_path, pattern=pat)
     unittest.TextTestRunner(verbosity=3).run(suite)
-    #k.wait()
+    k.wait()
    
 ol.trm.execute(main)
 os._exit(0)

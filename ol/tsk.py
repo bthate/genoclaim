@@ -29,12 +29,12 @@ class Task(threading.Thread):
         self.setName(self._name)
         try:
             self._result = func(*args)
-        except EOFError:
-            _thread.interrupt_main()
+        #except EOFError:
+        #    _thread.interrupt_main()
         except Exception as _ex:
             print(ol.utl.get_exception())
 
-    def join(self, timeout=None):
+    def wait(self, timeout=None):
         super().join(timeout)
         return self._result
 

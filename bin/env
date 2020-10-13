@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-# GENOCLAIM - using the law to administer poison, the king commits genocide - OTP-CR-117/19/001
+# BOTLIB - the bot library !
 #
 #
 
@@ -32,7 +32,7 @@ def main():
         print(line.strip())
     #obopen("rm -fR ~/.cache/pip/")
     obopen("python3 -mvirtualenv -p python3 env")
-    obopen("env/bin/pip3 install genoclaim -f dist --upgrade --force-reinstall")
+    obopen("env/bin/pip3 install botlib -f dist --upgrade --force-reinstall")
 
 if __name__ == "__main__":
     main()

@@ -1,4 +1,4 @@
-"hetgeen u hebt geschreven" - :ref:`source <source>`
+"hetgeen u hebt geschreven" 
 
 EVIDENCE
 ========
@@ -85,7 +85,7 @@ CONTACT
 
 i am reachable by email:
 
-Bart Thate (bthate@dds.nl)
+Bart Thate (bthate@dds.nl) - - :ref:`source <source>`
 
 
 .. toctree::

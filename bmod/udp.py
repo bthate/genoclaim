@@ -1,4 +1,4 @@
-# OLIB - object library
+# BOTLIB - the bot library !
 #
 #
 
@@ -57,35 +57,9 @@ class UDP(ol.Object):
         self._sock.sendto(bytes("exit", "utf-8"), (self.cfg.host, self.cfg.port))
 
     def start(self):
-        ol.last(self.cfg)
+        ol.dbs.last(self.cfg)
         ol.tsk.launch(self.server)
 
 def toudp(host, port, txt):
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sock.sendto(bytes(txt.strip(), "utf-8"), (host, port))
-
-def udp(event):
-    cfg = Cfg()
-    ol.dbs.last(cfg)
-    if len(sys.argv) > 2:
-        txt = " ".join(sys.argv[2:])
-        toudp(cfg.host, cfg.port, txt)
-        return
-    if not select.select([sys.stdin, ], [], [], 0.0)[0]:
-        return
-    while 1:
-        try:
-            (i, o, e) = select.select([sys.stdin,], [], [sys.stderr,])
-        except KeyboardInterrupt:
-            return
-        if e:
-            break
-        stop = False
-        for sock in i:
-            txt = sock.readline()
-            if not txt:
-                stop = True
-                break
-            toudp(cfg.host, cfg.port, txt)
-        if stop:
-            break

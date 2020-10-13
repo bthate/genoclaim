@@ -3,3 +3,5 @@
 #
 
 __version__ = 30
+__txt__ = "using the law to administer poison, the king commits genocide - OTP-CR-117/19 - otp.informationdesk@icc-cpi.int"
+__txt2__ = "OTP-CR-117/19/001 - otp.informationdesk@icc-cpi.int"

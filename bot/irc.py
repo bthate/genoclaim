@@ -1,5 +1,4 @@
-#!/usr/bin/python3
-# GENOCLAIM - using the law to administer poison, the king commits genocide
+# BOTLIB - the bot library
 #
 #
 
@@ -14,6 +13,7 @@ import time
 import threading
 import _thread
 
+k = ol.krn.get_kernel()
 saylock = _thread.allocate_lock()
 
 def init(kernel):
@@ -43,14 +43,14 @@ class Cfg(ol.Cfg):
 
     def __init__(self):
         super().__init__()
-        self.channel = "#genoclaim"
-        self.nick = "genoclaim"
+        self.channel = "#botlib"
+        self.nick = "botlib"
         self.port = 6667
-        self.realname = "genoclaim"
+        self.realname = "the bot library"
         self.server = "localhost"
-        self.username = "genoclaim"
+        self.username = "botlib"
 
-class Event(ol.hdl.Event):
+class Event(ol.evt.Event):
 
     def show(self):
         for txt in self.result:
@@ -67,12 +67,13 @@ class TextWrap(textwrap.TextWrapper):
         self.tabsize = 4
         self.width = 450
 
-class IRC(ol.hdl.Handler):
+class IRC(ol.hdl.Handler, ol.ldr.Loader):
 
     def __init__(self):
         super().__init__()
         self._buffer = []
         self._connected = threading.Event()
+        self._joined = threading.Event()
         self._outqueue = queue.Queue()
         self._sock = None
         self._fsock = None
@@ -96,6 +97,7 @@ class IRC(ol.hdl.Handler):
         self.register("NOTICE", self.NOTICE)
         self.register("PRIVMSG", self.PRIVMSG)
         self.register("QUIT", self.QUIT)
+        self.register("366", self.JOINED)
         ol.bus.bus.add(self)
 
     def _connect(self, server):
@@ -182,6 +184,8 @@ class IRC(ol.hdl.Handler):
         wrapper = TextWrap()
         txt = str(txt).replace("\n", "")
         for t in wrapper.wrap(txt):
+            if not t:
+                continue
             self.command("PRIVMSG", channel, t)
             if (time.time() - self.state.last) < 4.0:
                 time.sleep(4.0)
@@ -292,10 +296,12 @@ class IRC(ol.hdl.Handler):
             if "servermodes" in dir(self.cfg):
                 self.raw("MODE %s %s" % (self.cfg.nick, self.cfg.servermodes))
             self.joinall()
+        elif cmd == "366":
+            self._joined.set()
         elif cmd == "433":
             nick = self.cfg.nick + "_"
             self.cfg.nick = nick
-            self.raw("NICK %s" % self.cfg.nick or "obot_next-")
+            self.raw("NICK %s" % self.cfg.nick or "botd")
         return e
 
     def raw(self, txt):
@@ -329,7 +335,9 @@ class IRC(ol.hdl.Handler):
         assert self.cfg.channel
         assert self.cfg.server
         self.channels.append(self.cfg.channel)
+        self._joined.clear()
         ol.tsk.launch(self.doconnect)
+        self._joined.wait()
 
     def stop(self):
         super().stop()
@@ -347,16 +355,18 @@ class IRC(ol.hdl.Handler):
         self.stop()
         self.start()
 
+    def JOINED(self, event):
+        self._joined.set()
+
     def LOG(self, event):
         print(event.error)
 
     def NOTICE(self, event):
         if event.txt.startswith("VERSION"):
-            txt = "\001VERSION %s %s - %s\001" % ("GENOCLAIM", __version__, "using the law to administer poison, the king commits genocide")
+            txt = "\001VERSION %s %s - %s\001" % ("BOTLIB", __version__, "framework to program bots")
             self.command("NOTICE", event.channel, txt)
 
     def PRIVMSG(self, event):
-        k = ol.krn.get_kernel()
         if event.txt.startswith("DCC CHAT"):
             if self.cfg.users and users.allowed(event.origin, "USER"):
                 return
@@ -371,6 +381,7 @@ class IRC(ol.hdl.Handler):
             if self.cfg.users and not users.allowed(event.origin, "USER"):
                 return
             event.txt = event.txt[1:]
+            ol.prs.parse(event, event.txt)
             k.queue.put(event)
 
     def QUIT(self, event):
@@ -409,7 +420,7 @@ class DCC(ol.hdl.Handler):
             s.connect((addr, port))
         except ConnectionError:
             return
-        s.send(bytes('Welcome to GENOCLAIM %s !!\n' % event.nick, "utf-8"))
+        s.send(bytes('Welcome to BOTLIB %s !!\n' % event.nick, "utf-8"))
         s.setblocking(1)
         os.set_inheritable(s.fileno(), os.O_RDWR)
         self._sock = s
@@ -475,7 +486,7 @@ class Users(ol.Object):
 
     def get_users(self, origin=""):
         s = {"user": origin}
-        return ol.dbs.find("genoclaim.irc.User", s)
+        return ol.dbs.find("bot.irc.User", s)
 
     def get_user(self, origin):
         u = list(self.get_users(origin))
@@ -512,13 +523,3 @@ class Users(ol.Object):
         return user
 
 users = Users()
-
-def cfg(event):
-    c = Cfg()
-    ol.dbs.last(c)
-    o = ol.Default()
-    ol.prs.parse(o, event.origtxt)
-    if o.sets:
-        ol.update(c, o.sets)
-        ol.save(c)
-    event.reply(ol.format(c))

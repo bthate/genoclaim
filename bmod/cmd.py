@@ -1,21 +1,19 @@
-# OLIB - object library
+# BOTLIB - the bot library !
 #
 #
+
+__version__ = 1
 
 import ol
 import threading
 import time
 
+k = ol.krn.get_kernel()
+
 def cmd(event):
-    k = ol.krn.get_kernel()
-    c = sorted(k.cmds)
+    c = sorted(ol.keys(ol.tbl.mods))
     if c:
         event.reply(",".join(c))
-
-def mds(event):
-    mm = ol.utl.find_modules("omod")
-    if mm:
-        event.reply(",".join([m.__name__.split(".")[-1] for m in mm]))
 
 def tsk(event):
     psformat = "%s %s"
@@ -37,7 +35,9 @@ def tsk(event):
         res.append(txt)
     event.reply(" | ".join(res))
 
+def upt(event):
+    event.reply(ol.tms.elapsed(time.time() - ol.krn.starttime))
+
 def ver(event):
-    k = ol.krn.get_kernel()
-    mods = k.walk("ol,omod")
-    event.reply(",".join(["%s %s" % (mod.__name__, mod.__version__) for mod in mods if ol.get(mod, "__version__")]))
+    import genoclaim
+    event.reply("GENOCLAIN %s | BOTLIB %s | OLIB %s | %s" % (genoclaim.__version__, __version__, ol.__version__, genoclaim.__txt__))

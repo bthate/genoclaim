@@ -1,8 +1,10 @@
-# OLIB - object library
+# BOTLIB - the bot library !
 #
 #
 
 import ol
+
+k = ol.krn.get_kernel()
 
 def edt(event):
     if not event.args:
@@ -12,9 +14,7 @@ def edt(event):
         return
     cn = event.args[0]
     if "." not in cn:
-        shorts = ol.utl.find_shorts("omod")
-        if shorts:
-            cn = ol.get(shorts, cn, cn)
+        cn = ol.get(k.types, cn)
     try:
         l = ol.dbs.lasttype(cn)
     except IndexError:
@@ -24,12 +24,12 @@ def edt(event):
             c = ol.get_cls(cn)
             l = c()
             event.reply("created %s" % cn)
-        except ENOCLASS:
+        except ol.ENOCLASS:
             event.reply(ol.utl.list_files(ol.wd))
             return
-    if len(event.args) == 1:
+    if not event.prs.sets:
         event.reply(l)
         return
-    ol.edit(l, event.sets)
+    ol.edit(l, event.prs.sets)
     ol.save(l)
     event.reply("ok")

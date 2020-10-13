@@ -2,7 +2,10 @@
 #
 #
 
+__version__ = 12
+
 import datetime
+import importlib
 import json
 import os
 import random
@@ -38,11 +41,12 @@ class ENOFILENAME(Exception):
 
 class Object:
 
-    __slots__ = ("__dict__", "__stamp__")
+    __slots__ = ("__dict__", "stp")
 
     def __init__(self):
+        super().__init__()
         timestamp = str(datetime.datetime.now()).split()
-        self.__stamp__ = os.path.join(get_type(self), str(uuid.uuid4()), os.sep.join(timestamp))
+        self.stp = os.path.join(get_type(self), str(uuid.uuid4()), os.sep.join(timestamp))
 
     def __delitem__(self, k):
         del self.__dict__[k]
@@ -51,7 +55,7 @@ class Object:
         return self.__dict__.get(k, d)
 
     def __iter__(self):
-        return iter(self.__dict__.keys())
+        return iter(self.__dict__)
 
     def __len__(self):
         return len(self.__dict__)
@@ -61,10 +65,9 @@ class Object:
 
     def __setitem__(self, k, v):
         self.__dict__[k] = v
-        return self.__dict__[k]
 
     def __str__(self):
-        return json.dumps(self, default=default, indent=4, sort_keys=True)
+        return json.dumps(self, default=default, sort_keys=True)
 
 class Ol(Object):
 
@@ -117,7 +120,6 @@ def get_cls(name):
         mod = importlib.import_module(modname)
     return getattr(mod, clsname)
 
-
 def hook(fn):
     if fn.count(os.sep) > 3:
         oname = fn.split(os.sep)[-4:]
@@ -131,14 +133,12 @@ def hook(fn):
     return o
 
 def hooked(d):
-    if "stamp" in dir(d):
-        t = d["stamp"].split(os.sep)[0]
+    if "stp" in d:
+        t = d["stp"].split(os.sep)[0]
         if not t:
             return d
         o = get_cls(t)()
         update(o, d)
-        del o["stamp"]
-        return o
     return d
 
 def default(o):
@@ -172,14 +172,12 @@ def edit(o, setter, skip=False):
             o[key] = value
     return count
 
-def format(o, keylist=None, pure=False, skip=None, txt=""):
+def format(o, keylist=None, pure=False, skip=None, txt="", sep="\n"):
     if not keylist:
         keylist = vars(o).keys()
     res = []
     for key in keylist:
         if skip and key in skip:
-            continue
-        if key == "stamp":
             continue
         try:
             val = o[key]
@@ -188,7 +186,7 @@ def format(o, keylist=None, pure=False, skip=None, txt=""):
         if not val:
             continue
         val = str(val).strip()
-        val = val.replace("\n", "")
+        val = val.replace("\n", sep)
         res.append((key, val))
     result = []
     for k, v in res:
@@ -237,6 +235,9 @@ def items(o):
     except (TypeError, AttributeError):
         return o.__dict__.items()
 
+def ojson(o, *args, **kwargs):
+    return json.dumps(o, default=default, *args, **kwargs)
+
 def keys(o):
     try:
         return o.keys()
@@ -246,8 +247,8 @@ def keys(o):
 def load(o, path):
     assert path
     assert wd
-    o.__stamp__ = path
-    lpath = os.path.join(wd, "store", path)
+    o.stp = os.sep.join(path.split(os.sep)[-4:])
+    lpath = os.path.join(wd, "store", o.stp)
     cdir(lpath)
     with open(lpath, "r") as ofile:
         try:
@@ -269,26 +270,26 @@ def register(o, k, v):
 def save(o, stime=None):
     assert wd
     if stime:
-        o.__stamp__ = os.path.join(get_type(o), str(uuid.uuid4()),
+        o.stp = os.path.join(get_type(o), str(uuid.uuid4()),
                                    stime + "." + str(random.randint(0, 100000)))
     else:
         timestamp = str(datetime.datetime.now()).split()
-        if getattr(o, "__stamp__", None):
+        if getattr(o, "stp", None):
             try:
-                spl = o.__stamp__.split(os.sep)
+                spl = o.stp.split(os.sep)
                 spl[-2] = timestamp[0]
                 spl[-1] = timestamp[1]
-                o.__stamp__ = os.sep.join(spl)
+                o.stp = os.sep.join(spl)
             except AttributeError:
                 pass
-        if not getattr(o, "__stamp__", None):
-            o.__stamp__ = os.path.join(get_type(o), str(uuid.uuid4()), os.sep.join(timestamp))
-    opath = os.path.join(wd, "store", o.__stamp__)
+        if not getattr(o, "stp", None):
+            o.stp = os.path.join(get_type(o), str(uuid.uuid4()), os.sep.join(timestamp))
+    opath = os.path.join(wd, "store", o.stp)
     cdir(opath)
     with open(opath, "w") as ofile:
-        json.dump(stamp(o), ofile, default=default)
+        json.dump(o, ofile, default=default)
     os.chmod(opath, 0o444)
-    return o.__stamp__
+    return o.stp
 
 def scan(o, txt):
     for _k, v in items(o):
@@ -306,27 +307,32 @@ def search(o, s):
         ok = True
     return ok
 
+def set(o, k, v):
+    setattr(o, k, v)
+
 def stamp(o):
+    t = o.stp.split(os.sep)[0]
+    oo = get_cls(t)()
     for k in xdir(o):
         oo = getattr(o, k, None)
         if isinstance(oo, Object):
             stamp(oo)
-            oo.__dict__["stamp"] = oo.__stamp__
-            o[k] = oo
+            oo.__dict__["stp"] = oo.stp
+            ooo[k] = oo
         else:
             continue
-    o.__dict__["stamp"] = o.__stamp__
-    return o
+    oo.__dict__["stp"] = o.stp
+    return oo
 
 def unstamp(o):
     for k in xdir(o):
         oo = getattr(o, k, None)
         if isinstance(oo, Object):
-            del oo.__dict__["stamp"]
+            del oo.__dict__["stp"]
         else:
             continue
     try:
-        del o.__dict__["stamp"]
+        del o.__dict__["stp"]
     except KeyError:
         pass
     return o
@@ -334,7 +340,8 @@ def unstamp(o):
 def update(o, d):
     if isinstance(d, Object):
         return o.__dict__.update(vars(d))
-    return o.__dict__.update(d)
+    else:
+        return o.__dict__.update(d)
 
 def values(o):
     try:
@@ -352,6 +359,10 @@ def xdir(o, skip=None):
 
 import ol
 
+from ol import tbl
+from ol import int
+from ol import ldr
+from ol import evt
 from ol import csl
 from ol import dbs
 from ol import hdl
