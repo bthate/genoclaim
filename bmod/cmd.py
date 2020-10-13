@@ -40,4 +40,4 @@ def upt(event):
 
 def ver(event):
     import genoclaim
-    event.reply("GENOCLAIN %s | BOTLIB %s | OLIB %s | %s" % (genoclaim.__version__, __version__, ol.__version__, genoclaim.__txt__))
+    event.reply("GENOCLAIN %s | BOTLIB %s | OLIB %s | %s" % (genoclaim.__version__, __version__, ol.__version__, genoclaim.__txt2__))

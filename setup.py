@@ -8,11 +8,11 @@ def read():
 
 setup(
     name='genoclaim',
-    version='31',
+    version='32',
     url='https://bitbucket.org/bthate/genoclaim',
     author='Bart Thate',
     author_email='bthate@dds.nl',
-    description="GENOCLAIM - using the law to administer poison, the king commits genocide - OTP-CR-117/19/001",
+    description="the king commits genocide - OTP-CR-117/19/001 - http://genoclaim.rtfd.io",
     long_description=read(),
     long_description_content_type="text/x-rst",
     license='Public Domain',

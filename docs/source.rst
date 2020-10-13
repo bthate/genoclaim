@@ -3,9 +3,19 @@
 source
 ######
 
-https://genoclaim.rtfd.io - OTP-CR-117/19/001 - otp.informationdesk@icc-cpi.int
-
 here is the code used:
+
+GENOCLAIM
+=========
+
+.. autosummary::
+    :toctree: 
+    :template: module.rst
+
+     genoclaim.request		- request send to the prosecutor
+     genoclaim.stats		- suicide statistics
+     genoclaim.torture		- torture definition
+     genoclaim.wisdom		- knowledge on trip
 
 OLIB
 ====
@@ -27,7 +37,7 @@ OLIB
     ol.tsk      - tasks
     ol.utl      - utilities
 
-OMOD
+BMOD
 ====
 
 .. autosummary::
@@ -35,19 +45,19 @@ OMOD
     :template: module.rst
 
 
-    omod.cmd     - command
-    omod.edt     - edit
-    omod.ent     - enter log and todo items
-    omod.fnd     - find typed objects
-    omod.mbx     - mailbox
-    omod.rss     - rich site syndicate
-    omod.udp     - UDP to IRC gateway
+    bmod.cfg	- configuration
+    bmod.cmd    - command
+    bmod.edt    - edit
+    bmod.ent    - enter log and todo items
+    bmod.fnd    - find typed objects
+    bmod.rss    - rich site syndicate
+    bmod.udp    - UDP to IRC gateway
 
-GENOCLAIM
-=========
+BOTLIB
+======
 
 .. autosummary::
     :toctree: 
     :template: module.rst
 
-    genoclaim.irc
+    bot.irc
