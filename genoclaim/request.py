@@ -1,7 +1,12 @@
-# GENOCLAIM - using the law to administer poison, the king commits genocide 
+# GENOCIDE - the king of the netherlands commits genocide
 #
-#
+# OTP-CR-117/19/001 otp.informationdesk@icc-cpi.int https://genocide.rtfd.io
 
+__version__ = 14
+
+"show request send to the prosecutor"
+
+#:
 txt = """
 Information and Evidence Unit
 Office of the Prosecutor
@@ -16,13 +21,10 @@ i write you in the context of communications and claims under art.15 of the Rome
 
 There is proof the medication used in forced treatements in the netherlands are poison.
 
+    haloperiodol (haldol) - https://echa.europa.eu/substance-information/-/substanceinfo/100.000.142
     clozapine (leponex) - https://echa.europa.eu/substance-information/-/substanceinfo/100.024.831
     olanzapine (zyprexa) - https://echa.europa.eu/substance-information/-/substanceinfo/100.125.320
     aripriprazole (abilify) https://echa.europa.eu/substance-information/-/substanceinfo/100.112.532
-
-edited on 06-02-2019:
-
-    haloperiodol (haldol) - https://echa.europa.eu/substance-information/-/substanceinfo/100.000.142
 
 The dutch government has introduced three new forced care laws, the Wfz (wet forensische zorg) for criminals, the WvGGZ (Wet verplichte GGZ) for the disturbed and addicted and the Wzd (Wet zorg en dwang) for the handicapped.
 
@@ -51,4 +53,5 @@ I hope you can stop the above mentioned crimes the king of the netherlands and h
 """
 
 def req(event):
+    "show request send to the prosecutor"
     event.reply(txt)

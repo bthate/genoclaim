@@ -1,24 +1,19 @@
-# GENOCLAIM - using the law to administer poison, the king commits genocide
+# GENOCIDE - the king of the netherlands commits genocide
 #
-# OTP-CR-117/19/001 (otp.informationdesk@icc-cpi.int)
+# OTP-CR-117/19/001 otp.informationdesk@icc-cpi.int https://genocide.rtfd.io
 
-import random
-import time
-import ol
+"show suicide stats"
 
-k = ol.krn.get_kernel()
+startdate = "2018-10-05 00:00:00"
+source = "https://github.com/bthate/genocide"
 
-def init(kernel):
-    for _name, obj in ol.items(wanted):
-        for key in ol.keys(obj):
-            val = ol.get(obj, key, None)
-            if val:
-                e = ol.hdl.Event()
-                e.txt = ""
-                e.rest = key
-                sec = seconds(val)
-                repeater = ol.tms.Repeater(sec, stat, e, name=key)
-                repeater.start()
+import datetime, random, time
+
+from bot.bus import bus
+from bot.clk import Repeater
+from bot.hdl import Event
+from bot.obj import Object, get, keys, items, values
+from bot.prs import elapsed
 
 year_formats = [
     "%b %H:%M",
@@ -42,42 +37,84 @@ year_formats = [
     "%H:%M"
 ]
 
+def day():
+    "return this day"
+    return str(datetime.datetime.today()).split()[0]
+
+def get_time(daystr):
+    "extract time from string"
+    for f in year_formats:
+        try:
+            t = time.mktime(time.strptime(daystr, f))
+            return t
+        except ValueError:
+            pass
+
+def to_day(daystring):
+    "extract time from string"
+    line = ""
+    daystr = str(daystring)
+    for word in daystr.split():
+        if "-" in word:
+            line += word + " "
+        elif ":" in word:
+            line += word
+    if "-" not in line:
+        line = day() + " " + line
+    try:
+        return get_time(line.strip())
+    except ValueError:
+        pass
+
+starttime = to_day(startdate)
+
+def init(kernel):
+    "loop through all stats and start some"
+    for _name, obj in items(wanted):
+        for key in keys(obj):
+            val = get(obj, key, None)
+            if val:
+                e = Event()
+                e.txt = ""
+                e.rest = key
+                sec = seconds(val)
+                repeater = Repeater(sec, stat, e, name=key)
+                repeater.start()
+
 class ENOSTATS(Exception):
 
-    pass
-
-startdate = "2018-10-05 00:00:00"
-starttime = ol.tms.to_day(startdate)
-source = "https://github.com/bthate/genoclaim"
+    "no stats available" 
 
 def seconds(nrs, period="jaar"):
+    "return numner of seconds in a period of time"
     if not nrs:
         return nrs
-    return ol.get(nrsec, period) / float(nrs)
+    return get(nrsec, period) / float(nrs)
 
 def nr(name):
-    for key in ol.keys(wanted):
-        obj = ol.get(wanted, key, None)
-        for n in ol.keys(obj):
+    "show number in stats object"
+    for key in keys(wanted):
+        obj = get(wanted, key, None)
+        for n in keys(obj):
             if n == name:
-                return ol.get(obj, n)
+                return get(obj, n)
     raise ENOSTATS(name)
 
-## COMMANDS
-
 def sts(event, **kwargs):
+    "show suicide stats since informedness (sts)"
     txt = "Sinds %s\n" % time.ctime(starttime)
     delta = time.time() - starttime
-    for _name, obj in ol.items(wanted):
-        for key, _val in ol.items(obj):
+    for _name, obj in items(wanted):
+        for key, _val in items(obj):
             needed = seconds(nr(key))
             if not needed:
                 continue
             nrtimes = int(delta/needed)
-            txt += "\n%s #%s %s %s" % (key.upper(), nrtimes, ol.get(tags, key, ""), ol.get(zorg, random.choice(list(ol.keys(zorg))), ""))
+            txt += "\n%s #%s %s %s" % (key.upper(), nrtimes, get(tags, key, ""), get(zorg, random.choice(list(keys(zorg))), ""))
     event.reply(txt.strip())
 
 def stat(e, **kwargs):
+    "show specific suicide stats (stat)"
     name = e.rest or "suicide"
     if "." in name:
         name = name.split(".")[-1]
@@ -92,94 +129,18 @@ def stat(e, **kwargs):
         nrtimes = int(delta/needed)
         txt = "%s #%s" % (name.upper(), nrtimes)
         if name in omschrijving:
-            txt += " (%s)" % ol.get(omschrijving, name)
-        txt += " elke %s" % ol.tms.elapsed(seconds(nr(name)))
+            txt += " (%s)" % get(omschrijving, name)
+        txt += " elke %s" % elapsed(seconds(nr(name)))
         #if name in urls:
-        #    txt += " - %s" % urls.get(name)
+        #    txt += " - %s" % get(name)
         if name in tags:
-            txt += " %s" % ol.get(tags, name)
+            txt += " %s" % get(tags, name)
         else:
-            txt += " %s" % random.choice(list(ol.values(tags)))
-        ol.bus.bus.announce(txt)
+            txt += " %s" % random.choice(list(values(tags)))
+        bus.announce(txt)
 
-oorzaak = ol.Object()
-oorzaak.suicide = 1800
-oorzaak.psychosestoornis = 12000
-
-nrsec = ol.Object()
-nrsec.dag = 24 * 60 * 60.0
-nrsec.jaar = 365 * nrsec.dag
-nrsec.weekend = 2 / 7 * (24 * 60 * 60.0 * 365) / 52
-nrsec.avond = 16 / 24 * (24 * 60 * 60.0)
-
-times = ol.Object()
-times.weekend = 2 / 7 * (24 * 60 * 60.0 * 365) / 52
-times.avond = 16 / 24 * (24 * 60 * 60.0)
-times.dag = 24 * 60 * 60.0
-times.jaar = 365 * 24 * 60 * 60.0
-
-# PER JAAR
-
-rechter = ol.Object()
-rechter.ibs = 8861
-rechter.rm = 17746
-rechter.vwm = 6657
-rechter.mvv = 4431
-rechter.vm = 6690
-rechter.mev = 65
-rechter.zm = 3
-
-drugs = ol.Object()
-drugs.speed = 20000
-drugs.cocaine = 50000
-drugs.alcohol = 400000
-drugs.wiet = 500000
-
-suicidejaar = ol.Object()
-suicidejaar.y2008 = 1435
-suicidejaar.y2009 = 1525
-suicidejaar.y2010 = 1600
-suicidejaar.y2011 = 1647
-suicidejaar.y2012 = 1753
-suicidejaar.y2013 = 1857
-suicidejaar.y2014 = 1839
-suicidejaar.y2015 = 1871
-suicidejaar.y2016 = 1894
-suicidejaar.y2017 = 1917
-
-ziekenhuis = ol.Object()
-ziekenhuis.y2010 = 7800
-ziekenhuis.y2011 = 9600
-ziekenhuis.y2012 = 9200
-ziekenhuis.y2013 = 8300
-ziekenhuis.y2014 = 8500
-
-seh = ol.Object()
-seh.y2010 = 13700
-seh.y2011 = 16000
-seh.y2012 = 15800
-seh.y2013 = 13300
-seh.y2014 = 14000
-
-e33 = ol.Object()
-e33.melding = 61000
-
-recepten = ol.Object()
-recepten.antipsychotica = 150000
-recepten.antidepresiva = 600000
-recepten.slaapmiddel = 1000000
-
-demografie = ol.Object()
-demografie.ambulant = 792000
-demografie.verslaving = 13000
-demografie.schizofrenie = 9800
-demografie.depressie = 9600
-demografie.verslaafden = 2074278
-demografie.arbeidshandicap = 103000
-demografie.huisartsen = 11345
-demografie.zorgmijder = 24000
-
-cijfers = ol.Object()
+#:
+cijfers = Object()
 cijfers.melding = 61000
 cijfers.opnames = 24338
 cijfers.crisis = 150000
@@ -205,57 +166,14 @@ cijfers.suicidegedachtes = 410000
 cijfers.psychosestoornis = 13076
 cijfers.oorzaak = cijfers.psychosestoornis + cijfers.suicide
 
-oordeel = ol.Object()
-oordeel.verwijs = cijfers.crisis * 0.85
-oordeel.uitstroom = cijfers.crisis * 0.05
-oordeel.opname = cijfers.crisis * 0.10
-
-alarm = ol.Object()
+#:
+alarm = Object()
 alarm.politie = 0.30 * cijfers.crisis
 alarm.hap = 0.40 * cijfers.crisis
 alarm.keten = 0.30 * cijfers.crisis
 
-suicide = ol.Object()
-suicide.suicide = suicidejaar.y2017
-
-pogingen = ol.Object()
-pogingen.pogingen = cijfers.pogingen
-
-poging = ol.Object()
-poging.ziekenhuis = ziekenhuis.y2014
-poging.seh = seh.y2014
-
-# PER BEVOLKING
-
-drugs = ol.Object()
-drugs.speed = 20000
-drugs.cocaine = 50000
-drugs.alcohol = 400000
-drugs.wiet = 500000
-
-medicijnen = ol.Object()
-medicijnen.amitriptyline = 189137
-medicijnen.paroxetine = 186028
-medicijnen.citalopram = 154620
-medicijnen.oxazepam = 133608
-medicijnen.venlafaxine = 112000
-medicijnen.mirtazapine = 110742
-medicijnen.quetiapine = 84414
-medicijnen.diazepam = 72000
-medicijnen.sertraline = 68000
-medicijnen.haloperidol = 59825
-
-oordeel = ol.Object()
-oordeel.verwijs = cijfers.crisis * 0.85
-oordeel.uitstroom = cijfers.crisis * 0.05
-oordeel.opname = cijfers.crisis * 0.10
-
-alarm = ol.Object()
-alarm.politie = 0.30 * cijfers.crisis
-alarm.hap = 0.40 * cijfers.crisis
-alarm.keten = 0.30 * cijfers.crisis
-
-dbc = ol.Object()
+#:
+dbc = Object()
 dbc.middelgebondenstoornissen = 33060
 dbc.somatoformestoornissen = 21841
 dbc.cognitievestoornissen = 25717
@@ -275,9 +193,31 @@ dbc.gedrag = 1176
 dbc.kindertijdoverig = 1035
 dbc.autismespectrum = 9436
 
-# PER DAG
 
-halfwaarde = ol.Object()
+#:
+demografie = Object()
+demografie.ambulant = 792000
+demografie.verslaving = 13000
+demografie.schizofrenie = 9800
+demografie.depressie = 9600
+demografie.verslaafden = 2074278
+demografie.arbeidshandicap = 103000
+demografie.huisartsen = 11345
+demografie.zorgmijder = 24000
+
+#:
+drugs = Object()
+drugs.speed = 20000
+drugs.cocaine = 50000
+drugs.alcohol = 400000
+drugs.wiet = 500000
+
+#:
+e33 = Object()
+e33.melding = 61000
+
+#:
+halfwaarde = Object()
 halfwaarde.zyprexa = 30
 halfwaarde.abilify = 75
 halfwaarde.haldol = 30
@@ -292,71 +232,8 @@ halfwaarde.quetiapine = 6
 halfwaarde.diazepam = 100
 halfwaarde.wiet = 7
 
-perdag = ol.Object()
-perdag.medicijnen = medicijnen
-perdag.drugs = drugs
-
-suicidejaar = ol.Object()
-suicidejaar.y2008 = 1435
-suicidejaar.y2009 = 1525
-suicidejaar.y2010 = 1600
-suicidejaar.y2011 = 1647
-suicidejaar.y2012 = 1753
-suicidejaar.y2013 = 1857
-suicidejaar.y2014 = 1839
-suicidejaar.y2015 = 1871
-suicidejaar.y2016 = 1894
-suicidejaar.y2017 = 1917
-
-ziekenhuis = ol.Object()
-ziekenhuis.y2010 = 7800
-ziekenhuis.y2011 = 9600
-ziekenhuis.y2012 = 9200
-ziekenhuis.y2013 = 8300
-ziekenhuis.y2014 = 8500
-
-seh = ol.Object()
-seh.y2010 = 13700
-seh.y2011 = 16000
-seh.y2012 = 15800
-seh.y2013 = 13300
-seh.y2014 = 14000
-
-suicide = ol.Object()
-suicide.suicide = suicidejaar.y2017
-
-pogingen = ol.Object()
-pogingen.pogingen = cijfers.pogingen
-
-poging = ol.Object()
-poging.ziekenhuis = ziekenhuis.y2014
-poging.seh = seh.y2014
-
-show = ol.Object()
-show.opnames = 24338
-show.crisis = 150000
-show.oordeel = 150000
-show.pogingen = 94000
-show.incidenten = 66000
-show.vergiftigingen = 25262
-show.overlast = 18000
-show.insluiting = 24000
-show.aangiftes = 134000
-show.suicide = 1871
-show.burenoverlast = 12000
-show.uitzetting = 5900
-show.volwassendoop = 500
-show.detox = 65654
-show.acuut = 8000
-show.spoedeisendpoging = 14000
-show.weguitkliniek = 2539
-show.bewindvoering = 295000
-show.pogingen = cijfers.pogingen
-
-wanted = ol.Object()
-wanted.oorzaak = oorzaak
-
-omdat = ol.Object()
+#:
+omdat = Object()
 omdat.blokkeren = "met antipsychotica de werking van receptoren BLOKKEREN en dat dat benadeling van de gezondheid is."
 omdat.wetboek = "het Wetboek van Strafrecht zegt dat mishandeling wordt gelijkgesteld aan opzettelijke benadeling van de gezondheid."
 omdat.benadeling = "men op de hoogte is van de benadeling is er van opzet altijd sprake."
@@ -365,54 +242,8 @@ omdat.zolang = ", zolang een arts de bloedspiegel van een medicijn niet meet, de
 omdat.toestand = "men met deze toestand de kans op overlijden geeft."
 omdat.dood = "men eraan dood gaat."
 
-zorg = ol.Object()
-zorg.interventie = "een interventie, bestaande uit een vorm van verzorging, bejegening, behandeling, begeleiding of bescherming"
-zorg.toediening = "toediening van medicatie, vocht en voeding, regelmatige medische controle of andere medische handelingen"
-zorg.maatregel = "pedagogische of therapeutische maatregelen"
-zorg.opname = "opname in een accommodatie"
-zorg.beperking = "beperking van de bewegingsvrijheid"
-zorg.seperatie = "afzondering of separatie in een daartoe geschikte verblijfsruimte"
-zorg.beperking = "beperking van het recht op het ontvangen van bezoek of het gebruik van communicatiemiddelen"
-zorg.toezicht = "toezicht op betrokkene"
-zorg.onderzoek = "onderzoek aan kleding of lichaam"
-zorg.controle = "controle op de aanwezigheid van gedrag beïnvloedende middelen"
-zorg.beperkingen = "beperkingen in de vrijheid het eigen leven in te richten, die tot gevolg hebben dat betrokkene iets moet doen of nalaten."
-
-# DISPLAY
-
-tags = ol.Object()
-tags.keten = "#burgemeester"
-tags.politie = "#broodjepindakaas"
-tags.hap = "#triagetrien"
-tags.verwijs = "#maandagweer"
-tags.uitstroom = "#zorgwekkend"
-tags.opname = "#meermedicijn"
-tags.crisis = "#triade"
-tags.suicide = "#wetverplichteggz"
-tags.pogingen = "#prettigweekend"
-tags.incidenten = "#jammerdan"
-tags.acuut = "#geenbedvoorjou"
-tags.zorgmijder = "#helaas"
-tags.inwoners = "#gebodenvrucht"
-tags.crisis = "#medicijnen"
-tags.alarm = "#telaat"
-tags.oordeel = "#geencrisis"
-tags.vergiftigingen = "#overduur"
-tags.neurotoxisch = "#overdosis"
-tags.schizofrenie = "#gifmedicijn"
-tags.angst = "#gifmedicijn"
-tags.depressie = "#gifmedicijn"
-tags.meds = "#gifmedicijn"
-tags.ibs = "#overlast"
-tags.rm = "#benadeling"
-tags.vwm = "#maatregel"
-tags.vm = "#nogeven"
-tags.mvv = "#direct!!"
-tags.mev = "#kieserzelfvoor"
-tags.om = "#ffkijken#"
-tags.zm = "#zelfwat?"
-
-omschrijving = ol.Object()
+#:
+omschrijving = Object()
 omschrijving.ibs = "inbewaringstelling"
 omschrijving.rm = "rechterlijke machtiging"
 omschrijving.vm = "voorlopige rechterlijke machtiging"
@@ -486,8 +317,53 @@ omschrijving.gedrag = "moelijk opvoedbaar"
 omschrijving.kindertijdoverig = "vroegtijdig trauma"
 omschrijving.autismespectrum = "valt in een autisme categorie"
 omschrijving.seh = "spoedeisende hulp"
+omschrijving.psychosestoornis = "een door de psychose zelf overleden persoon"
+omschrijving.oorzaak = "oorzaak van overlijden"
 
-periode = ol.Object()
+#:
+medicijnen = Object()
+medicijnen.amitriptyline = 189137
+medicijnen.paroxetine = 186028
+medicijnen.citalopram = 154620
+medicijnen.oxazepam = 133608
+medicijnen.venlafaxine = 112000
+medicijnen.mirtazapine = 110742
+medicijnen.quetiapine = 84414
+medicijnen.diazepam = 72000
+medicijnen.sertraline = 68000
+medicijnen.haloperidol = 59825
+
+#:
+demo = Object()
+demo.dbc = dbc
+demo.medicijnen = medicijnen
+demo.drugs = drugs
+
+#:
+oordeel = Object()
+oordeel.verwijs = cijfers.crisis * 0.85
+oordeel.uitstroom = cijfers.crisis * 0.05
+oordeel.opname = cijfers.crisis * 0.10
+
+#:
+oorzaak = Object()
+oorzaak.suicide = 1800
+oorzaak.psychosestoornis = 12000
+
+#:
+nrsec = Object()
+nrsec.dag = 24 * 60 * 60.0
+nrsec.jaar = 365 * nrsec.dag
+nrsec.weekend = 2 / 7 * (24 * 60 * 60.0 * 365) / 52
+nrsec.avond = 16 / 24 * (24 * 60 * 60.0)
+
+#:
+perdag = Object()
+perdag.medicijnen = medicijnen
+perdag.drugs = drugs
+
+#:
+periode = Object()
 periode.ibs = "voor 6 weken"
 periode.rm = "voor 6 maanden"
 periode.vlm = "max 18 uur"
@@ -516,20 +392,171 @@ periode.oordeel = "buiten kantoor uren en in het weekend"
 periode.vergiftigingen = "elke dag"
 periode.neurotoxisch = "elke dag"
 
-urls = ol.Object()
-urls.IBS = "http://www.tijdschriftvoorpsychiatrie.nl/assets/articles/57-2015-4-artikel-broer.pdf"
-urls.RM = "http://www.tijdschriftvoorpsychiatrie.nl/assets/articles/57-2015-4-artikel-broer.pdf"
-urls.VM = "http://www.tijdschriftvoorpsychiatrie.nl/assets/articles/57-2015-4-artikel-broer.pdf"
-urls.MVV = "http://www.tijdschriftvoorpsychiatrie.nl/assets/articles/57-2015-4-artikel-broer.pdf"
-urls.VW = "http://www.tijdschriftvoorpsychiatrie.nl/assets/articles/57-2015-4-artikel-broer.pdf"
-urls.MEV = "http://www.tijdschriftvoorpsychiatrie.nl/assets/articles/57-2015-4-artikel-broer.pdf"
-urls.ZB = "http://www.tijdschriftvoorpsychiatrie.nl/assets/articles/57-2015-4-artikel-broer.pdf"
-urls.OB = "http://www.tijdschriftvoorpsychiatrie.nl/assets/articles/57-2015-4-artikel-broer.pdf"
+#:
+pogingen = Object()
+pogingen.pogingen = cijfers.pogingen
 
-omschrijving.psychosestoornis = "een door de psychose zelf overleden persoon"
-omschrijving.oorzaak = "oorzaak van overlijden"
 
-urls = ol.Object()
+#:
+recepten = Object()
+recepten.antipsychotica = 150000
+recepten.antidepresiva = 600000
+recepten.slaapmiddel = 1000000
+
+#:
+rechter = Object()
+rechter.ibs = 8861
+rechter.rm = 17746
+rechter.vwm = 6657
+rechter.mvv = 4431
+rechter.vm = 6690
+rechter.mev = 65
+rechter.zm = 3
+
+#:
+seh = Object()
+seh.y2010 = 13700
+seh.y2011 = 16000
+seh.y2012 = 15800
+seh.y2013 = 13300
+seh.y2014 = 14000
+
+#:
+suicidejaar = Object()
+suicidejaar.y2008 = 1435
+suicidejaar.y2009 = 1525
+suicidejaar.y2010 = 1600
+suicidejaar.y2011 = 1647
+suicidejaar.y2012 = 1753
+suicidejaar.y2013 = 1857
+suicidejaar.y2014 = 1839
+suicidejaar.y2015 = 1871
+suicidejaar.y2016 = 1894
+suicidejaar.y2017 = 1917
+
+#:
+show = Object()
+show.opnames = 24338
+show.crisis = 150000
+show.oordeel = 150000
+show.pogingen = 94000
+show.incidenten = 66000
+show.vergiftigingen = 25262
+show.overlast = 18000
+show.insluiting = 24000
+show.aangiftes = 134000
+show.suicide = 1871
+show.burenoverlast = 12000
+show.uitzetting = 5900
+show.volwassendoop = 500
+show.detox = 65654
+show.acuut = 8000
+show.spoedeisendpoging = 14000
+show.weguitkliniek = 2539
+show.bewindvoering = 295000
+show.pogingen = cijfers.pogingen
+
+#:
+soort = Object()
+soort.alarm = "patient"
+soort.oordeel = "arts"
+soort.neurotoxisch = "patient"
+soort.angst = "patient"
+soort.depressie = "patient"
+soort.schizofrenie = "patient"
+soort.ibs = "burgemeester"
+soort.rm = "civiele rechter"
+soort.vm = "civiele rechter"
+soort.mvv = "civiele rechter"
+soort.vwm = "civiele rechter"
+soort.ev = "civiele rechter"
+soort.om = "civiele rechter"
+soort.zm = "civiele rechter"
+soort.politie = "agent"
+soort.hap = "huisarts"
+soort.keten = "spv/psychiater"
+soort.verwijs = "crisisdienst"
+soort.uitstroom = "eigen behandelaar"
+soort.suicide = "slachtoffer"
+soort.crisis = "burger"
+soort.pogingen = "wanhopige patient"
+soort.incidenten = "hulproepende patient"
+soort.acuut = "vergiftigde patient"
+soort.meds = "toegediende patient"
+soort.amitriptyline = "patient"
+soort.paroxetine = "patient"
+soort.citalopram = "patient"
+soort.oxazepam = "patient"
+soort.venlafaxine = "patient"
+soort.mirtazapine = "patient"
+soort.quetiapine = "patient"
+soort.diazepam = "patient"
+soort.sertrali = "patient"
+soort.haloperidol = "patient"
+soort.insluiting = "politie"
+soort.ambulant = "casemanager"
+soort.verslaafden = "gebruiker"
+soort.slaapmiddel = "insomnia patient"
+
+#:
+suicidejaar = Object()
+suicidejaar.y2008 = 1435
+suicidejaar.y2009 = 1525
+suicidejaar.y2010 = 1600
+suicidejaar.y2011 = 1647
+suicidejaar.y2012 = 1753
+suicidejaar.y2013 = 1857
+suicidejaar.y2014 = 1839
+suicidejaar.y2015 = 1871
+suicidejaar.y2016 = 1894
+suicidejaar.y2017 = 1917
+
+#:
+suicide = Object()
+suicide.suicide = suicidejaar.y2017
+
+#:
+tags = Object()
+tags.keten = "#burgemeester"
+tags.politie = "#broodjepindakaas"
+tags.hap = "#triagetrien"
+tags.verwijs = "#maandagweer"
+tags.uitstroom = "#zorgwekkend"
+tags.opname = "#meermedicijn"
+tags.crisis = "#triade"
+tags.suicide = "#wetverplichteggz"
+tags.pogingen = "#prettigweekend"
+tags.incidenten = "#jammerdan"
+tags.acuut = "#geenbedvoorjou"
+tags.zorgmijder = "#helaas"
+tags.inwoners = "#gebodenvrucht"
+tags.crisis = "#medicijnen"
+tags.alarm = "#telaat"
+tags.oordeel = "#geencrisis"
+tags.vergiftigingen = "#overduur"
+tags.neurotoxisch = "#overdosis"
+tags.schizofrenie = "#gifmedicijn"
+tags.angst = "#gifmedicijn"
+tags.depressie = "#gifmedicijn"
+tags.meds = "#gifmedicijn"
+tags.ibs = "#overlast"
+tags.rm = "#benadeling"
+tags.vwm = "#maatregel"
+tags.vm = "#nogeven"
+tags.mvv = "#direct!!"
+tags.mev = "#kieserzelfvoor"
+tags.om = "#ffkijken#"
+tags.zm = "#zelfwat?"
+
+#:
+times = Object()
+times.weekend = 2 / 7 * (24 * 60 * 60.0 * 365) / 52
+times.avond = 16 / 24 * (24 * 60 * 60.0)
+times.dag = 24 * 60 * 60.0
+times.jaar = 365 * 24 * 60 * 60.0
+
+#:
+urls = Object()
 urls.ibs = "http://www.tijdschriftvoorpsychiatrie.nl/assets/articles/57-2015-4-artikel-broer.pdf"
 urls.rm = "http://www.tijdschriftvoorpsychiatrie.nl/assets/articles/57-2015-4-artikel-broer.pdf"
 urls.vm = "http://www.tijdschriftvoorpsychiatrie.nl/assets/articles/57-2015-4-artikel-broer.pdf"
@@ -583,47 +610,39 @@ urls.epa = "https://www.zorgprismapubliek.nl/informatie-over/geestelijke-gezondh
 urls.rechter = "https://www.ggdghorkennisnet.nl/?file=43865&m=1541606110&action=file.download"
 urls.psychosestoornis = "https://www.volksgezondheidenzorg.info/echi-indicators/mortality#node-disease-specific-mortality"
 
-soort = ol.Object()
-soort.alarm = "patient"
-soort.oordeel = "arts"
-soort.neurotoxisch = "patient"
-soort.angst = "patient"
-soort.depressie = "patient"
-soort.schizofrenie = "patient"
-soort.ibs = "burgemeester"
-soort.rm = "civiele rechter"
-soort.vm = "civiele rechter"
-soort.mvv = "civiele rechter"
-soort.vwm = "civiele rechter"
-soort.ev = "civiele rechter"
-soort.om = "civiele rechter"
-soort.zm = "civiele rechter"
-soort.politie = "agent"
-soort.hap = "huisarts"
-soort.keten = "spv/psychiater"
-soort.verwijs = "crisisdienst"
-soort.uitstroom = "eigen behandelaar"
-soort.suicide = "slachtoffer"
-soort.crisis = "burger"
-soort.pogingen = "wanhopige patient"
-soort.incidenten = "hulproepende patient"
-soort.acuut = "vergiftigde patient"
-soort.meds = "toegediende patient"
-soort.amitriptyline = "patient"
-soort.paroxetine = "patient"
-soort.citalopram = "patient"
-soort.oxazepam = "patient"
-soort.venlafaxine = "patient"
-soort.mirtazapine = "patient"
-soort.quetiapine = "patient"
-soort.diazepam = "patient"
-soort.sertrali = "patient"
-soort.haloperidol = "patient"
-soort.insluiting = "politie"
-soort.ambulant = "casemanager"
-soort.verslaafden = "gebruiker"
-soort.slaapmiddel = "insomnia patient"
+#:
+wanted = Object()
+wanted.oorzaak = oorzaak
+wanted.pogingen = pogingen
 
+#:
+ziekenhuis = Object()
+ziekenhuis.y2010 = 7800
+ziekenhuis.y2011 = 9600
+ziekenhuis.y2012 = 9200
+ziekenhuis.y2013 = 8300
+ziekenhuis.y2014 = 8500
+
+#:
+poging = Object()
+poging.ziekenhuis = ziekenhuis.y2014
+poging.seh = seh.y2014
+
+#:
+zorg = Object()
+zorg.interventie = "een interventie, bestaande uit een vorm van verzorging, bejegening, behandeling, begeleiding of bescherming"
+zorg.toediening = "toediening van medicatie, vocht en voeding, regelmatige medische controle of andere medische handelingen"
+zorg.maatregel = "pedagogische of therapeutische maatregelen"
+zorg.opname = "opname in een accommodatie"
+zorg.beperking = "beperking van de bewegingsvrijheid"
+zorg.seperatie = "afzondering of separatie in een daartoe geschikte verblijfsruimte"
+zorg.beperking = "beperking van het recht op het ontvangen van bezoek of het gebruik van communicatiemiddelen"
+zorg.toezicht = "toezicht op betrokkene"
+zorg.onderzoek = "onderzoek aan kleding of lichaam"
+zorg.controle = "controle op de aanwezigheid van gedrag beïnvloedende middelen"
+zorg.beperkingen = "beperkingen in de vrijheid het eigen leven in te richten, die tot gevolg hebben dat betrokkene iets moet doen of nalaten."
+
+#:
 gemeenten = """Amsterdam
 Aa en Hunze
 Aalburg
@@ -1019,11 +1038,25 @@ Zwartewaterland
 Zwijndrecht
 Zwolle""".split("\n")
 
-wanted = ol.Object()
-wanted.oorzaak = oorzaak
-wanted.pogingen = pogingen
-
-demo = ol.Object()
-demo.dbc = dbc
-demo.medicijnen = medicijnen
-demo.drugs = drugs
+#:
+year_formats = [
+    "%b %H:%M",
+    "%b %H:%M:%S",
+    "%a %H:%M %Y",
+    "%a %H:%M",
+    "%a %H:%M:%S",
+    "%Y-%m-%d",
+    "%d-%m-%Y",
+    "%d-%m",
+    "%m-%d",
+    "%Y-%m-%d %H:%M:%S",
+    "%d-%m-%Y %H:%M:%S",
+    "%d-%m %H:%M:%S",
+    "%m-%d %H:%M:%S",
+    "%Y-%m-%d %H:%M",
+    "%d-%m-%Y %H:%M",
+    "%d-%m %H:%M",
+    "%m-%d %H:%M",
+    "%H:%M:%S",
+    "%H:%M"
+]

@@ -1,7 +1,10 @@
-# GENOCLAIM - using the law to administer poison, the king commits genocide 
+# GENOCIDE - the king of the netherlands commits genocide
 #
-#
+# OTP-CR-117/19/001 otp.informationdesk@icc-cpi.int https://genocide.rtfd.io
 
+"torture definition (trt)"
+
+#:
 txt = """
 § 95.1 Definitions.
 
@@ -40,4 +43,5 @@ see https://www.law.cornell.edu/cfr/text/22/95.1
 """
 
 def trt(event):
+    "show torture definition (trt)"
     event.reply(txt)
