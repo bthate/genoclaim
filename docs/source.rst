@@ -3,61 +3,39 @@
 source
 ######
 
-here is the code used:
+GENOCIDE uses the BOTLIB library and has some modules of it's own
 
-GENOCLAIM
-=========
-
-.. autosummary::
-    :toctree: 
-    :template: module.rst
-
-     genoclaim.request		- request send to the prosecutor
-     genoclaim.stats		- suicide statistics
-     genoclaim.torture		- torture definition
-     genoclaim.wisdom		- knowledge on trip
-
-OLIB
-====
-
-.. autosummary::
-    :toctree: 
-    :template: module.rst
-
-
-    ol          - object library
-    ol.bus      - announce
-    ol.csl      - console
-    ol.dbs      - databases
-    ol.hdl      - handler
-    ol.krn      - kernel
-    ol.prs      - parser
-    ol.tms      - times
-    ol.trm      - terminal
-    ol.tsk      - tasks
-    ol.utl      - utilities
-
-BMOD
-====
-
-.. autosummary::
-    :toctree: 
-    :template: module.rst
-
-
-    bmod.cfg	- configuration
-    bmod.cmd    - command
-    bmod.edt    - edit
-    bmod.ent    - enter log and todo items
-    bmod.fnd    - find typed objects
-    bmod.rss    - rich site syndicate
-    bmod.udp    - UDP to IRC gateway
-
-BOTLIB
+botlib
 ======
 
 .. autosummary::
     :toctree: 
     :template: module.rst
 
-    bot.irc
+
+    bot.bus          		- messaging
+    bot.clk          		- clock/repeater
+    bot.cmd          		- commands
+    bot.csl          		- console
+    bot.dbs          		- databases
+    bot.hdl          		- handler
+    bot.irc          		- internet relay chat
+    bot.obj          		- objects
+    bot.ofn          		- object functions
+    bot.prs          		- parser
+    bot.rss          		- rich site syndicate
+    bot.thr          		- threads
+    bot.trm          		- terminal
+    bot.udp  		        - udp to irc relay
+
+genocide
+========
+
+.. autosummary::
+    :toctree: 
+    :template: module.rst
+
+    genoclaim.request		- request to the prosecutor
+    genoclaim.stats		- suicide stats
+    genoclaim.torture		- torture definition
+    genoclaim.wisdom		- wisdom
