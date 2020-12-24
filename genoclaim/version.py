@@ -1,4 +1,4 @@
-__version__ = 31
+__version__ = 34
 
 def ver(event):
     event.reply("GENOCLAIM %s" % __version__)

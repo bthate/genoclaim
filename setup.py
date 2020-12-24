@@ -8,11 +8,11 @@ def read():
 
 setup(
     name='genoclaim',
-    version='33',
+    version='34',
     url='https://bitbucket.org/bthate/genoclaim',
     author='Bart Thate',
     author_email='bthate@dds.nl',
-    description="the king commits genocide - OTP-CR-117/19/001 - http://genoclaim.rtfd.io",
+    description="no base to proceed means the king does his genocide - OTP-CR-117/19/001 - http://genocide.rtfd.io",
     long_description=read(),
     long_description_content_type="text/x-rst",
     license='Public Domain',
