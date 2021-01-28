@@ -8,7 +8,7 @@ def read():
 
 setup(
     name='genoclaim',
-    version='35',
+    version='36',
     url='https://bitbucket.org/bthate/genoclaim',
     author='Bart Thate',
     author_email='bthate@dds.nl',
