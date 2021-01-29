@@ -5,28 +5,25 @@ source
 
 GENOCIDE uses the BOTLIB library and has some modules of it's own
 
-botlib
-======
+Object Programming provides the op package with the following modules:
 
 .. autosummary::
     :toctree: 
     :template: module.rst
 
-
-    bot.bus          		- messaging
-    bot.clk          		- clock/repeater
-    bot.cmd          		- commands
-    bot.csl          		- console
-    bot.dbs          		- databases
-    bot.hdl          		- handler
-    bot.irc          		- internet relay chat
-    bot.obj          		- objects
-    bot.ofn          		- object functions
-    bot.prs          		- parser
-    bot.rss          		- rich site syndicate
-    bot.thr          		- threads
-    bot.trm          		- terminal
-    bot.udp  		        - udp to irc relay
+    op                 - object programming library
+    op.clk             - clock/repeater
+    op.cmd             - commands
+    op.dbs             - databases
+    op.hdl             - handler
+    op.irc             - internet relay chat
+    op.prs             - parser
+    op.rss             - rich site syndicate
+    op.thr             - threads
+    op.trm             - terminal
+    op.udp             - udp to irc relay
+    op.usr             - users
+    op.utl             - utilities
 
 genocide
 ========
@@ -39,3 +36,4 @@ genocide
     genoclaim.stats		- suicide stats
     genoclaim.torture		- torture definition
     genoclaim.wisdom		- wisdom
+

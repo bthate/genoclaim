@@ -17,7 +17,7 @@ setup(
     long_description_content_type="text/x-rst",
     license='Public Domain',
     zip_safe=False,
-    install_requires=["botlib", "feedparser"],
+    install_requires=["oplib", "feedparser"],
     scripts=["bin/genoclaim"],
     packages=["genoclaim"],
     classifiers=['Development Status :: 4 - Beta',
